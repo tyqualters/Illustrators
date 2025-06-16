@@ -1,0 +1,18 @@
+import connectDB from '../../lib/mongo';
+import Lobby from '../../models/Lobby';
+import { NextRequest, NextResponse } from 'next/server';
+
+// List all lobbies
+export async function GET() {
+  await connectDB();
+  const lobbies = await Lobby.find();
+  return NextResponse.json(lobbies);
+}
+
+// Create new lobby
+export async function POST(req: NextRequest) {
+  await connectDB();
+  const data = await req.json();
+  const newLobby = await Lobby.create(data);
+  return NextResponse.json(newLobby, { status: 201 });
+}
