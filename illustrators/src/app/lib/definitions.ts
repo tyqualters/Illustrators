@@ -19,6 +19,20 @@ export const SignupFormSchema = z.object({
         .trim(),
 })
 
+export const LoginFormSchema = z.object({
+    email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
+    password: z
+        .string()
+        .trim(),
+})
+
+export interface SessionPayload {
+  userId: string;
+  sessionId?: string;
+  role?: string;
+  [key: string]: unknown; // ← This makes it compatible with JWTPayload
+}
+
 export const UserSchema = new mongoose.Schema({
     name: String,
     password: String,

@@ -1,12 +1,11 @@
 'use client';
 
-import { signup } from '@/app/actions/auth';
+import { login } from '@/app/actions/auth';
 import { useActionState } from 'react';
 import Link from 'next/link';
 
-
-export default function SignupForm() {
-    const [state, action, pending] = useActionState(signup, undefined)
+export default function LoginForm() {
+    const [state, action, pending] = useActionState(login, undefined)
 
     return (
         // <form action={action}>
@@ -41,19 +40,7 @@ export default function SignupForm() {
         //   </button>
         // </form>
         <form action={action} className="max-w-md mx-auto mt-8 p-6 bg-white rounded-2xl shadow-md space-y-6">
-            <h2 className="text-2xl font-bold text-gray-800 text-center">Sign Up</h2>
-
-            <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
-                <input
-                    id="name"
-                    name="name"
-                    placeholder="Name"
-                    className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 px-4 py-2"
-                />
-                {state?.errors?.name && <p className="text-sm text-red-500 mt-1">{state.errors.name}</p>}
-            </div>
-
+            <h2 className="text-2xl font-bold text-gray-800 text-center">Login</h2>
             <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
                 <input
@@ -90,9 +77,10 @@ export default function SignupForm() {
                 disabled={pending}
                 className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition"
             >
-                {pending ? 'Signing Up...' : 'Sign Up'}
+                {pending ? 'Logging in...' : 'Login'}
             </button>
-            <p>Already have an account? <Link href="/login" className="text-blue-500">Login</Link></p>
+
+            <p>Don't have an account? <Link href="/sign-up" className="text-blue-500">Register</Link></p>
         </form>
     );
 }
