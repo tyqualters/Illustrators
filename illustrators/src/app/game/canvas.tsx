@@ -1,87 +1,62 @@
-// REFERENCE: https://www.w3schools.com/html/html5_canvas.asp
-// CONSIDERATIONS:
-//  USE THREE.JS AND PIXI.JS ??
-
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+// For documentation:
+//      - https://react.pixijs.io/
+//      - https://pixijs.com/
+//      - @pixi/ui
 
-export default function GameCanvas() {
-    const canvasRef = useRef<HTMLCanvasElement | null>(null);
+import { Application, extend, useApplication } from '@pixi/react';
+import { Container, Graphics, Sprite, Ticker } from 'pixi.js';
+import { useEffect, useRef } from 'react';
+import Game from './game';
 
+extend({
+    Container,
+    Graphics,
+    Sprite,
+    Ticker,
+});
 
-    const [points, setPoints] = useState<{ x: number; y: number }[]>([]);
+function DrawGame(game: Game, graphics: Graphics, ticker: Ticker) {
+    graphics.clear();
+    game.draw(graphics);
+}
+
+function GameLoop() {
+    const app = useApplication(); // access PIXI.Application
+    const x = useRef(0);
+    const ticker = Ticker.shared;
+
+    const graphicsRef = useRef<Graphics>(null);
+    const game = useRef(new Game()).current;
 
     useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
+    const update = (ticker: Ticker) => {
+        x.current += 1 * ticker.deltaTime; // deltaTime is usually ~1 at 60fps
+        // console.log('Game loop tick, x =', x.current);
+        game.update(ticker);
+        if (graphicsRef.current) {
+            graphicsRef.current.clear();
+            game.draw(graphicsRef.current);
+        }
+    };
 
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
+    const ticker = Ticker.shared;
+    ticker.add(update);
 
-        const handleClick = (e: MouseEvent) => {
-            const rect = canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            setPoints((prev) => [...prev, { x, y }]);
-        };
+    return () => {
+        ticker.remove(update);
+    };
+    }, [game]);
 
-        canvas.addEventListener('click', handleClick);
+  return <pixiGraphics ref={graphicsRef} draw={(graphics) => DrawGame(game, graphics, ticker)} />;
+}
 
-        return () => {
-            canvas.removeEventListener('click', handleClick);
-        };
-    }, []);
+type GameCanvasProps = {
+  className?: string;
+};
 
-
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-
-        let animationFrameId: number;
-
-        let boxX: number = 100, boxY: number = 100;
-
-        const render = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            // This is the loop (Beginning)
-
-            ctx.fillStyle = 'black';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Draw Strokes
-            ctx.strokeStyle = 'lime';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-
-            points.forEach((point, i) => {
-                if (i === 0) {
-                    ctx.moveTo(point.x, point.y);
-                } else {
-                    ctx.lineTo(point.x, point.y);
-                }
-            });
-
-            ctx.stroke();
-            // End Strokes
-
-            ctx.fillStyle = 'red';
-            ctx.fillRect(boxX++, boxY++, 50, 50);
-
-            if(boxX >= canvas.width) boxX = 0;
-            if(boxY >= canvas.height) boxY = 0;
-
-            // This is the loop (End)
-            animationFrameId = requestAnimationFrame(render);
-        };
-
-        render();
-
-        return () => cancelAnimationFrame(animationFrameId);
-    }, [points]);
-
-    return <canvas ref={canvasRef} width={800} height={600} className="border border-white" />;
+export default function GameCanvas({ className }: GameCanvasProps) {
+    let parentRef = useRef(null);
+    return (<div ref={parentRef} className={className}><Application autoStart sharedTicker resizeTo={parentRef}><GameLoop /></Application></div>);
 }
