@@ -6,7 +6,7 @@ import {redirect} from 'next/navigation';
 import { cookies } from 'next/headers';
 import {cache} from 'react';
 import { decrypt } from '@/app/lib/session';
-import {UserData as User} from '@/app/lib/definitions';
+import User from '@/app/models/User';
  
 export const verifySession = cache(async () => {
   const cookie = (await cookies()).get('session')?.value

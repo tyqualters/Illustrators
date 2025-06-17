@@ -1,86 +1,82 @@
 'use client';
 
 import { login } from '@/app/actions/auth';
-import { useActionState } from 'react';
 import Link from 'next/link';
+import { useActionState } from 'react';
+import { useRouter } from 'next/navigation';
+import type { FormState } from '@/app/lib/definitions';
 
 export default function LoginForm() {
-    const [state, action, pending] = useActionState(login, undefined)
+  const router = useRouter();
 
-    return (
-        // <form action={action}>
-        //   <div>
-        //     <label htmlFor="name">Name</label>
-        //     <input id="name" name="name" placeholder="Name" />
-        //   </div>
-        //   {state?.errors?.name && <p>{state.errors.name}</p>}
+  const [state, formAction] = useActionState(
+  async (prevState: FormState, formData: FormData): Promise<FormState> => {
+    const result = await login(prevState, formData);
 
-        //   <div>
-        //     <label htmlFor="email">Email</label>
-        //     <input id="email" name="email" placeholder="Email" />
-        //   </div>
-        //   {state?.errors?.email && <p>{state.errors.email}</p>}
+    if (!result?.errors && !result?.message) {
+      router.push('/profile');
+    }
 
-        //   <div>
-        //     <label htmlFor="password">Password</label>
-        //     <input id="password" name="password" type="password" />
-        //   </div>
-        //   {state?.errors?.password && (
-        //     <div>
-        //       <p>Password must:</p>
-        //       <ul>
-        //         {state.errors.password.map((error) => (
-        //           <li key={error}>- {error}</li>
-        //         ))}
-        //       </ul>
-        //     </div>
-        //   )}
-        //   <button disabled={pending} type="submit">
-        //     Sign Up
-        //   </button>
-        // </form>
-        <form action={action} className="max-w-md mx-auto mt-8 p-6 bg-white rounded-2xl shadow-md space-y-6">
-            <h2 className="text-2xl font-bold text-gray-800 text-center">Login</h2>
-            <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                <input
-                    id="email"
-                    name="email"
-                    placeholder="Email"
-                    className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 px-4 py-2"
-                />
-                {state?.errors?.email && <p className="text-sm text-red-500 mt-1">{state.errors.email}</p>}
-            </div>
+    return result;
+  },
+  undefined
+);
 
-            <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-                <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 px-4 py-2"
-                />
-                {state?.errors?.password && (
-                    <div className="text-sm text-red-500 mt-1">
-                        <p>Password must:</p>
-                        <ul className="list-disc pl-5">
-                            {state.errors.password.map((error) => (
-                                <li key={error}>- {error}</li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-            </div>
+  return (
+    <form action={formAction} className="max-w-md mx-auto mt-8 p-6 bg-white rounded-2xl shadow-md space-y-6">
+      <h2 className="text-2xl font-bold text-gray-800 text-center">Login</h2>
 
-            <button
-                type="submit"
-                disabled={pending}
-                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition"
-            >
-                {pending ? 'Logging in...' : 'Login'}
-            </button>
+      <div>
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="Email"
+          required
+          className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 px-4 py-2"
+        />
+        {state?.errors?.email && (
+          <p className="text-sm text-red-500 mt-1">{state.errors.email}</p>
+        )}
+      </div>
 
-            <p>Don't have an account? <Link href="/sign-up" className="text-blue-500">Register</Link></p>
-        </form>
-    );
+      <div>
+        <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          required
+          className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 px-4 py-2"
+        />
+        {state?.errors?.password && (
+          <div className="text-sm text-red-500 mt-1">
+            <p>Password must:</p>
+            <ul className="list-disc pl-5">
+              {state.errors.password.map((error) => (
+                <li key={error}>- {error}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+
+      {state?.message && (
+        <p className="text-sm text-red-500 mt-2">{state.message}</p>
+      )}
+
+      <button
+        type="submit"
+        className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition"
+      >
+        Login
+      </button>
+
+      <p className="text-center">
+        Don't have an account?{' '}
+        <Link href="/sign-up" className="text-blue-500">Register</Link>
+      </p>
+    </form>
+  );
 }
