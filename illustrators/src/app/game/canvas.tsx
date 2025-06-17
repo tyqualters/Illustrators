@@ -5,8 +5,8 @@
 //      - https://pixijs.com/
 //      - @pixi/ui
 
-import { Application, extend, useApplication } from '@pixi/react';
-import { Container, Graphics, Sprite, Ticker } from 'pixi.js';
+import { Application, extend } from '@pixi/react';
+import { Container, Graphics, Sprite, Ticker, Text } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import Game from './game';
 
@@ -15,6 +15,7 @@ extend({
     Graphics,
     Sprite,
     Ticker,
+    Text
 });
 
 function DrawGame(game: Game, graphics: Graphics, ticker: Ticker) {
@@ -23,7 +24,6 @@ function DrawGame(game: Game, graphics: Graphics, ticker: Ticker) {
 }
 
 function GameLoop() {
-    const app = useApplication(); // access PIXI.Application
     const x = useRef(0);
     const ticker = Ticker.shared;
 
@@ -36,7 +36,6 @@ function GameLoop() {
         // console.log('Game loop tick, x =', x.current);
         game.update(ticker);
         if (graphicsRef.current) {
-            graphicsRef.current.clear();
             game.draw(graphicsRef.current);
         }
     };

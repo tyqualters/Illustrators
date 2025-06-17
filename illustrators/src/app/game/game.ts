@@ -1,3 +1,6 @@
+'use client';
+
+import {useApplication} from '@pixi/react';
 import {Graphics, Ticker} from 'pixi.js';
 
 // Note: Window size is not yet accessible for responsive layout and scaling.
@@ -5,6 +8,7 @@ import {Graphics, Ticker} from 'pixi.js';
 export default class Game {
     x: number = 50;
     y: number = 50;
+    app = useApplication();
 
     draw(g: Graphics): void {
         //             0xRRGGBB
