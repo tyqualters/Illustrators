@@ -8,10 +8,10 @@ export default function Home() {
     <main>
       <h1 className="text-4xl">Links</h1>
       <nav className="flex gap-4">
-        <Link href="/login">Login</Link>
-        <Link href="/sign-up">Register</Link>
-        <Link href="/profile">Profile</Link>
-        <Link href="/game">Game</Link>
+        <Link href="/login" className="text-blue-500">Login</Link>
+        <Link href="/sign-up" className="text-blue-500">Register</Link>
+        <Link href="/profile" className="text-blue-500">Profile</Link>
+        <Link href="/game" className="text-blue-500">Game</Link>
       </nav>
       <p>This is just a temporary page until Kobra and A-A-Ron start cooking! <i className="bi bi-fire text-red-500"></i></p>
     </main>

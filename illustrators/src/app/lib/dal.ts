@@ -19,6 +19,18 @@ export const verifySession = cache(async () => {
   return { isAuth: true, userId: session.userId };
 })
 
+// This just doesn't redirect
+export const _verifySession = cache(async () => {
+  const cookie = (await cookies()).get('session')?.value
+  const session = await decrypt(cookie)
+ 
+  if (!session?.userId) {
+    return false;
+  }
+ 
+  return true;
+})
+
 export const getUser = cache(async () => {
   const session = await verifySession()
   if (!session) return null

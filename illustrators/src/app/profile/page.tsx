@@ -1,4 +1,5 @@
 import { verifySession } from '@/app/lib/dal'
+import Link from 'next/link';
 import {redirect} from 'next/navigation';
 
 export default async function Profile() {
@@ -6,7 +7,10 @@ export default async function Profile() {
     
     if (session.isAuth) {
         return (
-            <p>Welcome!</p>
+            <div>
+                <p>Welcome!</p>
+                <p>Want to <Link href="/" className="text-blue-500">go home</Link> or <Link href="/logout" className="text-blue-500">sign out</Link>?</p>
+            </div>
         );
     };
 }
