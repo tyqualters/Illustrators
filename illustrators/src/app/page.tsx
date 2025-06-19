@@ -13,6 +13,11 @@ export default function Home() {
         <Link href="/profile" className="text-blue-500">Profile</Link>
         <Link href="/game" className="text-blue-500">Game</Link>
       </nav>
+
+      <Link 
+        href="/lobby"className="mt-4 inline-block bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition">Play!
+      </Link>
+      
       <p>This is just a temporary page until Kobra and A-A-Ron start cooking! <i className="bi bi-fire text-red-500"></i></p>
     </main>
   );

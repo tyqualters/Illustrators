@@ -1,22 +1,22 @@
 // data access layer
+// userId = session token field (represents authenticated user's ID)
 
 import 'server-only'
 
 import {redirect} from 'next/navigation'; 
 import { cookies } from 'next/headers';
 import {cache} from 'react';
-import { decrypt } from '@/app/lib/session';
-import User from '@/app/models/User';
+import { decrypt } from '@/lib/session';
+import User from '@/models/User';
  
 export const verifySession = cache(async () => {
   const cookie = (await cookies()).get('session')?.value
   const session = await decrypt(cookie)
  
   if (!session?.userId) {
-    redirect('/login');
-  }
- 
-  return { isAuth: true, userId: session.userId };
+  redirect('/login');
+}
+return { isAuth: true, userId: session.userId };
 })
 
 // This just doesn't redirect
@@ -36,7 +36,7 @@ export const getUser = cache(async () => {
   if (!session) return null
  
   try {
-    const data = await User.find({}, { _id: session.userId }).lean();
+    const data = await User.find({ _id: session.userId }).lean();
  
     const user = data[0]
  
@@ -44,5 +44,5 @@ export const getUser = cache(async () => {
   } catch (error) {
     console.log('Failed to fetch user')
     return null
-  }
-})
+  }})
+

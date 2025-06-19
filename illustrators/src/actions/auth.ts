@@ -2,12 +2,12 @@
 
 // https://nextjs.org/docs/app/guides/authentication
 
-import { LoginFormSchema, SignupFormSchema, FormState } from '@/app/lib/definitions';
-import User from '@/app/models/User';                             
-import connectDB from '@/app/lib/mongo';                          
+import { LoginFormSchema, SignupFormSchema, FormState } from '@/lib/definitions';
+import User from '@/models/User';                             
+import connectDB from '@/lib/mongo';                          
 const bcrypt = require('bcrypt');
 
-import { createSession, deleteSession } from '@/app/lib/session';
+import { createSession, deleteSession } from '@/lib/session';
 import { redirect } from 'next/navigation';
 
 export async function signup(state: FormState, formData: FormData) {
@@ -35,7 +35,8 @@ export async function signup(state: FormState, formData: FormData) {
 
     console.log('New user created.');
 
-    await createSession(newUser._id);
+    // supports guest login
+    await createSession(newUser._id.toString(), newUser.name);
     redirect('/profile');
   } catch (err: any) {
   console.error('User creation failed:', err);
@@ -88,7 +89,8 @@ export async function login(state: FormState, formData: FormData) {
 
     console.log('User logged in.');
 
-    await createSession(user._id);
+    // supports guest login
+    await createSession(user._id.toString(), user.name);
     redirect('/profile'); // This triggers an internal redirect
   } catch (err: any) {
     if (err?.digest?.startsWith?.('NEXT_REDIRECT')) {

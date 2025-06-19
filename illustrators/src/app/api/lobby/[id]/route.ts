@@ -1,5 +1,5 @@
-import connectDB from '../../../lib/mongo';
-import Lobby from '../../../models/Lobby';
+import connectDB from '@/lib/mongo';
+import Lobby from '@/models/Lobby';
 import { NextRequest, NextResponse } from 'next/server';
 
 // Get lobby by ID

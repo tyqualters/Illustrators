@@ -51,11 +51,16 @@ function GameLoop() {
   return <pixiGraphics ref={graphicsRef} draw={(graphics) => DrawGame(game, graphics, ticker)} />;
 }
 
+import type { Socket } from 'socket.io-client';
+
 type GameCanvasProps = {
   className?: string;
+  socket?: Socket | null;
 };
 
-export default function GameCanvas({ className }: GameCanvasProps) {
+
+export default function GameCanvas({ className, socket }: GameCanvasProps) {
     let parentRef = useRef(null);
     return (<div ref={parentRef} className={className}><Application autoStart sharedTicker resizeTo={parentRef}><GameLoop /></Application></div>);
 }
+

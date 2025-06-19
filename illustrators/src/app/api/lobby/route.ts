@@ -1,5 +1,5 @@
-import connectDB from '../../lib/mongo';
-import Lobby from '../../models/Lobby';
+import connectDB from '@/lib/mongo';
+import Lobby from '@/models/Lobby';
 import { NextRequest, NextResponse } from 'next/server';
 
 // List all lobbies
@@ -12,7 +12,13 @@ export async function GET() {
 // Create new lobby
 export async function POST(req: NextRequest) {
   await connectDB();
-  const data = await req.json();
-  const newLobby = await Lobby.create(data);
-  return NextResponse.json(newLobby, { status: 201 });
+
+  try {
+    const data = await req.json();
+    const newLobby = await Lobby.create(data);
+    return NextResponse.json(newLobby, { status: 201 });
+  } catch (error) {
+    console.error('Failed to create lobby:', error);
+    return NextResponse.json({ error: 'Failed to create lobby' }, { status: 500 });
+  }
 }

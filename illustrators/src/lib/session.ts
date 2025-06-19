@@ -1,8 +1,10 @@
 // warning: legendary vibe coding present
+// userId = session token field (represents authenticated user's ID)
+
 
 import 'server-only';
 import { SignJWT, jwtVerify } from 'jose';
-import { SessionPayload } from '@/app/lib/definitions';
+import { SessionPayload } from '@/lib/definitions';
 import { cookies } from 'next/headers'
 
  
@@ -28,9 +30,9 @@ export async function decrypt(session: string | undefined = '') {
   }
 }
 
-export async function createSession(userId: string) {
+export async function createSession(userId: string, name: string) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-  const session = await encrypt({ userId, expiresAt })
+  const session = await encrypt({ userId, name, expiresAt })
   const cookieStore = await cookies()
  
   cookieStore.set('session', session, {
@@ -64,5 +66,4 @@ export async function updateSession() {
 
 export async function deleteSession() {
   const cookieStore = await cookies()
-  cookieStore.delete('session')
-}
+  cookieStore.delete('session')}

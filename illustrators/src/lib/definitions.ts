@@ -1,3 +1,5 @@
+// userId = session token field (represents authenticated user's ID)
+
 import { z } from 'zod';
 
 export const SignupFormSchema = z.object({
@@ -24,9 +26,11 @@ export const LoginFormSchema = z.object({
 
 export interface SessionPayload {
   userId: string;
+  name: string;
+  expiresAt: Date;
   sessionId?: string;
   role?: string;
-  [key: string]: unknown; // This makes it compatible with JWTPayload
+  [key: string]: unknown;
 }
 
 export type FormState =

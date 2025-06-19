@@ -1,6 +1,6 @@
 'use client';
 
-import { signup } from '@/app/actions/auth';
+import { signup } from '@/actions/auth';
 import { useActionState } from 'react';
 import Link from 'next/link';
 

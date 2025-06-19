@@ -1,10 +1,10 @@
 'use client';
 
-import { login } from '@/app/actions/auth';
+import { login } from '@/actions/auth';
 import Link from 'next/link';
 import { useActionState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import type { FormState } from '@/app/lib/definitions';
+import type { FormState } from '@/lib/definitions';
 
 export default function LoginForm() {
   const router = useRouter();

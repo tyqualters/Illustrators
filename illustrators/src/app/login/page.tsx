@@ -1,5 +1,5 @@
 import LoginForm from './login';
-import { _verifySession as getSession } from '../lib/dal';
+import { _verifySession as getSession } from '@/lib/dal';
 import { redirect } from 'next/navigation';
 
 

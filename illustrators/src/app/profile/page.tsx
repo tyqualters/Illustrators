@@ -1,4 +1,4 @@
-import { verifySession } from '@/app/lib/dal'
+import { verifySession } from '@/lib/dal'
 import Link from 'next/link';
 import {redirect} from 'next/navigation';
 
