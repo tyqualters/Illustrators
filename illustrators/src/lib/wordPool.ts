@@ -1,0 +1,1 @@
+// word pool logic for drawer
