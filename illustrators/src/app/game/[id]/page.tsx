@@ -114,6 +114,11 @@ export default function GameRoomPage() {
   if (loading) return <p>Loading...</p>;
   if (!lobby) return <p>Lobby not found.</p>;
 
+
+  // Add HTML here 
+  // There is a waiting room (where host waits for players and starts game)
+  // ^ "lobby.gameStarted"
+  // Then the game starts when host clicks "Start"
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-8 text-center">
       <h1 className="text-3xl font-bold text-indigo-600 mb-6">Lobby: {id}</h1>
