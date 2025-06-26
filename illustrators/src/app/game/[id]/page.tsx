@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import PixiCanvas from '../canvas';
+import GameCanvas from '../canvas';
 import { io, Socket } from 'socket.io-client';
 
 interface Player {
@@ -149,7 +149,7 @@ export default function GameRoomPage() {
         <>
           <h2 className="text-2xl font-semibold mb-4">Game Started!</h2>
           <div className="w-full h-[600px] border mb-6">
-            <PixiCanvas socket={socketRef.current} />
+            <GameCanvas className="flex-grow w-full h-full" socket={socketRef.current} />
           </div>
 
           <h3 className="text-lg font-semibold mb-2">Guesses:</h3>

@@ -9,14 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@pixi/react": "^8.0.0-beta.25",
     "bcrypt": "^6.0.0",
     "bootstrap-icons": "^1.13.1",
     "dotenv": "^16.5.0",
+    "fabric": "^6.7.0",
     "jose": "^6.0.11",
     "mongoose": "^8.15.2",
     "next": "15.3.3",
-    "pixi.js": "^8.10.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "server-only": "^0.0.1",
