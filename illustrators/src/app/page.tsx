@@ -6,19 +6,21 @@ import 'bootstrap-icons/font/bootstrap-icons.min.css';
 export default function Home() {
   return (
     <main>
-      <h1 className="text-4xl">Links</h1>
-      <nav className="flex gap-4">
-        <Link href="/login" className="text-blue-500">Login</Link>
-        <Link href="/sign-up" className="text-blue-500">Register</Link>
-        <Link href="/profile" className="text-blue-500">Profile</Link>
-        <Link href="/game" className="text-blue-500">Game</Link>
+      
+    
+      <nav className="mb-3 flex gap-4">
+        <h1 id="homepage-image" className="text-4xl pr-20">Illustrators</h1>
+        <Link href="/login" className="text-blue-500 mt-3 pr-4">Login</Link>
+        <Link href="/sign-up" className="text-blue-500 mt-3 pr-4">Register</Link>
+        <Link href="/profile" className="text-blue-500 mt-3 pr-4">Profile</Link>
+        <Link href="/game" className="text-blue-500 mt-3 pr-4">Game<br></br></Link>
       </nav>
 
       <Link 
         href="/lobby"className="mt-4 inline-block bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition">Play!
       </Link>
       
-      <p>This is just a temporary page until Kobra and A-A-Ron start cooking! <i className="bi bi-fire text-red-500"></i></p>
+      <p className= "pt-5">Currently cooking! <i className="bi bi-fire text-red-500"></i></p>
     </main>
   );
 }
