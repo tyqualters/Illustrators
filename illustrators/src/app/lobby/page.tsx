@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Header from '../components/Header.jsx'; 
 
 export default function LobbyPage() {
   const [code, setCode] = useState('');
@@ -93,6 +94,9 @@ export default function LobbyPage() {
   if (loading) return <p className="text-center p-8">Checking session...</p>;
 
   return (
+
+    <>
+    <Header />
     <main className="min-h-screen flex flex-col items-center justify-center p-8 text-center">
       <h1 className="text-4xl font-bold mb-6">Join or Create a Lobby</h1>
 
@@ -129,5 +133,6 @@ export default function LobbyPage() {
         Create New Lobby
       </button>
     </main>
+    </>
   );
 }

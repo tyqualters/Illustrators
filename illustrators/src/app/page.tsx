@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import 'bootstrap-icons/font/bootstrap-icons.min.css';
+import Header from './components/Header.jsx'; //Importing the header component
 
 //style page specifically for /app/page.tsx
 import './page.css'
@@ -10,28 +11,26 @@ export default function Home() {
   
 
   return (
-    <main>
-      
-    <div className="headerStyles">
-      
-        <img src="/IllustratorsLogo.png" className="headerImage" alt="Illustrators Logo"/>
+   
+<>
+<div className="home-background">
+    <header>
 
-        <ul className="headerLinks">
-          <li><Link href="/login" className="text-blue-500 mt-3 pr-4"> <b>Login</b> </Link></li>
-          <li><Link href="/sign-up" className="text-blue-500 mt-3 pr-4"><b>Register</b> </Link></li> 
-          <li><Link href="/profile" className="text-blue-500 mt-3 pr-4"><b>Profile</b></Link></li>
-          <li><Link href="/game" className="text-blue-500 mt-3 pr-4"><b>Game</b><br></br></Link></li>
+      <Header />
 
-        </ul>
+    </header>
 
-    </div>
 
+    <main className="flex flex-col items-center justify-center">  
+      <img src="/IllustratorsMainTitle.gif" alt="Illustrators Main Title"/>
       <Link 
-        href="/lobby"className="mt-4 inline-block bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition">Play!
-      </Link>
+        href="/lobby"
+        className="mt-4 inline-block bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition">Play!</Link>
       
       <p className= "pt-5">Maybe Cooking? <i className="bi bi-fire text-red-500"></i></p>
     </main>
+  </div>
+  </>
   );
 
  
