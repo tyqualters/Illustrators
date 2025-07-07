@@ -4,8 +4,9 @@ import Header from '../components/Header.jsx';
 
 export default function Game() {
     return (
-        <>
+        <div className="background_image">
         <Header/>
+
         <div className="flex items-center flex-col w-screen h-screen">
             
             <div className="relative">
@@ -15,6 +16,6 @@ export default function Game() {
             <GameCanvas className="w-full h-full" />
         </div>
 
-        </>
+        </div>
     );
 }

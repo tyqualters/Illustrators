@@ -24,3 +24,10 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.background_image
+{
+    background-image: url('/home_background.jpg');
+    min-height: 100vh;
+}
+
