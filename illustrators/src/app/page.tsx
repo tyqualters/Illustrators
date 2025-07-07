@@ -13,7 +13,7 @@ export default function Home() {
         <Link href="/login" className="text-blue-500 mt-3 pr-4">Login</Link>
         <Link href="/sign-up" className="text-blue-500 mt-3 pr-4">Register</Link>
         <Link href="/profile" className="text-blue-500 mt-3 pr-4">Profile</Link>
-        <Link href="/game" className="text-blue-500 mt-3 pr-4">Game<br></br></Link>
+        <a href="/game" className="text-blue-500 mt-3 pr-4">Game<br></br></a>
       </nav>
 
       <Link 
