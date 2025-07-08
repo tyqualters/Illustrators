@@ -15,7 +15,17 @@ export async function POST(req: NextRequest) {
 
   try {
     const data = await req.json();
-    const newLobby = await Lobby.create(data);
+
+    // Only keep relevant fields for the lobby document
+    const { name, createdAt, gameStarted, hostId } = data;
+
+    const newLobby = await Lobby.create({
+      name,
+      createdAt,
+      gameStarted,
+      hostId,
+    });
+
     return NextResponse.json(newLobby, { status: 201 });
   } catch (error) {
     console.error('Failed to create lobby:', error);
