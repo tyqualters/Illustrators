@@ -1,11 +1,18 @@
-// to test: "node tests/testRedis.mjs" in terminal
+// to test: "node tests/testRedis.mjs" in terminal (LOCAL, this is outdated and doesnt work anymore)
 // .mjs instead of .js bec of ES Module errors
+// to test with cloud: download "npm install dotenv-cli --save-dev"
+// run test: npx dotenv -e .env -- node tests/testRedis.mjs
 
 import { createClient } from 'redis';
 
 // Create the Redis client
 const redis = createClient({
-  url: 'redis://localhost:6379', // or use REDIS_URL here
+  username: process.env.REDIS_USER,
+  password: process.env.REDIS_PASSWORD,
+  socket: {
+    host: process.env.REDIS_HOST,
+    port: Number(process.env.REDIS_PORT),
+  },
 });
 
 // Handle connection errors

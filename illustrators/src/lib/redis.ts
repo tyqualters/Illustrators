@@ -3,9 +3,17 @@
 // https://redis.io/docs/latest/develop/clients/nodejs/
 import { createClient } from 'redis';
 
-// to use different port for redis, if we want to use cloud (username and pw) change this:
+// TO CONNECT TO REDIS CLOUD
+// Instructions are in Redis Cloud Database, "Connect using Redis Client"
+// There is code to copy and paste, it is hardcoded though so I moved the
+// user, password, host, and port to .env
 const redis = createClient({
-  url: process.env.REDIS_URL || 'redis://localhost:6379',
+  username: process.env.REDIS_USER,
+  password: process.env.REDIS_PASSWORD,
+  socket: {
+    host: process.env.REDIS_HOST,
+    port: Number(process.env.REDIS_PORT),
+  },
 });
 
 redis.on('error', (err) => {
