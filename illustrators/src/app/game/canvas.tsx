@@ -6,70 +6,54 @@ import * as fabric from 'fabric';
 type GameCanvasProps = {
   className?: string;
   socket?: any;
+  isDrawing?: boolean;
 };
 
-export default function GameCanvas({ className, socket }: GameCanvasProps) {
+export default function GameCanvas({ className, socket, isDrawing = false }: GameCanvasProps) {
   const parentRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fabricCanvasRef = useRef<fabric.Canvas | null>(null);
 
+  // Initialize canvas
   useEffect(() => {
     if (!canvasRef.current || !parentRef.current) return;
 
-    let parentRect = parentRef.current?.getBoundingClientRect();
+    const parentRect = parentRef.current.getBoundingClientRect();
 
     const canvas = new fabric.Canvas(canvasRef.current, {
-      isDrawingMode: true,
+      isDrawingMode: isDrawing,
       width: parentRect.width,
-      height: parentRect.height
+      height: parentRect.height,
     });
 
-    canvas.setDimensions({}, { backstoreOnly: true });
+    canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
+    canvas.freeDrawingBrush.color = 'black';
+    canvas.freeDrawingBrush.width = 1;
 
-    fabric.Object.prototype.transparentCorners = false;
+    fabricCanvasRef.current = canvas;
 
     const resizeCanvas = () => {
-      let parentRect = parentRef.current?.getBoundingClientRect();
+      const rect = parentRef.current?.getBoundingClientRect();
+      if (!rect) return;
 
-    // Resize Fabric canvas and underlying DOM canvas
-    if(parentRect) {
-      const width = Math.floor(parentRect.width), height = Math.floor(parentRect.height);
-
-      console.log('resize')
-      canvas.setDimensions(parentRect);
-
-      // Resize the DOM canvas element too
+      const { width, height } = rect;
+      canvas.setDimensions(rect);
       const lowerCanvas = canvas.lowerCanvasEl;
       lowerCanvas.width = width;
       lowerCanvas.height = height;
       lowerCanvas.style.width = `${width}px`;
       lowerCanvas.style.height = `${height}px`;
-
-      // Also style the wrapper div
       const wrapper = canvas.wrapperEl;
       wrapper.style.width = `${width}px`;
       wrapper.style.height = `${height}px`;
-      
+
       canvas.renderAll();
-    }
-  };
+    };
 
-  // Set initial size
-  resizeCanvas();
-
-  // Set up resize listener
-  window.addEventListener('resize', resizeCanvas);
-
-    canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
-    canvas.freeDrawingBrush.color = 'black';
-    canvas.freeDrawingBrush.width = 1;
-    canvas.freeDrawingBrush.shadow = null;
-
-    fabricCanvasRef.current = canvas;
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
     canvas.on('path:created', () => {
-      console.log('User drew something');
-      console.table(canvas.toJSON());
       if (socket) {
         socket.emit('canvas-update', canvas.toJSON());
       }
@@ -77,16 +61,24 @@ export default function GameCanvas({ className, socket }: GameCanvasProps) {
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
-      fabricCanvasRef.current?.dispose();
+      canvas.dispose();
       fabricCanvasRef.current = null;
     };
   }, [socket]);
-  
+
+  // Update drawing mode when 'isDrawing' changes
+  useEffect(() => {
+    if (fabricCanvasRef.current) {
+      fabricCanvasRef.current.isDrawingMode = isDrawing;
+    }
+  }, [isDrawing]);
+
   return (
     <div ref={parentRef} className={className}>
-    <canvas
-      ref={canvasRef}
-      style={{ border: '1px solid #000', display: 'block' }}
-    /></div>
+      <canvas
+        ref={canvasRef}
+        style={{ border: '1px solid #000', display: 'block' }}
+      />
+    </div>
   );
 }
