@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Header from '../components/Header.jsx'; 
 
 export default function LobbyPage() {
   const [code, setCode] = useState('');
@@ -93,8 +94,11 @@ export default function LobbyPage() {
   if (loading) return <p className="text-center p-8">Checking session...</p>;
 
   return (
+
+    <div className="background_image">
+    <Header />
     <main className="min-h-screen flex flex-col items-center justify-center p-8 text-center">
-      <h1 className="text-4xl font-bold mb-6">Join or Create a Lobby</h1>
+      <h1 className="text-4xl font-bold mb-6 text-black">Join or Create a Lobby</h1>
 
       <div className="flex flex-col gap-2 w-full max-w-sm mb-6">
         <input
@@ -102,7 +106,7 @@ export default function LobbyPage() {
           placeholder="Enter Your Nickname"
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
-          className="border px-4 py-2 rounded"
+          className="border-3 border-black px-4 py-2 rounded placeholder-black text-black bg-gray-100"
         />
 
         <form onSubmit={handleJoin} className="flex flex-col gap-2">
@@ -111,7 +115,7 @@ export default function LobbyPage() {
             placeholder="Enter Lobby Code"
             value={code}
             onChange={(e) => setCode(e.target.value)}
-            className="border px-4 py-2 rounded"
+            className="border-3 border-black px-4 py-2 rounded placeholder-black text-black bg-gray-100"
           />
           <button
             type="submit"
@@ -129,5 +133,6 @@ export default function LobbyPage() {
         Create New Lobby
       </button>
     </main>
+    </div>
   );
 }

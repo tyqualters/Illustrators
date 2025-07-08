@@ -1,28 +1,39 @@
 import Image from "next/image";
 import Link from "next/link";
 import 'bootstrap-icons/font/bootstrap-icons.min.css';
+import Header from './components/Header.jsx'; //Importing the header component
 
+//style page specifically for /app/page.tsx
+import './page.css'
 
 export default function Home() {
-  return (
-    <main>
-      
-    
-      <nav className="mb-3 flex gap-4">
-        <h1 id="homepage-image" className="text-4xl pr-20">Illustrators</h1>
-        <Link href="/login" className="text-blue-500 mt-3 pr-4">Login</Link>
-        <Link href="/sign-up" className="text-blue-500 mt-3 pr-4">Register</Link>
-        <Link href="/profile" className="text-blue-500 mt-3 pr-4">Profile</Link>
-        <a href="/game" className="text-blue-500 mt-3 pr-4">Game<br></br></a>
-      </nav>
 
+  
+
+  return (
+   
+<>
+<div className="background_image">
+    <header>
+
+      <Header />
+
+    </header>
+
+
+    <main className="flex flex-col items-center justify-center">  
+      <img src="/IllustratorsMainTitle.gif" alt="Illustrators Main Title"/>
       <Link 
-        href="/lobby"className="mt-4 inline-block bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition">Play!
-      </Link>
+        href="/lobby"
+        className="mt-4 inline-block bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition">Play!</Link>
       
-      <p className= "pt-5">Currently cooking!! <i className="bi bi-fire text-red-500"></i></p>
+      <p className= "pt-5 text-black">Now in color!! <i className="bi bi-fire text-red-500"></i></p>
     </main>
+  </div>
+  </>
   );
+
+ 
 }
 
 // export default function Home() {
