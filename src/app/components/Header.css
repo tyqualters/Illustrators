@@ -1,0 +1,49 @@
+.headerStyles {
+    background-color: lightblue;
+    display: block;
+    display: flex;
+
+    padding: 8px 20px;
+}
+
+.headerStyles .headerImage {
+    height: 45px;
+    border-radius: 8px;
+    box-shadow: 5px 5px 5px black;
+    margin-right: 20px;
+}
+
+.headerStyles .headerLinks {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    padding-right: 10px;
+
+
+}
+
+.headerStyles .headerLinks li {
+    float: left;
+    margin-left: 2cm;
+
+
+}
+
+.headerStyles .headerLinks li a {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+    font-size: 1.2em;
+
+
+
+}
+
+.headerStyles .headerLinks li a:hover {
+    color: aliceblue;
+    transition: color .30s;
+
+
+}
