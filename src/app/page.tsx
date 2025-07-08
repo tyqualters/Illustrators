@@ -22,7 +22,7 @@ export default function Home() {
 
 
         <main className="flex flex-col items-center justify-center">
-          <Image src="/IllustratorsMainTitle.gif" unoptimized={true} alt="Illustrators Main Title" />
+          <Image src="/IllustratorsMainTitle.gif" unoptimized={true} width={600} height={300} alt="Illustrators Main Title" />
           <Link
             href="/lobby"
             className="mt-4 inline-block bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition cursor-pointer">Play!</Link>
