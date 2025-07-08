@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { redirect, useParams } from 'next/navigation';
 import GameCanvas from '../canvas';
 import { getSocket } from '@/lib/socket';
 import { usePlayer } from '@/lib/hooks/usePlayer';
@@ -134,6 +134,10 @@ export default function GameRoomPage() {
     socketRef.current?.emit('drawer:wordSelected', { lobbyId: id, word });
   };
 
+  const handleGoHome = () => {
+    redirect('/');
+  };
+
   const handleGuessSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const input = e.currentTarget as HTMLFormElement;
@@ -157,20 +161,26 @@ export default function GameRoomPage() {
 
   return (
     <main className="min-h-screen p-4 text-center">
-      <h1 className="text-3xl font-bold text-indigo-600 mb-4">Lobby: {id}</h1>
+      <h1 className="text-3xl font-bold text-indigo-600 mb-4 text-shadow-black text-shadow-2xs">Lobby: {id}</h1>
 
       {!gameStarted ? (
-        <div>
+        <div className="bg-white border-1 border-black rounded-md p-2">
           <p className="text-lg mb-2">Waiting for players...</p>
           <ul className="mb-4">
             {players.map((p, i) => (
               <li key={i}>{p.name === player.name ? <strong>{p.name} (You)</strong> : p.name}</li>
             ))}
           </ul>
+          <button
+              onClick={handleGoHome}
+              className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 cursor-pointer m-2"
+            >
+              Go Back
+            </button>
           {player.id === hostId && (
             <button
               onClick={handleStartGame}
-              className="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700"
+              className="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700 cursor-pointer m-2"
             >
               Start Game
             </button>

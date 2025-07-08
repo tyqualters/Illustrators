@@ -78,7 +78,7 @@ export default function LobbyPage() {
           />
           <button
             type="submit"
-            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700  cursor-pointer"
           >
             Join Lobby
           </button>
@@ -87,7 +87,7 @@ export default function LobbyPage() {
 
       <button
         onClick={handleCreate}
-        className="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700"
+        className="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700 cursor-pointer"
       >
         Create New Lobby
       </button>

@@ -25,7 +25,7 @@ export default function Home() {
       <img src="/IllustratorsMainTitle.gif" alt="Illustrators Main Title"/>
       <Link 
         href="/lobby"
-        className="mt-4 inline-block bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition">Play!</Link>
+        className="mt-4 inline-block bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition cursor-pointer">Play!</Link>
       
       <p className= "pt-5 text-black">Now in color!! <i className="bi bi-fire text-red-500"></i></p>
     </main>
