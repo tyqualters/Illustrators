@@ -2,7 +2,13 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ['media1.tenor.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'media1.tenor.com',
+        pathname: '/m/**',
+      },
+    ],
   },
   // THIS OPTION WILL DISABLE CODE LINTING ERRORS AND WARNINGS
   //    (USE FOR DEV PURPOSES ONLY)
