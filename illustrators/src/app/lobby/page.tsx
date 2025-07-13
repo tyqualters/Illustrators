@@ -7,17 +7,31 @@ import { usePlayer } from '@/lib/hooks/usePlayer';
 export default function LobbyPage() {
   const [code, setCode] = useState('');
   const router = useRouter();
-  const { player, loading } = usePlayer();
+  const { player, loading, setPlayerName } = usePlayer();
 
-  const handleJoin = (e: React.FormEvent) => {
+  const handleJoin = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!player?.name.trim()) {
       alert('Please enter a nickname');
       return;
     }
 
+    if (!code.trim()) {
+      alert('Please enter a lobby code');
+      return;
+    }
+
+    // Check if lobby exists before redirecting
+    const res = await fetch(`/api/lobby/${code}`);
+    if (!res.ok) {
+      alert('Lobby not found. Please check the code and try again.');
+      return;
+    }
+
     router.push(`/game/${code}`);
   };
+
 
   const handleCreate = async () => {
     if (!player?.name.trim()) {
@@ -57,10 +71,7 @@ export default function LobbyPage() {
           type="text"
           placeholder="Enter Your Nickname"
           value={player.name}
-          onChange={(e) => {
-            const newName = e.target.value;
-            localStorage.setItem('guestName', newName);
-          }}
+          onChange={(e) => setPlayerName(e.target.value)}
           className="border px-4 py-2 rounded"
         />
 
