@@ -99,9 +99,16 @@ export default function GameRoomPage() {
         setMessages([]);
         setInitialCanvas(null); // ensures canvas resets each round
 
+
+        // new v
         // Start word selection countdown timer
-        setWordSelectStart(Date.now());
-        setWordSelectDuration(turnData.wordSelectionDuration ?? 15); // server can send it later
+        const now = Date.now();
+        const duration = turnData.wordSelectionDuration ?? 15;
+
+        setWordSelectStart(now);
+        setWordSelectDuration(duration);
+        setWordSelectDurationLeft(duration); // bug fix
+        // new ^
       });
 
       // Drawer confirmed word selection (update canvas + timer)
