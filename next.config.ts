@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: 'media1.tenor.com',
         pathname: '/m/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'gravatar.com',
+        pathname: '/avatar/**',
+      },
     ],
   },
   // THIS OPTION WILL DISABLE CODE LINTING ERRORS AND WARNINGS

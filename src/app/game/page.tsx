@@ -2,8 +2,10 @@ import { LocalGameCanvas } from './canvas';
 import './game.css';
 import Header from '../components/Header.jsx';
 import Image from 'next/image';
+import click from './sounds/click.wav'
 
 export default function Game() {
+
     return (
         <div className="bg-container">
             <Header />

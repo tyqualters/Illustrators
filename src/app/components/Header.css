@@ -38,4 +38,26 @@
 .headerStyles .headerLinks li a:hover {
     color: aliceblue;
     transition: color .30s;
+    transition: transform 0.2s ease;
+    animation: pulse 1.5s infinite;
+}
+
+.links {
+  color: rgb(64, 61, 253);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+  text-decoration: underline;
+    
 }
