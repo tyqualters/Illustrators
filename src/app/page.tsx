@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import 'bootstrap-icons/font/bootstrap-icons.min.css';
 import Header from './components/Header.jsx'; //Importing the header component
+import InfoCard from "./components/InfoCard"; //Importing the info card component
 
 //style page specifically for /app/page.tsx
 import './page.css'
@@ -28,6 +29,9 @@ export default function Home() {
             className="mt-4 inline-block bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition cursor-pointer">Play!</Link>
 
           <p className="pt-5 text-black">Now in color!! <i className="bi bi-fire text-red-500"></i></p>
+
+          <InfoCard />
+
         </main>
       </div>
     </>
