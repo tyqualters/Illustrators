@@ -11,6 +11,11 @@ import { useEffect } from "react";
 
 
 export default function Home() {
+  const handleClick = () => {
+    const clickSound = new Audio('/Sounds/click.wav');
+    clickSound.currentTime = 0;
+    clickSound.play();
+  };
 
   const splash = [
     "Now in color!!",
@@ -53,7 +58,7 @@ export default function Home() {
          
           <Link
             href="/lobby"
-            className="play-btn pulse-hover">Play!</Link>
+            className="play-btn pulse-hover"onClick={handleClick}>Play!</Link>
 
          
 
