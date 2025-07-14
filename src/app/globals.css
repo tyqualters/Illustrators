@@ -22,17 +22,10 @@
 body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
-}
-
-.bg-container {
-  background-image: url('/2.jpg');
+  background-image: url('/background_image.jpg');
+  min-height:100vh;
   background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-  min-height: 100vh;
-  min-width: 100vw;
-  height: inherit;
-  width: inherit;
-  background-attachment: scroll;
-  overflow-x: hidden;
+  background-size:cover;
+  background-attachment:scroll;
+
 }

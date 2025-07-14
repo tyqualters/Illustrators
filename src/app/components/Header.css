@@ -38,4 +38,6 @@
 .headerStyles .headerLinks li a:hover {
     color: aliceblue;
     transition: color .30s;
+    text-decoration: underline;
+    
 }

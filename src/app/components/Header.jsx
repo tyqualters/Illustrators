@@ -1,15 +1,16 @@
-
-
 import React from 'react';
 import Link from 'next/link';
 import './Header.css'
 
 function Header() {
 
+ 
+
+
   return (
 
     <div className="headerStyles">
-
+      
       <Link href="/"><img src="/IllustratorsLogo.png" className="headerImage" alt="Illustrators Logo" title='Home' /></Link>
 
       <ul className="headerLinks">
