@@ -8,6 +8,8 @@ import { usePlayer } from '@/lib/hooks/usePlayer';
 import type { Socket } from 'socket.io-client';
 import { useRouter } from 'next/navigation';
 import { canSeeMessage } from '@/lib/gameLoop/utils/chat';
+import { GameSettings } from '@/lib/gameLoop/state/gameState';
+
 
 
 interface Player {
@@ -41,15 +43,46 @@ export default function GameRoomPage() {
   const [wordSelectDuration, setWordSelectDuration] = useState<number>(15);
   const [wordSelectDurationLeft, setWordSelectDurationLeft] = useState<number>(wordSelectDuration);
 
+  // new v
+  const [settings, setSettings] = useState<GameSettings>({
+    drawingTime: 90,
+    totalRounds: 3,
+    difficulty: 'medium',
+  });
+
+  const saveSettings = async () => {
+    try {
+      const res = await fetch(`/api/lobby/${id}/settings`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(settings),
+      });
+
+      if (!res.ok) {
+        alert('Failed to save settings');
+      } else {
+        alert('Settings saved!');
+      }
+    } catch (err) {
+      console.error('Failed to save settings:', err);
+    }
+  };
+  // new ^
 
   // Fetches initial lobby info (e.g., host ID and game state)
   useEffect(() => {
     if (!player) return;
     const fetchLobby = async () => {
       const res = await fetch(`/api/lobby/${id}`);
+
       if (res.ok) {
         const data = await res.json();
         setHostId(data.hostId);
+
+        // restores saved settings on refresh
+        if (data.settings) {
+          setSettings(data.settings);
+        }
         if (data.gameStarted && !gameEnded) {
           setGameStarted(true);
         }
@@ -87,7 +120,11 @@ export default function GameRoomPage() {
       socket.on('playersUpdated', (updatedList: Player[]) => setPlayers(updatedList));
 
       // game started handler
-      socket.on('gameStarted', () => setGameStarted(true));
+      socket.on('gameStarted', ({ settings }) => {
+        setGameStarted(true);
+        setSettings(settings);
+      });
+
 
       // new turn has begun
       socket.on('game:turnStarted', (turnData) => {
@@ -487,13 +524,74 @@ export default function GameRoomPage() {
             ))}
           </ul>
           {player.id === hostId && (
-            <button
-              onClick={handleStartGame}
-              className="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700"
-            >
-              Start Game
-            </button>
+            <div className="text-left border p-4 mt-4 rounded bg-gray-50">
+              <h3 className="font-bold text-lg mb-2">Game Settings</h3>
+
+              <label className="block mb-2">
+                Rounds (min 3, max 6):
+                <input
+                  type="number"
+                  min={3}
+                  max={6}
+                  step={1}
+                  value={settings.totalRounds}
+                  onChange={(e) =>
+                    setSettings({
+                      ...settings,
+                      totalRounds: Math.max(3, Math.min(6, Number(e.target.value))),
+                    })
+                  }
+                  className="w-full border px-2 py-1 rounded"
+                />
+              </label>
+
+              <label className="block mb-2">
+                Drawing Time (seconds, min 30, max 180):
+                <input
+                  type="number"
+                  min={30}
+                  max={180}
+                  step={5}
+                  value={settings.drawingTime}
+                  onChange={(e) =>
+                    setSettings({
+                      ...settings,
+                      drawingTime: Math.max(30, Math.min(180, Number(e.target.value))),
+                    })
+                  }
+                  className="w-full border px-2 py-1 rounded"
+                />
+              </label>
+
+              <label className="block mb-2">
+                Difficulty:
+                <select
+                  value={settings.difficulty}
+                  onChange={(e) => setSettings({ ...settings, difficulty: e.target.value as 'easy' | 'medium' | 'hard' })}
+                  className="w-full border px-2 py-1 rounded"
+                >
+                  <option value="easy">Easy</option>
+                  <option value="medium">Medium</option>
+                  <option value="hard">Hard</option>
+                </select>
+              </label>
+
+              <button
+                onClick={saveSettings}
+                className="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              >
+                Save Settings
+              </button>
+
+              <button
+                onClick={handleStartGame}
+                className="mt-4 bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700"
+              >
+                Start Game
+              </button>
+            </div>
           )}
+
         </div>
       ) : (
         <div className="flex flex-row gap-4">

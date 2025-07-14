@@ -25,6 +25,7 @@ import { checkWordSelectionTimeout } from '@/lib/gameLoop/logic/turnManager';   
 import TurnManager from '@/lib/gameLoop/logic/turnManager';                     // handles whose turn it is, scoring, etc
 import GameState from '@/lib/gameLoop/state/gameState';                         // talks to Redis to save/load the current game state
 import redis from '@/lib/redis';                                                // redis connection 
+import Lobby from '@/models/Lobby';
 
 // ----- Helper Function -----
 /**
@@ -385,7 +386,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) { // 
 
             // --- Start the game ---
             // To Do: Accept host-related settings, socket payload (like from lobby settings screen)
-            socket.on('startGame', async ({ lobbyId }) => {
+            socket.on('startGame', async ({ lobbyId, settings }) => {
 
                 const state = await GameState.get(lobbyId);
 
@@ -394,23 +395,28 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) { // 
                     return;
                 }
 
+                // load host settings from monGODb
+                const mongoLobby = await Lobby.findById(lobbyId);
+                const hostSettings = mongoLobby?.settings ?? {
+                    drawingTime: 90,        // how long each drawing round lasts (seconds)
+                    totalRounds: 3,         // how many rounds in total
+                    difficulty: 'medium',   // word difficulty lvl
+                    wordCount: 3,           // number of word options to show drawer
+                    wordSelectionTime: 15,
+                };
+
                 await GameState.set(lobbyId, {
                     scores: {},
                     round: 1,
                     playerOrder: state.players.map((p) => p.id),
                     currentDrawerIndex: -1,
                     usedWords: [],
-
-                    // To Do: Replace these hardcoded settings with host-selected values from the frontend
-                    // We can pass them in from the client with the "startGame" socket payload or a new "settings:update" event
-                    settings: {
-                        drawingTime: 90,        // how long each drawing round lasts (seconds)
-                        totalRounds: 3,         // how many rounds in total
-                        difficulty: 'medium',   // word difficulty lvl
-                        wordCount: 3,           // number of word options to show drawer
-                    },
                     players: state.players,
+                    settings: hostSettings, // use mongo settings
                 });
+
+                // emit settings back to all players before first turn
+                ioServer.to(lobbyId).emit('gameStarted', { settings: hostSettings });
 
                 await emitNextTurn(lobbyId);
 
@@ -449,11 +455,16 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) { // 
                     return;
                 }
 
+                // set timer from settings (host-configured drawing time)
+                await GameState.update(lobbyId, {
+                    timer: updated.settings?.drawingTime ?? 90,
+                });
+
                 /*
                 Stores start time and duration in redis. It sets 2 keys in redis for when the timer started and how long
                 it lasts. The values are used if a player reconnects mid-round and needs to see how much time is left.  
                 */
-                const duration = typeof updated.timer === 'number' ? updated.timer : 90;
+                const duration = updated.settings?.drawingTime ?? 90;
                 await redis.set(`timer:${lobbyId}:start`, Date.now().toString(), { EX: 7200 });     // expires in 2 hours
                 await redis.set(`timer:${lobbyId}:duration`, duration.toString(), { EX: 7200 });    // expires in 2 hours
 
@@ -476,7 +487,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) { // 
                 /* 
                 Tell everyone that the round is starting. Sends a 'drawer:wordConfirmed' event to all clients. 
                 Emits word confirmed (only to drawer) + timer + canvas
-                */ 
+                */
                 await emitWordConfirmed(ioServer, lobbyId, socket.data.playerId);
 
                 /*
@@ -497,9 +508,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) { // 
                         (latest.guessedUsers?.length ?? 0) >=
                         (latest.playerOrder?.length ?? 0) - 1;
 
-                        /*
-                        otherwise, ends the round and triggers the next one or ends the game
-                        */
+                    /*
+                    otherwise, ends the round and triggers the next one or ends the game
+                    */
                     if (!alreadyEnded) {
                         console.log(`[SERVER] Timeout reached - ending round for ${lobbyId}`);
                         await handleEndOfRound(lobbyId);
