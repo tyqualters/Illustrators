@@ -1,6 +1,7 @@
 import LoginForm from './login';
 import { _verifySession as getSession } from '@/lib/dal';
 import { redirect } from 'next/navigation';
+import Header from '../components/Header';
 
 
 export default async function SignUpPage() {
@@ -10,5 +11,13 @@ export default async function SignUpPage() {
     redirect('/profile');
   }
 
-  return <LoginForm />;
+  return (
+    <>
+    <Header />
+   
+  
+    <LoginForm />
+  
+  </>
+  );
 }

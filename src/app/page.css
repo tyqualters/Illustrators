@@ -1,0 +1,42 @@
+ 
+.titleLogo
+{
+position:relative;
+}
+
+#Splash
+{
+   color:yellow;
+   animation: pulseEffect 0.6s infinite alternate;
+   text-align: left;
+   position:absolute;
+   bottom:-10px;
+   right:-30px;
+   font-size: 1.5em;
+   font-weight:bold;
+
+   
+
+}
+
+@keyframes pulseEffect {
+            0% { transform: scale(1) rotate(-20deg); }
+            25% { transform: scale(1.05) rotate(-20deg); }
+            50% { transform: scale(1.1) rotate(-20deg);  }
+            75% { transform: scale(1.05) rotate(-20deg); }
+            100% { transform: scale(1) rotate(-20deg);  }
+        }
+
+
+ .info
+{
+ 
+  width:50%;
+  margin-top: 10%;
+  background-color: black;
+  margin:auto;
+  color:white;
+  text-align: center;
+}
+
+ 
