@@ -11,7 +11,7 @@ import { useEffect } from "react";
 
 
 export default function Home() {
-
+  
   const splash = [
     "Now in color!!",
     "What will you draw?",
