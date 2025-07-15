@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import 'bootstrap-icons/font/bootstrap-icons.min.css';
 import Header from './components/Header.jsx'; //Importing the header component
+import InfoCard from "./components/InfoCard"; //Importing the info card component
+
 import './App.css';
 //style page specifically for /app/page.tsx
 import './page.css';
@@ -11,7 +13,12 @@ import { useEffect } from "react";
 
 
 export default function Home() {
-  
+  const handleClick = () => {
+    const clickSound = new Audio('/Sounds/click.wav');
+    clickSound.currentTime = 0;
+    clickSound.play();
+  };
+
   const splash = [
     "Now in color!!",
     "What will you draw?",
@@ -38,28 +45,35 @@ export default function Home() {
     
         <header>
 
-          <Header />
+        <Header />
 
-        </header>
+      </header>
 
 
 
         <main className="flex flex-col items-center justify-center">
 
-          <div className="titleLogo"> 
-         <Image src="/IllustratorsMainTitle.png" unoptimized={true} width={600} height={300} alt="Illustrators Main Title"/>
+          
+        <div className="titleLogo">
+          <Image src="/IllustratorsMainTitle.png" unoptimized={true} width={600} height={300} alt="Illustrators Main Title" />
 
           <p id="Splash"></p>
 
-          </div>
-         
-          <Link
-            href="/lobby"
-            className="play-btn pulse-hover">Play!</Link>
+        </div>
+
+        <Link
+          href="/lobby"
+          className="play-btn pulse-hover" onClick={handleClick}>Play!</Link>
 
          
 
-        </main>
+            className="mt-4 inline-block bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition cursor-pointer">Play!</Link>
+
+      <p className="pt-5 text-black">Now in color!! <i className="bi bi-fire text-red-500"></i></p>
+
+      <InfoCard />
+
+    </main >
 
         <div className="info">
 
@@ -75,8 +89,28 @@ export default function Home() {
             <p>Explore vast landscapes, uncover ancient mysteries, build your empire, or compete against friends in exciting multiplayer modes. With stunning visuals, captivating sound design, and a constantly evolving world, [Game Name] is more than just a game – it's an experience!</p>
           </div><br/>
 
+<div id="how-to-play">
+    <h1>How to Play</h1>
+    <h3>Getting Started: Your First Steps in [Game Name]</h3>
+    <p>Embarking on your journey in [Game Name] is easy! Here's a quick guide to get you started:</p>
+    <ol>
+        <li><strong>Character Creation:</strong> Choose your [e.g., class, race, starting attributes] and customize your hero to your liking.</li>
+        <li><strong>Basic Controls:</strong> Learn to move, interact with objects, and navigate the user interface. (Often W, A, S, D for movement, E for interaction, M for map).</li>
+        <li><strong>First Quest:</strong> Follow the introductory quests to understand the core mechanics and storyline. These quests will guide you through your first challenges.</li>
+        <li><strong>Inventory & Skills:</strong> Manage your inventory, equip new items, and unlock powerful skills as you progress.</li>
+    </ol>
 
-</div>
+    <h3>Advanced Tips & Strategies</h3>
+    <ul>
+        <li><strong>Resource Management:</strong> Efficiently gather and utilize resources for crafting and upgrading.</li>
+        <li><strong>Combat Mechanics:</strong> Master the art of combat by understanding enemy weaknesses and utilizing your abilities effectively.</li>
+        <li><strong>Cooperation is Key:</strong> Join forces with other players to tackle challenging dungeons or participate in large-scale battles.</li>
+        <li><strong>Explore & Experiment:</strong> Don't be afraid to venture off the beaten path and try different strategies. There's always something new to discover!</li>
+    </ul>
+    <p>For more detailed guides and tutorials, visit our <a href="#">Official Wiki</a> or join our active <a href="#">Community Forums</a>.</p>
+</div><br/>
+
+      </div>
 
 
       

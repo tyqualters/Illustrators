@@ -3,13 +3,17 @@ import Link from 'next/link';
 import './Header.css'
 
 function Header() {
-
+const handleClick = () => {
+    const clickSound = new Audio('/Sounds/click.wav');
+    clickSound.currentTime = 0;
+    clickSound.play();
+}
  
 
 
   return (
 
-    <div className="headerStyles">
+    <div className="headerStyles" onClick={handleClick}>
       
       <Link href="/"><img src="/IllustratorsLogo.png" className="headerImage" alt="Illustrators Logo" title='Home' /></Link>
 

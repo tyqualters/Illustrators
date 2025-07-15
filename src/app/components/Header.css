@@ -39,19 +39,12 @@
     color: aliceblue;
     transition: color .30s;
     text-decoration: underline;
+    transition: transform 0.2s ease;
+    animation: pulse 1.5s infinite;
 }
 
 .links {
   color: rgb(64, 61, 253);
-}
-
-.headerStyles .pulse-hover {
-  /* No animation by default */
-  transition: transform 0.2s ease;
-}
-
-.headerStyles .pulse-hover:hover {
-  animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
@@ -67,5 +60,6 @@
     transform: scale(1);
   }
      
+ 
     
 }
