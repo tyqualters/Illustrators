@@ -10,7 +10,7 @@ export default async function Profile() {
         return (
             <div>
                 <p>Welcome!</p>
-                <ProfilePicture userId={session.userId} size={128} />
+                <ProfilePicture userId={String(session.userId)} size={128} />
                 <p>Want to <Link href="/" className="text-blue-500">go home</Link> or <Link href="/logout" className="text-blue-500">sign out</Link>?</p>
             </div>
         );

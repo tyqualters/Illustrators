@@ -30,13 +30,30 @@ position:relative;
 
  .info
 {
+margin:auto;
+margin-top:250px;
+margin-bottom:50px;
+text-align:center;
+width:500px;
  
-  width:50%;
-  margin-top: 10%;
-  background-color: black;
-  margin:auto;
-  color:white;
-  text-align: center;
+ 
 }
+
+
+
+#about-game
+{
+background-color:white;
+color:red;
+}
+
+#about-game2
+{
+background-color:white;
+color:red;
+}
+
+
+
 
  
