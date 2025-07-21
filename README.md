@@ -26,6 +26,21 @@ cd Illustrators
 npm install
 ```
 
+### 🔐 Environment Variables
+
+Create a `.env` file in the root directory and add the following variables:
+
+```
+MONGODB_URI="...your connection string..."
+ 
+SESSION_SECRET="...random bytes..."
+
+REDIS_HOST="..."
+REDIS_PORT="..."
+REDIS_USER="..."
+REDIS_PASSWORD="..."
+```
+
 ### Run for testing
 
 ```bash
@@ -60,6 +75,6 @@ Then access the game at: `http://localhost:3000`
 
 ---
 
-© 2025
+© 2025 all respective contributors
 
 Made with ☕ by [@tllarr1](https://github.com/tllarr1), [@tyqualters](https://github.com/tyqualters), [@eventuallycoder](https://github.com/eventuallycoder), [@KFletch117](https://github.com/KFletch117), [@NathanCerne](https://github.com/NathanCerne)
