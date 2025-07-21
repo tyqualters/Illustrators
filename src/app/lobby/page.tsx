@@ -1,19 +1,20 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import Header from '../components/Header.jsx';
-import { usePlayer } from '@/lib/hooks/usePlayer';
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Header from "../components/Header/Header.jsx";
+import { usePlayer } from "@/lib/hooks/usePlayer";
+import ButtonSound from '../components/ButtonSound/ButtonSound.jsx'
 
 export default function LobbyPage() {
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState("");
   const router = useRouter();
   const { player, loading } = usePlayer();
 
   const handleJoin = (e: React.FormEvent) => {
     e.preventDefault();
     if (!player?.name.trim()) {
-      alert('Please enter a nickname');
+      alert("Please enter a nickname");
       return;
     }
 
@@ -22,15 +23,15 @@ export default function LobbyPage() {
 
   const handleCreate = async () => {
     if (!player?.name.trim()) {
-      alert('Please enter a nickname');
+      alert("Please enter a nickname");
       return;
     }
 
-    const res = await fetch('/api/lobby', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const res = await fetch("/api/lobby", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: 'Untitled Lobby',
+        name: "Untitled Lobby",
         players: [{ id: player.id, name: player.name.trim() }],
         createdAt: new Date().toISOString(),
         gameStarted: false,
@@ -42,19 +43,24 @@ export default function LobbyPage() {
     if (res.ok && data._id) {
       router.push(`/game/${data._id}`);
     } else {
-      alert('Failed to create lobby. Try again.');
-      console.error('Create lobby error:', data);
+      alert("Failed to create lobby. Try again.");
+      console.error("Create lobby error:", data);
     }
   };
 
-  if (loading || !player) return <p className="text-center p-8">Checking session...</p>;
+  if (loading || !player)
+    return <p className="text-center p-8">Checking session...</p>;
 
   return (
-
+<> 
+<ButtonSound> 
+    
     <div className="bg-container">
-      <Header />
+      
       <main className="min-h-screen flex flex-col items-center justify-center p-8 text-center">
-        <h1 className="text-4xl font-bold mb-6 text-black">Join or Create a Lobby</h1>
+        <h1 className="text-4xl font-bold mb-6 text-white">
+          Join or Create a Lobby
+        </h1>
 
         <div className="flex flex-col gap-2 w-full max-w-sm mb-6">
           <input
@@ -63,7 +69,7 @@ export default function LobbyPage() {
             value={player.name}
             onChange={(e) => {
               const newName = e.target.value;
-              localStorage.setItem('guestName', newName);
+              localStorage.setItem("guestName", newName);
             }}
             className="border-3 border-black px-4 py-2 rounded placeholder-black text-black bg-gray-100"
           />
@@ -93,5 +99,7 @@ export default function LobbyPage() {
         </button>
       </main>
     </div>
+  </ButtonSound>
+    </>
   );
 }

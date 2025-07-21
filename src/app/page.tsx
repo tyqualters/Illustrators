@@ -1,101 +1,18 @@
-"use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import 'bootstrap-icons/font/bootstrap-icons.min.css';
-import Header from './components/Header.jsx'; //Importing the header component
-import InfoCard from "./components/InfoCard"; //Importing the info card component
+import Header from "./components/Header/Header.jsx"; //Importing the header component
+import HomeBody from "./components/HomeBody/HomeBody.jsx";
 
-import './App.css';
-//style page specifically for /app/page.tsx
-import './page.css';
-import { useEffect } from "react";
+
 
 
 export default function Home() {
-  const handleClick = () => {
-    const clickSound = new Audio('/Sounds/click.wav');
-    clickSound.currentTime = 0;
-    clickSound.play();
-  };
-
-  const splash = [
-    "Now in color!!",
-    "What will you draw?",
-    "Where's my supersuit?",
-    "Not Minecraft",
-    "To draw or not to draw"
-  ]
-
-  const index = Math.floor(Math.random() * (4 - 0 + 1) + 0);
-
-  useEffect(() => {
-    const splashElement = document.getElementById("Splash");
-    if (splashElement) {
-      splashElement.innerText = splash[index];
-    }
-  }, [index]);
-
-
-
-  return (
-
-    <>
  
-    
-        <header>
-
-        <Header />
-
-      </header>
-
-
-
-        <main className="flex flex-col items-center justify-center">
-
-          
-        <div className="titleLogo">
-          <Image src="/IllustratorsMainTitle.png" unoptimized={true} width={600} height={300} alt="Illustrators Main Title" />
-
-          <p id="Splash"></p>
-
-        </div>
-
-        <Link
-          href="/lobby"
-          className="play-btn pulse-hover" onClick={handleClick}>ggggggggggggggg!</Link>
-
-         
-
-            <Link href="/lobby" className="mt-4 inline-block bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition cursor-pointer">Play!</Link>
-
-      <p className="pt-5 text-black">Now in color!! <i className="bi bi-fire text-red-500"></i></p>
-
-      <InfoCard />
-
-    </main >
-
-        <div className="info">
-
-          <div id="about-game">
-            <h1>About the Game</h1>
-            <p>Welcome to [Game Name]! Immerse yourself in a thrilling world of [brief description of game genre, e.g., epic fantasy adventures, strategic resource management, fast-paced puzzle challenges]. Developed by [Developer Name], this game offers a unique blend of [mention a key gameplay mechanic or feature] and [mention another key gameplay mechanic or feature], promising hours of engaging fun for players of all skill levels.</p>
-            <p>Explore vast landscapes, uncover ancient mysteries, build your empire, or compete against friends in exciting multiplayer modes. With stunning visuals, captivating sound design, and a constantly evolving world, [Game Name] is more than just a game – it's an experience!</p>
-          </div><br/>
-
-          <div id="about-game2">
-            <h1>About the Game</h1>
-            <p>Welcome to [Game Name]! Immerse yourself in a thrilling world of [brief description of game genre, e.g., epic fantasy adventures, strategic resource management, fast-paced puzzle challenges]. Developed by [Developer Name], this game offers a unique blend of [mention a key gameplay mechanic or feature] and [mention another key gameplay mechanic or feature], promising hours of engaging fun for players of all skill levels.</p>
-            <p>Explore vast landscapes, uncover ancient mysteries, build your empire, or compete against friends in exciting multiplayer modes. With stunning visuals, captivating sound design, and a constantly evolving world, [Game Name] is more than just a game – it's an experience!</p>
-          </div><br/>
-
-          </div>
-
-      
+  return (
+    <>
+      <Header />
+      <HomeBody />
     </>
   );
-
-
 }
 
 // export default function Home() {

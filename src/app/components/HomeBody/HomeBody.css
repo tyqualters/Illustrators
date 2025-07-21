@@ -1,0 +1,50 @@
+.titleLogo {
+    position: relative;
+    margin-top: 50px;
+    margin-bottom: 50px;
+
+}
+
+.pulse-hover {
+  /* No animation by default */
+  transition: transform 0.2s ease;
+}
+
+.pulse-hover:hover {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.InfoCardStyle
+{
+  width:100%;
+  overflow:hidden;
+  display:flex;
+  margin-left:auto;
+  margin-right:auto;
+   
+}
+
+.InfoCardStyle div
+{
+ width:95%;
+ margin-left: 20px;
+ margin-right:20px;
+
+ 
+
+ 
+}
