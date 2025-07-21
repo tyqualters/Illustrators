@@ -1,31 +1,51 @@
-// helps with guest and logged in user handling
+/**  
+ * Location: src/lib/hooks/usePlayer.ts
+ * 
+ * Custom React Hook: usePlayer
+ * 
+ * Purpose: 
+ * This hook fetches and returns the current player's ID and name, supporting
+ * both authenticated users (through session cookie) and guest users (through local
+ * storage). It handles the logic so that components using it don't need to worry
+ * about whether the user is logged in or not.
+ * 
+ * Used in:
+ * - lobby page
+ * - game room page
+ * - any other place that needs the current player identity (ID and name)
+ * 
+ * Returns: 
+ * - player: { id, name } or null if not loaded yet
+ * - loading: true while determining the plauer, then false
+ */
+
+// https://react.dev/learn/reusing-logic-with-custom-hooks
+
 'use client';
 
 import { useEffect, useState } from 'react';
 
-// interface for player object (either a guest or an authenticated user)
+// Shared player shape for both guests and logged in users
 interface Player {
   id: string;
   name: string;
 }
 
-// exported hook that any component can use to get the current plauyer and loading status
 export function usePlayer() {
-  const [player, setPlayer] = useState<Player | null>(null); // this stores player info
-  const [loading, setLoading] = useState(true); // this tracks loading state
+  const [player, setPlayer] = useState<Player | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // attempts to fetch autenticated user session
+    // fetch current player from session API
     async function fetchPlayer() {
       try {
-        // try to get user session from API
         const res = await fetch('/api/session', { cache: 'no-store' });
         if (res.ok) {
-          // if session is valid, use it to set the player
           const user = await res.json();
+          // authenticated user found
           setPlayer({ id: user.id, name: user.name });
         } else {
-          // if session is missing or invalid, fall back to guest mode
+          // fallback to guest if session is missing 
           fallbackToGuest();
         }
       } catch (error: unknown) {
@@ -41,33 +61,46 @@ export function usePlayer() {
         // if fetch fails (like offline), default to guest
         fallbackToGuest();
       } finally {
-        setLoading(false); // finish loading no matter the outcome
+        setLoading(false);
       }
     }
 
-    // sets player as a guest using localStorage
+    // Fallback guest login (stored in localStorage)
     function fallbackToGuest() {
       let guestId = localStorage.getItem('guestId');
       const guestName = localStorage.getItem('guestName') || 'Guest';
 
-      // if no guest ID exists, create
+      // if not guestId exists, generate one
       if (!guestId) {
         guestId = `guest-${crypto.randomUUID()}`;
         localStorage.setItem('guestId', guestId);
       }
 
-      // store name if it is missing (typically from first visit or no refresh)
       if (!guestName) {
         localStorage.setItem('guestName', guestName);
       }
 
-      // set the player using guest credentials
       setPlayer({ id: guestId, name: guestName });
     }
 
-    // run once on mount to determine player identity
     fetchPlayer();
   }, []);
 
-  return { player, loading };
+  const setPlayerName = (newName: string) => {
+  // only allow guest users to update their name
+  const isGuest = player?.id?.startsWith('guest-');
+  if (player && isGuest) {
+    const updated = { ...player, name: newName };
+    localStorage.setItem('guestName', newName);
+    setPlayer(updated);
+  }
+  // To Do: 
+  // If we want logged in user's to change their name, add API route 
+  // will need to handle name change here too using API route
+  // API route of something like "api/user/name/route.ts"
+  // to change name, we will need a route anyways, whether thats a profile-info route
+  // or just name change. 
+};
+
+  return { player, loading, setPlayerName };
 }
