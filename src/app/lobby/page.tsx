@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { usePlayer } from '@/lib/hooks/usePlayer';
 
@@ -33,6 +33,10 @@ export default function LobbyPage() {
   };
 
 
+  const handleGoHome = () => {
+    redirect('/');
+  }
+
   const handleCreate = async () => {
     if (!player?.name.trim()) {
       alert('Please enter a nickname');
@@ -64,9 +68,9 @@ export default function LobbyPage() {
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-8 text-center">
-      <h1 className="text-4xl font-bold mb-6">Join or Create a Lobby</h1>
 
-      <div className="flex flex-col gap-2 w-full max-w-sm mb-6">
+      <div className="flex flex-col gap-2 w-full max-w-sm mb-6 bg-white p-3 rounded">
+        <h1 className="text-4xl font-bold mb-6 text-blue-500">Join or Create a Lobby</h1>
         <input
           type="text"
           placeholder="Enter Your Nickname"
@@ -85,19 +89,26 @@ export default function LobbyPage() {
           />
           <button
             type="submit"
-            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 cursor-pointer"
           >
             Join Lobby
           </button>
         </form>
-      </div>
 
-      <button
-        onClick={handleCreate}
-        className="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700"
-      >
-        Create New Lobby
-      </button>
+        <button
+          onClick={handleCreate}
+          className="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700 cursor-pointer"
+        >
+          Create New Lobby
+        </button>
+
+        <button
+          onClick={handleGoHome}
+          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 cursor-pointer mt-5"
+          >
+            Return Home
+          </button>
+      </div>
     </main>
   );
 }

@@ -335,7 +335,7 @@ export default function GameCanvas({
     <div ref={parentRef} className={className}>
       <canvas
         ref={canvasRef}
-        style={{ border: '1px solid #000', display: 'block' }}
+        style={{ border: '1px solid #000', display: 'block', background: '#fff' }}
       />
     </div>
   );

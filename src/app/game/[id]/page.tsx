@@ -542,10 +542,10 @@ export default function GameRoomPage() {
         </div>
       ) : !gameStarted ? (
         <div>
-          <p className="text-lg mb-2">Waiting for players...</p>
+          <p className="text-lg mb-2 text-white">Waiting for players...</p>
           <ul className="mb-4">
             {players.map((p, i) => (
-              <li key={i}>
+              <li key={i} className="text-white">
                 {p.name === player.name ? (
                   <strong>{p.name} (You)</strong>
                 ) : (
@@ -615,14 +615,14 @@ export default function GameRoomPage() {
 
               <button
                 onClick={saveSettings}
-                className="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                className="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer mr-2"
               >
                 Save Settings
               </button>
 
               <button
                 onClick={handleStartGame}
-                className="mt-4 bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700"
+                className="mt-4 bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 cursor-pointer"
               >
                 Start Game
               </button>
@@ -633,7 +633,7 @@ export default function GameRoomPage() {
       ) : (
         <div className="flex flex-row gap-4">
           {/* Players column */}
-          <div className="w-1/5 text-left border p-2">
+          <div className="w-1/5 text-left border p-2 bg-white rounded">
             <h4 className="mt-4 font-semibold">Players</h4>
             <ul>
               {[...players]
@@ -655,7 +655,7 @@ export default function GameRoomPage() {
           {/* Main canvas and game view */}
           <div className="w-3/5">
             {currentTurn && (
-              <p className="mb-2 text-lg font-semibold">
+              <p className="mb-2 text-lg font-semibold text-white">
                 Round {currentTurn.round} - Word: {_displayWord(currentTurn.word, isDrawer || hasGuessedCorrectly)
                 }
               </p>
@@ -678,7 +678,7 @@ export default function GameRoomPage() {
                       <button
                         key={word}
                         onClick={() => handleWordSelect(word)}
-                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer"
                       >
                         {word}
                       </button>
@@ -733,7 +733,7 @@ export default function GameRoomPage() {
           </div>
 
           {/* Guess/chat box */}
-          <div className="w-1/5 border p-2 flex flex-col">
+          <div className="w-1/5 border p-2 flex flex-col bg-white rounded">
             <h3 className="font-bold mb-2">Guesses</h3>
             <div className="flex-grow overflow-y-auto text-left mb-2 border p-1 h-[300px]">
               <ul>
@@ -768,7 +768,7 @@ export default function GameRoomPage() {
             </div>
 
             {!isDrawer && (
-              <form onSubmit={handleGuessSubmit}>
+              <form onSubmit={handleGuessSubmit} className="bg-white">
                 <input
                   type="text"
                   name="guess"
