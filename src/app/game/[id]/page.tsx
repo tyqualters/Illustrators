@@ -17,32 +17,6 @@ interface Player {
   name: string;
 }
 
-interface TurnState {
-  round: number;
-  drawerId: string;
-  word?: string;
-  wordOptions?: string[];
-  timer?: number;
-}
-
-interface RoundEndedData {
-  totalScores: Record<string, number>;
-  roundScores: Record<string, number>;
-}
-
-interface TurnState {
-  round: number;
-  drawerId: string;
-  word?: string;
-  wordOptions?: string[];
-  timer?: number;
-}
-
-interface RoundEndedData {
-  totalScores: Record<string, number>;
-  roundScores: Record<string, number>;
-}
-
 // Local Game State
 export default function GameRoomPage() {
   const { id } = useParams() as { id: string };
@@ -157,7 +131,7 @@ export default function GameRoomPage() {
         setGameStarted(true);
         setCurrentTurn(turnData);
         setWordConfirmed(false);
-        // setRoundEnded(null);
+        setRoundEnded(null);
         setCorrectGuessers([]);
         setMessages([]);
         setInitialCanvas(null); // ensures canvas resets each round
@@ -213,7 +187,6 @@ export default function GameRoomPage() {
           setLastScoredRound(roundNumber);
         }
       });
-
 
 
       // Handles game over: clean up local state and redirect to lobby page
@@ -315,7 +288,7 @@ export default function GameRoomPage() {
     return () => {
       socketRef.current?.disconnect();
     };
-  }, [setRoundEnded, player, loading, id]);
+  }, [player, loading, id]);
 
 
   // Triggers redirect back to lobby after game ends
@@ -481,7 +454,7 @@ export default function GameRoomPage() {
 
   return (
     <main className="min-h-screen p-4 text-center">
-      <h1 className="text-3xl font-bold text-indigo-600 mb-4 text-shadow-black text-shadow-2xs">Lobby: {id}</h1>
+      <h1 className="text-3xl font-bold text-indigo-600 mb-4">Lobby: {id}</h1>
 
       {gameEnded ? (
         <div className="flex flex-row gap-4">
@@ -712,7 +685,7 @@ export default function GameRoomPage() {
             {shouldShowCanvas && (
               <div className="w-full h-[400px] border mb-6 relative">
                 <GameCanvas
-                  className="w-full h-full"
+                  className="w-full h-full bg-white"
                   socket={socketRef.current}
                   isDrawing={canDraw}
                   loadCanvasData={initialCanvas}

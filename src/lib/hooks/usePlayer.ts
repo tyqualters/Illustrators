@@ -48,17 +48,8 @@ export function usePlayer() {
           // fallback to guest if session is missing 
           fallbackToGuest();
         }
-      } catch (error: unknown) {
-        const message =
-          typeof error === 'object' &&
-            error !== null &&
-            'message' in error
-            ? String((error as { message: unknown }).message)
-            : 'unknown error';
-
-        console.log('%s', message || 'unknown error')
-
-        // if fetch fails (like offline), default to guest
+      } catch (err) {
+        // error means session likely invalid, fallback to guest
         fallbackToGuest();
       } finally {
         setLoading(false);

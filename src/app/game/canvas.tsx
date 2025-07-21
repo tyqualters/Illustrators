@@ -3,7 +3,6 @@
 
 
 import { useEffect, useRef } from 'react';
-import type { Socket } from 'socket.io-client';
 
 import * as fabric from 'fabric';
 
@@ -335,7 +334,7 @@ export default function GameCanvas({
     <div ref={parentRef} className={className}>
       <canvas
         ref={canvasRef}
-        style={{ border: '1px solid #000', display: 'block', background: '#fff' }}
+        style={{ border: '1px solid #000', display: 'block' }}
       />
     </div>
   );
