@@ -1,23 +1,20 @@
-import LoginForm from './login';
-import { _verifySession as getSession } from '@/lib/dal';
-import { redirect } from 'next/navigation';
-import Header from '../components/Header';
-
+import LoginForm from "./login";
+import { _verifySession as getSession } from "@/lib/dal";
+import { redirect } from "next/navigation";
+import Header from "../components/Header/Header";
 
 export default async function SignUpPage() {
   const session = await getSession();
 
   if (session) {
-    redirect('/profile');
+    redirect("/profile");
   }
 
   return (
     <>
-    <Header />
-   
-  
-    <LoginForm />
-  
-  </>
+      <Header />
+
+      <LoginForm />
+    </>
   );
 }

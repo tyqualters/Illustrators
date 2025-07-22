@@ -1,31 +1,26 @@
+
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+html, body {
+
+height:100%;
+margin: 0;
+padding:0;
+ 
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+body
+{
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-  background-image: url('/background_image.jpg');
-  min-height:100vh;
-  background-repeat: no-repeat;
+  background-image: url('/backgroundImage.jpg');
   background-size:cover;
-  background-attachment:scroll;
+  background-position: center center;
+  background-repeat: no repeat;
+  background-attachment: scroll;
 
+  cursor: url('/Cursor/Galagaship.png')16 16, auto; 
 }
+
+
+

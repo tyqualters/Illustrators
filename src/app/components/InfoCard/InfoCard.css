@@ -1,0 +1,26 @@
+
+
+.info-card {
+ 
+    background-image: url('/InfoCardBackgroundImage.jpg');
+    border: 2px solid #89c8e5;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    color:whitesmoke;
+    min-height: 1.5em;
+
+
+}
+
+.scrollable-content {
+    width:10px;
+    max-height: 200px;
+    min-height: 200px;
+    overflow-y: auto;
+    
+}
+ 
+
+
