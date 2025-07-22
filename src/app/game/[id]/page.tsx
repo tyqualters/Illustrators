@@ -9,6 +9,7 @@ import type { Socket } from 'socket.io-client';
 import { useRouter } from 'next/navigation';
 import { canSeeMessage } from '@/lib/gameLoop/utils/chat';
 import { GameSettings } from '@/lib/gameLoop/state/gameState';
+import Link from 'next/link';
 
 
 
@@ -459,7 +460,7 @@ export default function GameRoomPage() {
       {gameEnded ? (
         <div className="flex flex-row gap-4">
           {/* Players column */}
-          <div className="w-1/5 text-left border p-2">
+          <div className="w-1/5 text-left border p-2 bg-white rounded">
             <h4 className="mt-4 font-semibold">Players</h4>
             <ul>
               {[...players]
@@ -471,8 +472,10 @@ export default function GameRoomPage() {
                       key={p.id}
                       className={isYou ? 'text-indigo-500' : 'text-gray-800'}
                     >
+                      <Link href={`/profile/${p.id}`} target="_blank">
                       #{index + 1} {p.name}{isYou ? ' (You)' : ''}: {totalScores[p.id] ?? 0
                       } pts
+                      </Link>
                     </li>
                   );
                 })}

@@ -2,7 +2,7 @@
 
 
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import * as fabric from 'fabric';
 
@@ -172,6 +172,63 @@ export function LocalGameCanvas({ className }: LocalGameCanvasProps) {
 
 // NEW (Tara's)
 
+type GameCanvasToolMenuProps = {
+  canvas: fabric.Canvas | null;
+  isDrawing: boolean
+};
+
+export function GameCanvasToolMenu({ canvas, isDrawing }: GameCanvasToolMenuProps) {
+  const [brushColor, setBrushColor] = useState('#000000');
+  const [brushWidth, setBrushWidth] = useState(1);
+
+  const updateWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value, 10);
+    setBrushWidth(value);
+    canvas?.freeDrawingBrush && (canvas.freeDrawingBrush.width = value);
+  };
+
+  const updateColor = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setBrushColor(value);
+    canvas?.freeDrawingBrush && (canvas.freeDrawingBrush.color = value);
+  };
+
+  useEffect(() => {
+    if (canvas?.freeDrawingBrush) {
+      canvas.freeDrawingBrush.color = brushColor;
+      canvas.freeDrawingBrush.width = brushWidth;
+    }
+  }, [canvas, brushColor, brushWidth]);
+
+  return (
+    <>
+      <div className='absolute top-1 right-1 bg-gray-700 rounded border-2 border-black shadow-md p-3 space-y-2 text-white' style={{ visibility: isDrawing ? 'visible' : 'hidden', zIndex: 1 }}>
+        <label htmlFor='drawing-line-width'>
+          <p>Line width:<span className="info">{brushWidth}</span></p>
+          <input
+          type="range"
+          min="1"
+          max="150"
+          id="drawing-line-width"
+          value={brushWidth}
+          onChange={updateWidth}
+        />
+        </label>
+        <label htmlFor='drawing-color'>
+          <p>Line color:</p>
+          <input
+            type="color"
+            id="drawing-color"
+            value={brushColor}
+            onChange={updateColor}
+          />
+        </label>
+        <button onClick={() => canvas?.clear()} className="block m-auto w-auto h-auto p-2 text-center text-2xl text-white bg-blue-500 hover:bg-blue-700 cursor-pointer">Reset</button>
+      </div>
+    </>
+  )
+}
+
 type GameCanvasProps = {
   className?: string;
   socket?: any;
@@ -190,6 +247,7 @@ export default function GameCanvas({
   const parentRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fabricCanvasRef = useRef<fabric.Canvas | null>(null);
+  const toolRef = useRef<HTMLDivElement>(null);
 
   /**
    * Store cleanup function safely using useRef
@@ -327,11 +385,16 @@ export default function GameCanvas({
   useEffect(() => {
     if (fabricCanvasRef.current) {
       fabricCanvasRef.current.isDrawingMode = isDrawing;
+      if(isDrawing) {
+        if(toolRef.current)
+          toolRef.current!.style.visibility = isDrawing ? 'visible' : 'hidden';
+      }
     }
   }, [isDrawing]);
 
   return (
-    <div ref={parentRef} className={className}>
+    <div ref={parentRef} className={className} style={{ position: 'relative', zIndex: 0 }}>
+      <GameCanvasToolMenu isDrawing={isDrawing} canvas={fabricCanvasRef.current} />
       <canvas
         ref={canvasRef}
         style={{ border: '1px solid #000', display: 'block' }}
