@@ -18,6 +18,7 @@ if (session)
 
        <ul className="headerLinks">
          <li><Link href="/profile" className="links mt-3 pr-4"><b>Profile</b></Link></li>
+         <li><Link href="/logout" className="links mt-3 pr-4"><b>Logout</b></Link></li>
          <li><Link href="https://github.com/tllarr1/Illustrators.git" target="_blank" className="text-blue-500 mt-3 pr-4"><i className="bi bi-github github-icon"></i></Link></li>
 
        </ul>
