@@ -1,37 +1,53 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import Header from "../components/Header/Header.jsx";
-import { usePlayer } from "@/lib/hooks/usePlayer";
-import ButtonSound from '../components/ButtonSound/ButtonSound.jsx'
+import { redirect, useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { usePlayer } from '@/lib/hooks/usePlayer';
 
 export default function LobbyPage() {
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState('');
   const router = useRouter();
-  const { player, loading } = usePlayer();
+  const { player, loading, setPlayerName } = usePlayer();
 
-  const handleJoin = (e: React.FormEvent) => {
+  const handleJoin = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!player?.name.trim()) {
-      alert("Please enter a nickname");
+      alert('Please enter a nickname');
+      return;
+    }
+
+    if (!code.trim()) {
+      alert('Please enter a lobby code');
+      return;
+    }
+
+    // Check if lobby exists before redirecting
+    const res = await fetch(`/api/lobby/${code}`);
+    if (!res.ok) {
+      alert('Lobby not found. Please check the code and try again.');
       return;
     }
 
     router.push(`/game/${code}`);
   };
 
+
+  const handleGoHome = () => {
+    redirect('/');
+  }
+
   const handleCreate = async () => {
     if (!player?.name.trim()) {
-      alert("Please enter a nickname");
+      alert('Please enter a nickname');
       return;
     }
 
-    const res = await fetch("/api/lobby", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const res = await fetch('/api/lobby', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        name: "Untitled Lobby",
+        name: 'Untitled Lobby',
         players: [{ id: player.id, name: player.name.trim() }],
         createdAt: new Date().toISOString(),
         gameStarted: false,
@@ -43,53 +59,41 @@ export default function LobbyPage() {
     if (res.ok && data._id) {
       router.push(`/game/${data._id}`);
     } else {
-      alert("Failed to create lobby. Try again.");
-      console.error("Create lobby error:", data);
+      alert('Failed to create lobby. Try again.');
+      console.error('Create lobby error:', data);
     }
   };
 
-  if (loading || !player)
-    return <p className="text-center p-8">Checking session...</p>;
+  if (loading || !player) return <p className="text-center p-8">Checking session...</p>;
 
   return (
-<> 
-<ButtonSound> 
-    
-    <div className="bg-container">
-      
-      <main className="min-h-screen flex flex-col items-center justify-center p-8 text-center">
-        <h1 className="text-4xl font-bold mb-6 text-white">
-          Join or Create a Lobby
-        </h1>
+    <main className="min-h-screen flex flex-col items-center justify-center p-8 text-center">
 
-        <div className="flex flex-col gap-2 w-full max-w-sm mb-6">
+      <div className="flex flex-col gap-2 w-full max-w-sm mb-6 bg-white p-3 rounded">
+        <h1 className="text-4xl font-bold mb-6 text-blue-500">Join or Create a Lobby</h1>
+        <input
+          type="text"
+          placeholder="Enter Your Nickname"
+          value={player.name}
+          onChange={(e) => setPlayerName(e.target.value)}
+          className="border px-4 py-2 rounded"
+        />
+
+        <form onSubmit={handleJoin} className="flex flex-col gap-2">
           <input
             type="text"
-            placeholder="Enter Your Nickname"
-            value={player.name}
-            onChange={(e) => {
-              const newName = e.target.value;
-              localStorage.setItem("guestName", newName);
-            }}
-            className="border-3 border-black px-4 py-2 rounded placeholder-black text-black bg-gray-100"
+            placeholder="Enter Lobby Code"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            className="border px-4 py-2 rounded"
           />
-
-          <form onSubmit={handleJoin} className="flex flex-col gap-2">
-            <input
-              type="text"
-              placeholder="Enter Lobby Code"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              className="border-3 border-black px-4 py-2 rounded placeholder-black text-black bg-gray-100"
-            />
-            <button
-              type="submit"
-              className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700  cursor-pointer"
-            >
-              Join Lobby
-            </button>
-          </form>
-        </div>
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 cursor-pointer"
+          >
+            Join Lobby
+          </button>
+        </form>
 
         <button
           onClick={handleCreate}
@@ -97,9 +101,14 @@ export default function LobbyPage() {
         >
           Create New Lobby
         </button>
-      </main>
-    </div>
-  </ButtonSound>
-    </>
+
+        <button
+          onClick={handleGoHome}
+          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 cursor-pointer mt-5"
+          >
+            Return Home
+          </button>
+      </div>
+    </main>
   );
 }

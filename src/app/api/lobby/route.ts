@@ -15,9 +15,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const data = await req.json();
-
-    // Only keep relevant fields for the lobby document
-    const { name, createdAt, gameStarted, hostId } = data;
+    const { name, createdAt = new Date(), gameStarted = false, hostId } = data;
 
     const newLobby = await Lobby.create({
       name,

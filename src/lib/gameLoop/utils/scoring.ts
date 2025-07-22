@@ -1,21 +1,27 @@
 /**
- * Scoring Helpers — Utility functions for calculating points and comparing guesses.
- *
- * This file contains helper functions for cleaning up player guesses,
- * calculating score bonuses, and ensuring consistent scoring logic.
- *
- * Used by "gameLogic.ts" during each guess evaluation.
+ * Location: src/lib/gameLoop/utils/scoring.ts
+ * @file scoring.ts
+ * @description
+ * Scoring Helpers - Utility functions for calculating player points and comparing guesses.
+ * 
+ * This file provides helper functions used in the game logic to: 
+ * - Normalize player guesses
+ * - Calculate time-based and bonus-based scoring
+ * - Determine how close a guess is to the current word
+ * 
+ * Used by TurnManager during guess evaluation and round scoring.
  */
 
 
 /**
- * Cleans up a player's guess to make it easier to compare against the correct word.
+ * Cleans a player's guess to make it easier to compare.
+ * 
  * - Converts to lowercase
- * - Trims whitespace
+ * - Trims leading/trailing whitespace
  * - Removes basic punctuation
- *
- * @param input - The player's guess
- * @returns A cleaned version of the guess
+ * 
+ * @param input - The raw player guess string
+ * @returns A normalized (clean) version of the guess string
  */
 export function cleanGuess(input: string): string {
     return input
@@ -47,7 +53,7 @@ export function getPointsForCorrectGuess({
     firstBonusMultiplier?: number;
 }): number {
     if (guessesSoFar === 0) {
-        // First correct guesser gets base + bonus
+        // first correct guesser gets base + bonus
         return Math.floor((basePoints + timeLeft) * firstBonusMultiplier);
     }
 
@@ -59,8 +65,8 @@ export function getPointsForCorrectGuess({
  * Calculates how many single-character edits (insertions, deletions, substitutions)
  * are required to turn string 'a' into string 'b'.
  *
- * Levenshtein distance
- * https://www.30secondsofcode.org/js/s/levenshtein-distance/ 
+ * Levenshtein distance:
+ * https://www.30secondsofcode.org/js/s/levenshtein-distance/
  * Used to detect if a guess is "close" to the correct answer.
  *
  * @param a - The player's guess (lowercased, trimmed)
@@ -68,9 +74,9 @@ export function getPointsForCorrectGuess({
  * @returns The number of single-character edits between 'a' and 'b'
  *
  * Example:
- *   wordDistance("apple", "appl") = 1
- *   wordDistance("apple", "apple") = 0
- *   wordDistance("apple", "banana") = 5
+ *   wordDistance("apple", "appl") => 1
+ *   wordDistance("apple", "apple") => 0
+ *   wordDistance("apple", "banana") => 5
  */
 export function wordDistance(a: string, b: string): number {
     const matrix = Array.from({ length: a.length + 1 }, () => new Array(b.length + 1).fill(0));
