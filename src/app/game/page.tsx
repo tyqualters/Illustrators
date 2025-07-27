@@ -1,11 +1,14 @@
 import { LocalGameCanvas } from "./canvas";
 import "./game.css";
 import Header from "../components/Header/Header.jsx";
-import Image from "next/image";
+import IllustratorsLogo from "../components/IllustratorsLogo/IllustratorsLogo";
 
+import Image from "next/image";
+ 
 export default function Game() {
   return (
     <div className="bg-container">
+      <IllustratorsLogo/> 
       <Header />
 
       <div className="flex items-center flex-col w-screen h-screen">

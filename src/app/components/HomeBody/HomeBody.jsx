@@ -16,7 +16,7 @@ function HomeBody() {
 <ButtonSound> 
         <div className="flex flex-col items-center justify-center">
         
-        <Link  className="titleLogo" href='/'><Image src="/IllustratorsMainTitleCard.png" width={1500} height={300} alt="Illustrators Main Title"/></Link>
+        <Link href='\'><Image src="/IllustratorsMainTitleCard.png" className="titleLogo" width={1500} height={300} alt="Illustrators Main Title"/></Link>  
     
 
         <Link href="/lobby" className="play-btn pulse-hover"><Image src="/playButton.png" width={450} height={0} alt="Play Button"/></Link>
@@ -30,7 +30,7 @@ function HomeBody() {
 
         <div><InfoCard  title='1' content='4'/></div> 
 
-        <div><InfoCard  title='2' content='5'/></div> 
+        <div><InfoCard title='2' content='5'/></div> 
 
         </div>
 
