@@ -31,6 +31,17 @@ export const _verifySession = cache(async () => {
   return true;
 })
 
+export const getUserId = (async () => {
+  const cookie = (await cookies()).get('session')?.value;
+  const session = await decrypt(cookie);
+
+  if(!session?.userId) {
+    return null;
+  } else {
+    return session.userId;
+  }
+});
+
 export const getUser = cache(async () => {
   const session = await verifySession()
   if (!session) return null

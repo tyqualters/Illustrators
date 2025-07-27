@@ -40,39 +40,40 @@ export default function SignupForm() {
         //     Sign Up
         //   </button>
         // </form>
-        <div className="bg-container">
-            <form action={action} className="max-w-md mx-auto mt-8 p-6 bg-white rounded-2xl shadow-md space-y-6">
-                <h2 className="text-2xl font-bold text-gray-800 text-center">Sign Up</h2>
+        <div className="bg-container flex items-center justify-center min-h-[75vh]">
+            <form action={action} className="formProperties bg-black w-9/10 md:w-1/2 mx-auto mt-8 p-6 rounded-2xl space-y-6">
+                <h2 className="text-4xl font-bold text-white text-center">Sign Up</h2>
 
                 <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+                    <label htmlFor="name" className="block text-sm font-medium text-white font-bold">Name</label>
                     <input
                         id="name"
                         name="name"
                         placeholder="Name"
-                        className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 px-4 py-2"
+                        className="mt-1 block w-full rounded-xl border border-blue-300 placeholder-blue-400 text-white bg-transparent focus:border-blue-400 px-4 py-2"
                     />
                     {state?.errors?.name && <p className="text-sm text-red-500 mt-1">{state.errors.name}</p>}
                 </div>
 
                 <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+                    <label htmlFor="email" className="block text-sm font-medium text-white font-bold">Email</label>
                     <input
                         id="email"
                         name="email"
                         placeholder="Email"
-                        className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 px-4 py-2"
+                        className="mt-1 block w-full rounded-xl border border-blue-300 placeholder-blue-400 text-white bg-transparent focus:border-blue-400 px-4 py-2"
                     />
                     {state?.errors?.email && <p className="text-sm text-red-500 mt-1">{state.errors.email}</p>}
                 </div>
 
                 <div>
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+                    <label htmlFor="password" className="block text-sm font-medium text-white font-bold">Password</label>
                     <input
                         id="password"
                         name="password"
                         type="password"
-                        className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 px-4 py-2"
+                        placeholder="Password"
+                        className="mt-1 block w-full rounded-xl border border-blue-300 placeholder-blue-400 text-white bg-transparent focus:border-blue-400 px-4 py-2"
                     />
                     {state?.errors?.password && (
                         <div className="text-sm text-red-500 mt-1">
@@ -93,8 +94,8 @@ export default function SignupForm() {
                 >
                     {pending ? 'Signing Up...' : 'Sign Up'}
                 </button>
-                <p>Already have an account? <Link href="/login" className="text-blue-500">Login</Link></p>
-                <p>Return <Link href="/" className="text-blue-500">Home</Link>.</p>
+                <p className="text-white font-bold">Already have an account? <Link href="/login" className="text-blue-300 hover:text-blue-400">Login</Link></p>
+                <p className="text-white font-bold">Return <Link href="/" className="text-blue-300 hover:text-blue-400">Home</Link></p>
             </form>
         </div>
     );

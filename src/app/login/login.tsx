@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 import type { FormState } from '@/lib/definitions';
 
 
-
 export default function LoginForm() {
   const router = useRouter();
 
@@ -25,19 +24,19 @@ export default function LoginForm() {
   );
 
   return (
-    <div className="bg-container">
-      <form action={formAction} className="max-w-md mx-auto mt-8 p-6 bg-white rounded-2xl shadow-md space-y-6">
-        <h2 className="text-2xl font-bold text-gray-800 text-center">Login</h2>
+    <div className="bg-container flex items-center justify-center min-h-[75vh]">
+      <form action={formAction} className="formProperties bg-black w-9/10 md:w-1/2 mx-auto mt-8 p-6 rounded-2xl space-y-6">
+        <h2 className="text-4xl font-bold text-white text-center">Login</h2>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+          <label htmlFor="email" className="block text-sm font-medium text-white font-bold">Email</label>
           <input
             id="email"
             name="email"
             type="email"
             placeholder="Email"
             required
-            className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 px-4 py-2"
+            className="mt-1 block w-full rounded-xl border border-blue-300 placeholder-blue-400 text-white bg-transparent focus:border-blue-400  px-4 py-2"
           />
           {state?.errors?.email && (
             <p className="text-sm text-red-500 mt-1">{state.errors.email}</p>
@@ -45,13 +44,14 @@ export default function LoginForm() {
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+          <label htmlFor="password" className="block text-sm font-medium text-white font-bold">Password</label>
           <input
             id="password"
             name="password"
             type="password"
+            placeholder="Password"
             required
-            className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 px-4 py-2"
+            className="mt-1 block w-full rounded-xl border border-blue-300 placeholder-blue-400 text-white bg-transparent focus:border-blue-400 px-4 py-2"
           />
           {state?.errors?.password && (
             <div className="text-sm text-red-500 mt-1">
@@ -73,14 +73,14 @@ export default function LoginForm() {
           type="submit"
           className="cursor-pointer w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition"
         >
-          Login
+          Login 
         </button>
 
-        <p>
-          Don&apos;t have an account?{' '}
-          <Link href="/sign-up" className="text-blue-500">Register</Link>
+        <p className="text-white font-bold">
+          Don&apos;t have an account?{' '} 
+          <Link href="/sign-up" className="text-blue-300 hover:text-blue-400">Register</Link>
         </p>
-        <p>Return <Link href="/" className="text-blue-500">Home</Link>.</p>
+        <p className="text-white font-bold">Return <Link href="/" className="text-blue-300 hover:text-blue-400">Home</Link></p>
       </form>
     </div>
   );
