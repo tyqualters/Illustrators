@@ -24,6 +24,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import GetRandomUUID from './getRandomUUID';
 
 // Shared player shape for both guests and logged in users
 interface Player {
@@ -63,7 +64,7 @@ export function usePlayer() {
 
       // if not guestId exists, generate one
       if (!guestId) {
-        guestId = `guest-${crypto.randomUUID()}`;
+        guestId = `guest-${await GetRandomUUID()}`;
         localStorage.setItem('guestId', guestId);
       }
 
