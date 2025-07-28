@@ -2,6 +2,9 @@
     position: relative;
     margin-top: 50px;
     margin-bottom: 50px;
+    margin-left:auto;
+    margin-right:auto;
+    max-width:90%;
 }
 
 .pulse-hover {
@@ -47,9 +50,10 @@
  
 }
 
-@media screen and (max-width:600px ) {
+@media screen and (max-width:800px ) {
     .play-btn{
-        width:200px;
+        width:25%;
+        min-width: 35%;
     }
 
     .InfoCardStyle
@@ -57,9 +61,11 @@
       flex-direction: column;
       align-items: center;
       padding-bottom:20px;
+      max-width: 70%;
+      
       
      
     }
-
-     
+  
 }
+

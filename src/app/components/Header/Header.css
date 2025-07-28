@@ -2,7 +2,7 @@
     background-color: black;
     border:3px solid blue;
     outline:thin ridge red;
-    height:90px;
+    height:5em;
     display:flex;
     align-items:center;
 
@@ -55,17 +55,17 @@ keep the font-size to 30px*/
   text-decoration-color:white;
 }
 
+
+
 .dropdown-content {
   display: none;
   position: absolute;
   background-color: black;
-  min-width: 160px;
+  min-width:13%;
+  max-width:13%;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   font-weight:bold;
-  
-  
-
 }
 
 .dropdown-content a {

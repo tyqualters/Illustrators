@@ -6,6 +6,7 @@ import Header from '@/app/components/Header/Header.jsx'
 import IllustratorsLogo from '@/app/components/IllustratorsLogo/IllustratorsLogo';
 import {headers} from 'next/headers';
 import Image from 'next/image';
+import Laser from '@/app/components/Laser/Laser';
  
 
 interface ProfileProps {
@@ -40,8 +41,9 @@ export default async function Profile({ params }: ProfileProps) {
 
     return (
         <>
-            <Header/>
-            <IllustratorsLogo/>
+      <Laser/>
+      <Header/>
+      <IllustratorsLogo/>
 
 
     
