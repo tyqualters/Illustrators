@@ -3,7 +3,8 @@ import Link from 'next/link';
 import Image from 'next/image'
 import './HomeBody.css';
 import InfoCard from "../InfoCard/InfoCard.jsx";
-import ButtonSound from '../ButtonSound/ButtonSound';
+import IllustratorsLogo from '../IllustratorsLogo/IllustratorsLogo';
+
 
 function HomeBody() {
  
@@ -13,10 +14,10 @@ function HomeBody() {
     <> 
 
 
-<ButtonSound> 
+
         <div className="flex flex-col items-center justify-center">
         
-        <Link href='\'><Image src="/IllustratorsMainTitleCard.png" className="titleLogo" width={1500} height={300} alt="Illustrators Main Title"/></Link>  
+        <IllustratorsLogo/>
     
 
         <Link href="/lobby" className="play-btn pulse-hover"><Image src="/playButton.png" width={450} height={0} alt="Play Button"/></Link>
@@ -33,8 +34,6 @@ function HomeBody() {
         <div><InfoCard title='2' content='5'/></div> 
 
         </div>
-
-    </ButtonSound>
     </>
 
     )

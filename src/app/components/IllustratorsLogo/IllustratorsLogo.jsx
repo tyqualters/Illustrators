@@ -7,7 +7,7 @@ function IllustratorsLogo() {
 
 
     return(   
-        <Link href='\'><Image src="/IllustratorsMainTitleCard.png" className="titleLogoFloat" width={1500} height={300} alt="Illustrators Main Title"/></Link> 
+        <Link href='\'><Image src="/IllustratorsMainTitleCard.png" className="titleLogo" width={1500} height={300} alt="Illustrators Main Title"/></Link> 
     )
 
 }

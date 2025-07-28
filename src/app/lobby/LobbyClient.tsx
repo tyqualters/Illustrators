@@ -4,8 +4,7 @@ import { redirect, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { usePlayer } from '@/lib/hooks/usePlayer';
 import IllustratorsLogo from '../components/IllustratorsLogo/IllustratorsLogo'
-
-import './LobbyClient.css'
+ 
 
 
 export default function LobbyClient() {
@@ -104,7 +103,7 @@ export default function LobbyClient() {
 
         <button
           onClick={handleCreate}
-          className="w-full bg-yellow-600 text-white px-6 py-3 rounded-xl hover:bg-yellow-700 cursor-pointer"
+          className="w-full text-white px-6 py-3 rounded-xl bg-yellow-600 hover:bg-yellow-700 cursor-pointer"
         >
           Create New Lobby
         </button>

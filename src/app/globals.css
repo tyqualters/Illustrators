@@ -18,8 +18,17 @@ body
   background-size:cover;
   background-position: center center;
 
-  cursor: url('/Cursor/Galagaship.png')16 16, auto; 
+  cursor: url('/Cursor/Galagaship.png')16 16, auto;
+  overflow-y: hidden;
+   
 }
+
+:hover
+{
+  cursor: url('/Cursor/Galagaship.png')16 16, auto;
+}
+
+
 
 @media screen and (max-width:600px ) {
     body

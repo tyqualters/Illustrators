@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import './Header.css';
-import ButtonSound from '../ButtonSound/ButtonSound';
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { _verifySession as getSession } from '@/lib/dal';
 
@@ -21,6 +20,7 @@ if (session)
    
       <li className="dropdown">
               <Link href="/login" className="dropbtn"><b>Account</b><i className="bi bi-caret-down-fill"></i></Link>
+            
             <div className="dropdown-content">
               <Link href="/profile"><img src="/profile.png" alt="profile" /></Link>
               <Link href="/lobby"><img src="/lobby.png" alt="lobby" /></Link>
@@ -36,7 +36,7 @@ if (session)
 }
 else 
 {
- return(<ButtonSound> 
+ return(  
     <div className="headerStyles">
       
       <Link href="/"><img src="/pfpfallback.png" className="headerImage" alt="Illustrators Logo" title='Home' /></Link>
@@ -59,7 +59,7 @@ else
 
     </div>
      
-  </ButtonSound>);
+   );
 }
 }
 

@@ -4,8 +4,9 @@
 // import { redirect } from 'next/navigation';
 import Header from '@/app/components/Header/Header.jsx'
 import IllustratorsLogo from '@/app/components/IllustratorsLogo/IllustratorsLogo';
+import Image from 'next/image';
+import Laser from '@/app/components/Laser/Laser';
 import { headers } from 'next/headers';
-// import Image from 'next/image';
 import UpdateProfileForm from './update';
 import { getUserId, getUser } from '@/lib/dal';
 async function IsUserProfile(userId: string) {
@@ -52,8 +53,22 @@ export default async function Profile({ params }: ProfileProps) {
 
     return (
         <>
-            <Header />
-            <IllustratorsLogo />
+
+      <Laser/>
+      <Header/>
+      <IllustratorsLogo/>
+
+
+    
+    <main className="bg-container flex items-center justify-center min-h-[75vh]">
+
+      <div className="formProperties bg-black w-9/10 md:w-1/2 mx-auto mt-8 p-6 rounded-2xl space-y-6">
+        <div className="text-4xl font-bold text-white text-center">
+          Edit {username}'s Profile
+        </div>
+
+            
+
 
 
 

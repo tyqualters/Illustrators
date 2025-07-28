@@ -11,6 +11,8 @@ import { canSeeMessage } from '@/lib/gameLoop/utils/chat';
 import { GameSettings } from '@/lib/gameLoop/state/gameState';
 import Link from 'next/link';
 import ProfilePicture from '@/app/components/ProfilePicture';
+import Profile from '@/app/profile/page';
+
 
 
 interface Player {
@@ -532,20 +534,21 @@ export default function GameRoomPage() {
                 ) : (
                   p.name
                 )}
+                
               </li>
             ))}
           </ul>
           <button
             onClick={handleGoHome}
-            className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 cursor-pointer m-2"
+            className="bg-blue-600 text-white px-6 py-3 rounded bg-indigo-600 hover:bg-indigo-700 cursor-pointer m-2"
           >
             Go Back
           </button>
           {player.id === hostId && (
-            <div className="text-left border p-4 mt-4 rounded bg-gray-50">
-              <h3 className="font-bold text-lg mb-2">Game Settings</h3>
+            <div className="text-left border p-4 formProperties bg-black w-9/10 md:w-1/2 mx-auto mt-8 p-6 rounded-2xl space-y-6">
+              <h3 className="font-bold text-lg mb-2 text-white">Game Settings</h3>
 
-              <label className="block mb-2">
+              <label className="block mb-2 text-white">
                 Rounds (min 3, max 6):
                 <input
                   type="number"
@@ -559,11 +562,11 @@ export default function GameRoomPage() {
                       totalRounds: Math.max(3, Math.min(6, Number(e.target.value))),
                     })
                   }
-                  className="w-full border px-2 py-1 rounded"
+                  className="w-full border px-2 py-1 rounded border-blue-300 placeholder-blue-400 focus:border-blue-400"
                 />
               </label>
 
-              <label className="block mb-2">
+              <label className="block mb-2 text-white">
                 Drawing Time (seconds, min 30, max 180):
                 <input
                   type="number"
@@ -577,33 +580,35 @@ export default function GameRoomPage() {
                       drawingTime: Math.max(30, Math.min(180, Number(e.target.value))),
                     })
                   }
-                  className="w-full border px-2 py-1 rounded"
+                  className="w-full border px-2 py-1 rounded border-blue-300 placeholder-blue-400 focus:border-blue-400"
                 />
               </label>
 
-              <label className="block mb-2">
+              <label className="block mb-2 text-white">
                 Difficulty:
                 <select
                   value={settings.difficulty}
                   onChange={(e) => setSettings({ ...settings, difficulty: e.target.value as 'easy' | 'medium' | 'hard' })}
-                  className="w-full border px-2 py-1 rounded"
+                  className="w-full border px-2 py-1 rounded border-blue-300 placeholder-blue-400 focus:border-blue-400"
                 >
-                  <option value="easy">Easy</option>
-                  <option value="medium">Medium</option>
-                  <option value="hard">Hard</option>
+                  <option value="easy" className="text-black">Easy</option>
+                  <option value="medium" className="text-black">Medium</option>
+                  <option value="hard" className="text-black">Hard</option>
+                
+                   
                 </select>
               </label>
 
               <button
                 onClick={saveSettings}
-                className="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer mr-2"
+                className="mt-2 bg-blue-600 text-white px-4 py-2 rounded bg-yellow-600 hover:bg-yellow-700 cursor-pointer mr-2"
               >
                 Save Settings
               </button>
 
               <button
                 onClick={handleStartGame}
-                className="mt-4 bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 cursor-pointer"
+                className="mt-4 bg-green-600 text-white px-6 py-2 rounded bg-indigo-600 hover:bg-indigo-700 cursor-pointer"
               >
                 Start Game
               </button>
