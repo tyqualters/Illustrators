@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { canSeeMessage } from '@/lib/gameLoop/utils/chat';
 import { GameSettings } from '@/lib/gameLoop/state/gameState';
 import Link from 'next/link';
+import ProfilePicture from '@/app/components/ProfilePicture';
 
 
 interface Player {
@@ -525,6 +526,7 @@ export default function GameRoomPage() {
           <ul className="mb-4">
             {players.map((p, i) => (
               <li key={i} className="text-white">
+            <ProfilePicture userId={player.id} size={32} className="inline-block mr-3" />
                 {p.name === player.name ? (
                   <strong>{p.name} (You)</strong>
                 ) : (
