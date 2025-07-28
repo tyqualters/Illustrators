@@ -1,13 +1,17 @@
 
 
- import ProfilePicture from '@/app/components/ProfilePicture';
+// import ProfilePicture from '@/app/components/ProfilePicture';
 // import { redirect } from 'next/navigation';
 import Header from '@/app/components/Header/Header.jsx'
 import IllustratorsLogo from '@/app/components/IllustratorsLogo/IllustratorsLogo';
-import {headers} from 'next/headers';
 import Image from 'next/image';
 import Laser from '@/app/components/Laser/Laser';
- 
+import { headers } from 'next/headers';
+import UpdateProfileForm from './update';
+import { getUserId, getUser } from '@/lib/dal';
+async function IsUserProfile(userId: string) {
+    return (await getUserId() ?? '') == userId;
+}
 
 interface ProfileProps {
     params: {
@@ -15,11 +19,10 @@ interface ProfileProps {
     };
 }
 
-
 export default async function Profile({ params }: ProfileProps) {
     const { id } = await params;
 
-    let username: string = "Unknown", imageUrl = '/pfpfallback.png';
+    let username: string = "Unknown", email: string = "Unknown", imageUrl: string = '/pfpfallback.png';
 
     const headersList = await headers();
     const host = headersList.get('x-forwarded-host') || headersList.get('host');
@@ -32,15 +35,25 @@ export default async function Profile({ params }: ProfileProps) {
     } else {
         const data = await response.json();
         username = data.name ?? username;
-        imageUrl = (data?.gravatar) ? `${data.gravatar}?s=256`: imageUrl;
+        imageUrl = (data?.gravatar) ? `${data.gravatar}?s=256` : imageUrl;
     }
-  //<div className="flex items-center justify-center">
-               // <Image src={imageUrl} alt="Profile Picture" width={128} height={128} className="block m-2" />
-              //  <h1 className="text-3xl text-white font-extrabold m-2">{username}</h1>
-           // </div>
+    //<div className="flex items-center justify-center">
+    // <Image src={imageUrl} alt="Profile Picture" width={128} height={128} className="block m-2" />
+    //  <h1 className="text-3xl text-white font-extrabold m-2">{username}</h1>
+    // </div>
+
+    const isUserProfile = await IsUserProfile(id);
+
+    if(isUserProfile) {
+        const user = await getUser();
+        if(user) {
+            email = user.email
+        }
+    }
 
     return (
         <>
+
       <Laser/>
       <Header/>
       <IllustratorsLogo/>
@@ -54,27 +67,16 @@ export default async function Profile({ params }: ProfileProps) {
           Edit {username}'s Profile
         </div>
 
-      <h2 className="block text-sm font-medium text-white font-bold">Display Name</h2>
-      <div className="w-1/2 mt-0 flex items=center justify-between rounded-xl border border-blue-300 placeholder-blue-400 text-white bg-transparent focus:border-blue-400 px-4 py-2">
-        <p>{username}</p>
-        <p className='text-blue' ><i className="bi bi-pencil-square  "></i></p> 
-      </div>
+            
 
-      <h2 className="block text-sm font-medium text-white font-bold">Email</h2>
-      <div className="w-1/2 mt-0 flex items=center justify-between rounded-xl border border-blue-300 placeholder-blue-400 text-white bg-transparent focus:border-blue-400 px-4 py-2">
-        <p>{ }</p>
-        <p className='text-blue' ><i className="bi bi-pencil-square  "></i></p> 
-      </div>
 
-       <h2 className="block text-sm font-medium text-white font-bold">Password</h2>
-      <div className="w-1/2 mt-0 flex items=center justify-between rounded-xl border border-blue-300 placeholder-blue-400 text-white bg-transparent focus:border-blue-400 px-4 py-2">
-        <p>{ }</p>
-        <p className='text-blue' ><i className="bi bi-pencil-square  "></i></p> 
-      </div>
 
-      </div>
 
-    </main>
+            <main className="bg-container flex items-center justify-center min-h-[75vh]">
+
+                {isUserProfile && <UpdateProfileForm username={username} email={email} userId={id} />}
+
+            </main>
         </>
     );
 }

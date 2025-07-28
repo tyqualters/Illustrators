@@ -24,6 +24,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import GetRandomUUID from './getRandomUUID';
 
 // Shared player shape for both guests and logged in users
 interface Player {
@@ -46,24 +47,24 @@ export function usePlayer() {
           setPlayer({ id: user.id, name: user.name });
         } else {
           // fallback to guest if session is missing 
-          fallbackToGuest();
+          await fallbackToGuest();
         }
       } catch (err) {
         // error means session likely invalid, fallback to guest
-        fallbackToGuest();
+        await fallbackToGuest();
       } finally {
         setLoading(false);
       }
     }
 
     // Fallback guest login (stored in localStorage)
-    function fallbackToGuest() {
+    async function fallbackToGuest() {
       let guestId = localStorage.getItem('guestId');
       const guestName = localStorage.getItem('guestName') || 'Guest';
 
       // if not guestId exists, generate one
       if (!guestId) {
-        guestId = `guest-${crypto.randomUUID()}`;
+        guestId = `guest-${await GetRandomUUID()}`;
         localStorage.setItem('guestId', guestId);
       }
 

@@ -14,6 +14,7 @@ import ProfilePicture from '@/app/components/ProfilePicture';
 import Profile from '@/app/profile/page';
 
 
+
 interface Player {
   id: string;
   name: string;
@@ -527,6 +528,7 @@ export default function GameRoomPage() {
           <ul className="mb-4">
             {players.map((p, i) => (
               <li key={i} className="text-white">
+            <ProfilePicture userId={player.id} size={32} className="inline-block mr-3" />
                 {p.name === player.name ? (
                   <strong>{p.name} (You)</strong>
                 ) : (
