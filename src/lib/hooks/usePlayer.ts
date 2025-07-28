@@ -47,18 +47,18 @@ export function usePlayer() {
           setPlayer({ id: user.id, name: user.name });
         } else {
           // fallback to guest if session is missing 
-          fallbackToGuest();
+          await fallbackToGuest();
         }
       } catch (err) {
         // error means session likely invalid, fallback to guest
-        fallbackToGuest();
+        await fallbackToGuest();
       } finally {
         setLoading(false);
       }
     }
 
     // Fallback guest login (stored in localStorage)
-    function fallbackToGuest() {
+    async function fallbackToGuest() {
       let guestId = localStorage.getItem('guestId');
       const guestName = localStorage.getItem('guestName') || 'Guest';
 
