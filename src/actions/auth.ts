@@ -25,7 +25,6 @@ export async function signup(state: FormState, formData: FormData) {
 
   try {
     await connectDB();
-    console.log('fml i hate coding sm');
 
     const { name, email, password } = validatedFields.data;
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -37,7 +36,7 @@ export async function signup(state: FormState, formData: FormData) {
 
     // supports guest login
     await createSession(newUser._id.toString(), newUser.name);
-    redirect('/profile');
+
   } catch (err: unknown) {
     console.error('User creation failed:', err);
 
@@ -54,6 +53,8 @@ export async function signup(state: FormState, formData: FormData) {
       message: 'Signup failed. Please try again.',
     };
   }
+
+   redirect('/profile');
 
 }
 
@@ -85,7 +86,7 @@ export async function login(state: FormState, formData: FormData): Promise<FormS
 
   try {
     await connectDB();
-    console.log('fml i hate coding sm');
+ 
 
     const { email, password } = validatedFields.data;
     const user = await authenticateUser(email, password);

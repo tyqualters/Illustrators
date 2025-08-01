@@ -15,7 +15,7 @@ export default function UpdateProfileForm({ username, email, userId }: UpdatePro
 
 
     return (
-        <div className="formProperties bg-black w-9/10 md:w-1/2 mx-auto mt-8 p-6 rounded-2xl space-y-6 mb-4">
+        <div className="formProperties bg-black w-11/12 md:w-1/2 mx-auto mt-8 p-6 rounded-2xl space-y-6 mb-4">
                     <div className="text-4xl font-bold text-white text-center">
                         Edit {username}'s Profile
                     </div>
@@ -23,7 +23,7 @@ export default function UpdateProfileForm({ username, email, userId }: UpdatePro
                     {/* Update Username and Email */}
                     <form action={useraction} className="space-y-4 mb-6">
                         <h2 className="block text-sm font-medium text-white font-bold">Display Name</h2>
-                        <div className="w-1/2 flex items-center justify-between rounded-xl border border-blue-300 placeholder-blue-400 text-white bg-transparent focus-within:border-blue-400 px-4 py-2">
+                        <div className="w-full flex items-center justify-between rounded-xl border border-blue-300 placeholder-blue-400 text-white bg-transparent focus-within:border-blue-400 px-4 py-2">
                             <input type="hidden"
                                 name="userId"
                                 value={userId}

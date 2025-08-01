@@ -13,6 +13,8 @@ import Link from 'next/link';
 import ProfilePicture from '@/app/components/ProfilePicture';
 import Profile from '@/app/profile/page';
 
+import './GameRoomPage.css'
+
 
 
 interface Player {
@@ -408,7 +410,7 @@ export default function GameRoomPage() {
   };
 
   const handleGoHome = () => {
-    redirect('/');
+    redirect('/lobby');
   };
 
   /**
@@ -459,15 +461,15 @@ export default function GameRoomPage() {
     <> 
 
      
-  <main className="min-h-screen p-4 text-center">
+  <main className="p-4 text-center">
    
-      <h1 className="text-3xl font-bold text-indigo-600 mb-4">Lobby: {id}</h1>
+     
 
       {gameEnded ? (
-        <div className="flex flex-row gap-4">
+        <div className="   flex flex-row gap-4">
           {/* Players column */}
-          <div className="w-1/5 text-left border p-2 bg-white rounded">
-            <h4 className="mt-4 font-semibold">Players</h4>
+          <div className="formProperties w-1/5 text-left border p-2 bg-white rounded">
+            <h4 className=" mt-4 font-semibold">Players</h4>
             <ul>
               {[...players]
                 .sort((a, b) => (totalScores[b.id] ?? 0) - (totalScores[a.id] ?? 0))
@@ -490,7 +492,7 @@ export default function GameRoomPage() {
 
           {/* Game Over panel */}
           <div className="w-3/5">
-            <div className="p-4 bg-white border rounded shadow text-left mb-4">
+            <div className="formProperties p-4 bg-white border rounded shadow text-left mb-4">
               <h2 className="text-xl font-bold text-red-500 mb-2">Game Over!</h2>
               <ol className="list-decimal pl-4 text-gray-800">
                 {[...players]
@@ -524,10 +526,17 @@ export default function GameRoomPage() {
         </div>
       ) : !gameStarted ? (
         <div>
-          <p className="text-lg mb-2 text-white">Waiting for players...</p>
-          <ul className="mb-4">
+           
+          <div className='loading'>
+            <p className="text-lg mb-2 text-white">Waiting for players</p>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+
+          <ul className="border rounded border-blue-300 mb-4">
             {players.map((p, i) => (
-              <li key={i} className="text-white">
+              <li key={i} className="  text-white">
             <ProfilePicture userId={player.id} size={32} className="inline-block mr-3" />
                 {p.name === player.name ? (
                   <strong>{p.name} (You)</strong>
@@ -538,15 +547,14 @@ export default function GameRoomPage() {
               </li>
             ))}
           </ul>
-          <button
-            onClick={handleGoHome}
-            className="bg-blue-600 text-white px-6 py-3 rounded bg-indigo-600 hover:bg-indigo-700 cursor-pointer m-2"
-          >
-            Go Back
-          </button>
+          <div className='LobbyCodeText flex items-center justify-center' >
+                <h1 className="text-base md:text-3xl m-5 w-1/2 font-bold text-indigo-600 mb-4 rounded border border-blue-300 placeholder-blue-400 focus:border-blue-400">Lobby (Copy to join): {id}</h1>
+              </div>
+
           {player.id === hostId && (
             <div className="text-left border p-4 formProperties bg-black w-9/10 md:w-1/2 mx-auto mt-8 p-6 rounded-2xl space-y-6">
               <h3 className="font-bold text-lg mb-2 text-white">Game Settings</h3>
+               
 
               <label className="block mb-2 text-white">
                 Rounds (min 3, max 6):
@@ -565,6 +573,8 @@ export default function GameRoomPage() {
                   className="w-full border px-2 py-1 rounded border-blue-300 placeholder-blue-400 focus:border-blue-400"
                 />
               </label>
+
+              
 
               <label className="block mb-2 text-white">
                 Drawing Time (seconds, min 30, max 180):
@@ -593,34 +603,53 @@ export default function GameRoomPage() {
                 >
                   <option value="easy" className="text-black">Easy</option>
                   <option value="medium" className="text-black">Medium</option>
-                  <option value="hard" className="text-black">Hard</option>
-                
-                   
+                  <option value="hard" className="text-black">Hard</option>    
                 </select>
               </label>
+              <h3 className="font-bold text-sm mb-2 text-white">*Save Settings before starting game*</h3>
 
+      <div className=" justify-center mt-4">
               <button
                 onClick={saveSettings}
-                className="mt-2 bg-blue-600 text-white px-4 py-2 rounded bg-yellow-600 hover:bg-yellow-700 cursor-pointer mr-2"
+                className="bg-blue-600 text-white w-full px-6 py-2  rounded-xl bg-indigo-600 hover:bg-indigo-700   mr-2 m-2"
               >
                 Save Settings
               </button>
 
               <button
                 onClick={handleStartGame}
-                className="mt-4 bg-green-600 text-white px-6 py-2 rounded bg-indigo-600 hover:bg-indigo-700 cursor-pointer"
+                className="text-white px-6 py-3 w-full  rounded-xl bg-yellow-600 hover:bg-yellow-700 m-2"
               >
                 Start Game
               </button>
+
+                <button
+              onClick={handleGoHome}
+                className="w-full text-white px-6 py-2  rounded-xl bg-indigo-600 hover:bg-indigo-700 m-2"
+                >
+                  Go Back
+                </button>
+
+              
+      </div>
+
+             
+
             </div>
+            
           )}
+               
+               
 
         </div>
       ) : (
         <div className="flex flex-row gap-4">
           {/* Players column */}
-          <div className="w-1/5 text-left border p-2 bg-white rounded">
-            <h4 className="mt-4 font-semibold">Players</h4>
+
+ 
+          <div className=" formProperties w-1/5 text-left border p-2 bg-white rounded-2xl">
+          
+            <h4 className="mt-4 font-semibold text-white">Players</h4>
             <ul>
               {[...players]
                 .sort((a, b) => (currentTurn?.scores?.[b.id] ?? 0) - (currentTurn?.scores?.[a.id] ?? 0))
@@ -629,13 +658,15 @@ export default function GameRoomPage() {
                   return (
                     <li
                       key={p.id}
-                      className={isYou ? 'text-indigo-500' : 'text-gray-800'}
+                      className={isYou ? 'text-indigo-500' : 'text-orange-600'}
                     >
                       #{index + 1} {p.name}{isYou ? ' (You)' : ''}: {totalScores[p.id] ?? 0} pts
                     </li>
                   );
                 })}
             </ul>
+
+            
           </div>
 
           {/* Main canvas and game view */}
@@ -657,25 +688,29 @@ export default function GameRoomPage() {
 
             {isDrawer && !wordConfirmed && currentTurn?.wordOptions?.length > 0 && (
               <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
-                  <h2 className="text-xl font-semibold mb-4">Choose a word to draw</h2>
+                <div className="formProperties bg-black w-9/10 md:w-1/2 mx-auto mt-8 p-6 rounded-2xl space-y-6">
+                  <h2 className="text-4xl font-bold mb-6 text-white text-center">Choose a word to draw</h2>
                   <div className="flex flex-col gap-2">
                     {currentTurn.wordOptions.map((word: string) => (
                       <button
                         key={word}
                         onClick={() => handleWordSelect(word)}
-                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer"
+                        className="w-full bg-blue-600 text-white px-6 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 mt-2"
                       >
                         {word}
                       </button>
                     ))}
                   </div>
+
+                  
                 </div>
               </div>
             )}
 
             {timeLeft !== null && !roundEnded && (
-              <p className="text-lg text-gray-700 mb-1">Time Left: {timeLeft}s</p>
+              <p className={`text-lg  mb-1 ${timeLeft <= 10 ? 'text-red-700' : 'text-white'}`}>
+                Time Left: {timeLeft}s
+              </p>
             )}
 
             {roundEnded && (
@@ -691,6 +726,7 @@ export default function GameRoomPage() {
                     );
                   })}
                 </ul>
+                
                 <p className="mt-2 text-sm italic text-[#4A4A4A]">Next round starting...</p>
               </div>
             )}
@@ -714,14 +750,16 @@ export default function GameRoomPage() {
                     <p className="text-gray-700 font-semibold">Waiting for drawer to choose a word...</p>
                   </div>
                 )}
+
+                <h1 className="text-3xl font-bold text-indigo-600 mb-4">Lobby: {id}</h1>
               </div>
             )}
           </div>
 
           {/* Guess/chat box */}
-          <div className="w-1/5 border p-2 flex flex-col bg-white rounded">
-            <h3 className="font-bold mb-2">Guesses</h3>
-            <div className="flex-grow overflow-y-auto text-left mb-2 border p-1 h-[300px]">
+          <div className="formProperties w-1/5 border p-2 flex flex-col bg-white rounded">
+            <h3 className="font-bold mb-2 text-white">Guesses</h3>
+            <div className="flex-grow overflow-y-auto text-left mb-2 border border-white p-1 h-[300px]">
               <ul>
                 {messages.map((msg, idx) => {
                   const isSystemMessage = msg.playerId === '__SYSTEM__';
@@ -766,6 +804,7 @@ export default function GameRoomPage() {
             )}
           </div>
         </div>
+
       )}
     </main>
 

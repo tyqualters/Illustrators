@@ -3,15 +3,13 @@ import Header from "./components/Header/Header.jsx"; //Importing the header comp
 import HomeBody from "./components/HomeBody/HomeBody.jsx";
 import Laser from './components/Laser/Laser.jsx';
 
-
-
-
 export default function Home() {
 
   return (
     <>
+    
       <Laser/>
-      <Header />
+      <Header/>
       <HomeBody />
     </>
   );

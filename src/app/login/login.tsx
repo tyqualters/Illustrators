@@ -23,6 +23,15 @@ export default function LoginForm() {
     undefined
   );
 
+
+  const createAccount = () => {
+    router.push('/sign-up');
+  }
+
+   const returnHome = () => {
+    router.push('/');
+  }
+
   return (
     <div className="bg-container flex items-center justify-center min-h-[75vh]">
       <form action={formAction} className="formProperties bg-black w-9/10 md:w-1/2 mx-auto mt-8 p-6 rounded-2xl space-y-6">
@@ -71,16 +80,24 @@ export default function LoginForm() {
 
         <button
           type="submit"
-          className="cursor-pointer w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition"
+          className=" w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition"
         >
           Login 
         </button>
 
-        <p className="text-white font-bold">
-          Don&apos;t have an account?{' '} 
-          <Link href="/sign-up" className="text-blue-300 hover:text-blue-400">Register</Link>
-        </p>
-        <p className="text-white font-bold">Return <Link href="/" className="text-blue-300 hover:text-blue-400">Home</Link></p>
+         <button
+          onClick={createAccount}
+          className="w-full text-white px-6 py-3 font-semibold  rounded-xl bg-yellow-600 hover:bg-yellow-700 "
+        >
+          Create New Account
+        </button>
+
+        <button
+          onClick={returnHome}
+          className="w-full bg-blue-600 text-white px-6 py-2 font-semibold rounded-xl  bg-indigo-600 hover:bg-indigo-700 mt-1"
+          >
+            Return Home
+          </button>
       </form>
     </div>
   );
