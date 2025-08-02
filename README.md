@@ -16,7 +16,9 @@
 This is perfect for:
 - 🎭 Competing with family and friends
 - 🖌️ Practicing your creativity
-- 📊 Tracking performance and stats (coming soon!)
+- ~~📊 Tracking performance and stats (coming soon!)~~
+
+![Demo](/public/demo.gif)
 
 ## ⚙️ Installation
 
