@@ -11,7 +11,7 @@
 
 ## 🚀 Overview
 
-**Illustrators** is an innovative, modern day Pictionary game written in Next.js.
+**Illustrators** is an innovative, modern day Pictionary game made using Next.js.
 
 This is perfect for:
 - 🎭 Competing with family and friends
