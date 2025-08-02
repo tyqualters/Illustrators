@@ -3,7 +3,6 @@
  
 import { signup } from '@/actions/auth';
 import { useActionState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 
@@ -59,7 +58,7 @@ export default function SignupForm() {
                 <h2 className="text-4xl font-bold text-white text-center">Create Account</h2>
 
                 <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-white font-bold">Name</label>
+                    <label htmlFor="name" className="block text-sm text-white font-bold">Name</label>
                     <input
                         id="name"
                         name="name"
@@ -70,7 +69,7 @@ export default function SignupForm() {
                 </div>
 
                 <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-white font-bold">Email</label>
+                    <label htmlFor="email" className="block text-sm text-white font-bold">Email</label>
                     <input
                         id="email"
                         name="email"
@@ -81,7 +80,7 @@ export default function SignupForm() {
                 </div>
 
                 <div>
-                    <label htmlFor="password" className="block text-sm font-medium text-white font-bold">Password</label>
+                    <label htmlFor="password" className="block text-sm text-white font-bold">Password</label>
                     <input
                         id="password"
                         name="password"
@@ -118,7 +117,7 @@ export default function SignupForm() {
 
         <button
           onClick={returnHome}
-          className="w-full bg-blue-600 text-white px-6 py-2 font-semibold rounded-xl  bg-indigo-600 hover:bg-indigo-700 mt-1"
+          className="w-full text-white px-6 py-2 font-semibold rounded-xl  bg-indigo-600 hover:bg-indigo-700 mt-1"
           >
             Return Home
           </button>

@@ -22,10 +22,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import GameState from '@/lib/gameLoop/state/gameState';
 import redis from '@/lib/redis';
+import PrintError from '@/lib/printErr';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }) {
+  { params }: { params: Promise<{ id: string }> }) {
 
   const { id: lobbyId } = await params // this is correct PARAMS ERROR syntax
   const state = await GameState.get(lobbyId);
@@ -37,12 +38,13 @@ export async function GET(
   }
 
   // Load canvas from Redis (if canvas exists)
-  let canvasData: any = null;
+  let canvasData: object | null = null;
   try {
     const canvasJSON = await redis.get(`canvas:${lobbyId}`);
     canvasData = canvasJSON ? JSON.parse(canvasJSON) : null;
-  } catch (err) {
-    console.warn(`[API] Failed to load canvas for ${lobbyId}:`, err);
+  } catch (err: unknown) {
+    PrintError(err);
+    console.warn(`[API] Failed to load canvas for ${lobbyId}`);
   }
 
   // Calculate "timeLeft" from Redis (if timer started)

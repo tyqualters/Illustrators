@@ -14,15 +14,15 @@ async function IsUserProfile(userId: string) {
 }
 
 interface ProfileProps {
-    params: {
+    params: Promise<{
         id: string;
-    };
+    }>;
 }
 
 export default async function Profile({ params }: ProfileProps) {
     const { id } = await params;
 
-    let username: string = "Unknown", email: string = "Unknown", imageUrl: string = '/pfpfallback.png';
+    let username: string = "Unknown", email: string = "Unknown";
 
     const headersList = await headers();
     const host = headersList.get('x-forwarded-host') || headersList.get('host');
@@ -35,7 +35,6 @@ export default async function Profile({ params }: ProfileProps) {
     } else {
         const data = await response.json();
         username = data.name ?? username;
-        imageUrl = (data?.gravatar) ? `${data.gravatar}?s=256` : imageUrl;
     }
     //<div className="flex items-center justify-center">
     // <Image src={imageUrl} alt="Profile Picture" width={128} height={128} className="block m-2" />

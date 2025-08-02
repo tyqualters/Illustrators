@@ -15,7 +15,7 @@ import { GameSettings } from '@/lib/gameLoop/state/gameState';
  * @param param1 - an object with a 'params' property that contains the ID of the lobby to update
  * @returns - a JSON response containing either the updated lobby doc or an error msg
  */
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     //const lobbyId = params.id;
     const { id: lobbyId } = await params; // params fix?
     const body = await req.json(); // expecting settings obj from host

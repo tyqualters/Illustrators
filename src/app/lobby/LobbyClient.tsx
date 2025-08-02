@@ -94,7 +94,7 @@ export default function LobbyClient() {
           />
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white px-6 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 mt-2"
+            className="w-full text-white px-6 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 mt-2"
           >
             Join Lobby
           </button>
@@ -109,7 +109,7 @@ export default function LobbyClient() {
 
         <button
           onClick={handleGoHome}
-          className="w-full bg-blue-600 text-white px-6 py-2 font-semibold rounded-xl  bg-indigo-600 hover:bg-indigo-700 mt-1"
+          className="w-full text-white px-6 py-2 font-semibold rounded-xl  bg-indigo-600 hover:bg-indigo-700 mt-1"
           >
             Return Home
           </button>

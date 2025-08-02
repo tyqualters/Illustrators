@@ -25,6 +25,7 @@
 
 import { useEffect, useState } from 'react';
 import GetRandomUUID from './getRandomUUID';
+import PrintError from '../printErr';
 
 // Shared player shape for both guests and logged in users
 interface Player {
@@ -49,7 +50,8 @@ export function usePlayer() {
           // fallback to guest if session is missing 
           await fallbackToGuest();
         }
-      } catch (err) {
+      } catch (err: unknown) {
+        PrintError(err);
         // error means session likely invalid, fallback to guest
         await fallbackToGuest();
       } finally {

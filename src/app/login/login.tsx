@@ -1,7 +1,6 @@
 'use client';
 
 import { login } from '@/actions/auth';
-import Link from 'next/link';
 import { useActionState } from 'react';
 import { useRouter } from 'next/navigation';
 import type { FormState } from '@/lib/definitions';
@@ -38,7 +37,7 @@ export default function LoginForm() {
         <h2 className="text-4xl font-bold text-white text-center">Login</h2>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-white font-bold">Email</label>
+          <label htmlFor="email" className="block text-sm text-white font-bold">Email</label>
           <input
             id="email"
             name="email"
@@ -53,7 +52,7 @@ export default function LoginForm() {
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-white font-bold">Password</label>
+          <label htmlFor="password" className="block text-sm text-white font-bold">Password</label>
           <input
             id="password"
             name="password"
@@ -94,7 +93,7 @@ export default function LoginForm() {
 
         <button
           onClick={returnHome}
-          className="w-full bg-blue-600 text-white px-6 py-2 font-semibold rounded-xl  bg-indigo-600 hover:bg-indigo-700 mt-1"
+          className="w-full text-white px-6 py-2 font-semibold rounded-xl  bg-indigo-600 hover:bg-indigo-700 mt-1"
           >
             Return Home
           </button>

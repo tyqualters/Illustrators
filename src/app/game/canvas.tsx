@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from 'react';
 
 import * as fabric from 'fabric';
 
+import { Socket } from "socket.io-client";
+
 
 // OLD (Ty's)
 
@@ -184,13 +186,17 @@ export function GameCanvasToolMenu({ canvas, isDrawing }: GameCanvasToolMenuProp
   const updateWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value, 10);
     setBrushWidth(value);
-    canvas?.freeDrawingBrush && (canvas.freeDrawingBrush.width = value);
+    if (canvas?.freeDrawingBrush) {
+      canvas.freeDrawingBrush.width = value;
+    }
   };
 
   const updateColor = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setBrushColor(value);
-    canvas?.freeDrawingBrush && (canvas.freeDrawingBrush.color = value);
+    if (canvas?.freeDrawingBrush) {
+      canvas.freeDrawingBrush.color = value;
+    }
   };
 
   useEffect(() => {
@@ -206,13 +212,13 @@ export function GameCanvasToolMenu({ canvas, isDrawing }: GameCanvasToolMenuProp
         <label htmlFor='drawing-line-width'>
           <p>Line width:<span className="info">{brushWidth}</span></p>
           <input
-          type="range"
-          min="1"
-          max="150"
-          id="drawing-line-width"
-          value={brushWidth}
-          onChange={updateWidth}
-        />
+            type="range"
+            min="1"
+            max="150"
+            id="drawing-line-width"
+            value={brushWidth}
+            onChange={updateWidth}
+          />
         </label>
         <label htmlFor='drawing-color'>
           <p>Line color:</p>
@@ -231,9 +237,9 @@ export function GameCanvasToolMenu({ canvas, isDrawing }: GameCanvasToolMenuProp
 
 type GameCanvasProps = {
   className?: string;
-  socket?: any;
+  socket?: Socket;
   isDrawing?: boolean;
-  loadCanvasData?: any;
+  loadCanvasData?: object | string;
   onCanvasReady?: () => void;
 };
 
@@ -336,14 +342,14 @@ export default function GameCanvas({
     };
 
 
-  }, [socket, isDrawing]); // ensures that when the drawer starts drawing, the canvas will initialize with both isDrawing: true
+  }, [socket, isDrawing, onCanvasReady]); // ensures that when the drawer starts drawing, the canvas will initialize with both isDrawing: true
 
   // Listen for canvas updates from drawer
   // edit: removed || isDrawing since we don't need to check, we should always receive updstes
   useEffect(() => {
     if (!socket) return;
 
-    const handleCanvasUpdate = (data: any) => {
+    const handleCanvasUpdate = (data: object) => {
       const canvas = fabricCanvasRef.current;
       if (!canvas) return;
       console.log('[GUESSER] received canvas-update');
@@ -385,8 +391,8 @@ export default function GameCanvas({
   useEffect(() => {
     if (fabricCanvasRef.current) {
       fabricCanvasRef.current.isDrawingMode = isDrawing;
-      if(isDrawing) {
-        if(toolRef.current)
+      if (isDrawing) {
+        if (toolRef.current)
           toolRef.current!.style.visibility = isDrawing ? 'visible' : 'hidden';
       }
     }

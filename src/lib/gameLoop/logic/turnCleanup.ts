@@ -22,11 +22,11 @@ import redis from '@/lib/redis';
  * @param lobbyId - The ID of game lobby whose turn data should be cleared.
  */
 export async function clearTurnData(lobbyId: string): Promise<void> {
-    const keysToDelete = [
-        `canvas:${lobbyId}`,
-        `timer:${lobbyId}:start`,
-        `timer:${lobbyId}:duration`,
-    ];
+    // const keysToDelete = [
+    //     `canvas:${lobbyId}`,
+    //     `timer:${lobbyId}:start`,
+    //     `timer:${lobbyId}:duration`,
+    // ];
 
     // Delete turn-specific Redis keys to reset canvas and timers
     await redis.del(`canvas:${lobbyId}`);

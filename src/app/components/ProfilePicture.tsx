@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import PrintError from '@/lib/printErr';
 
 type ProfilePictureProps = {
     userId: string;
@@ -20,13 +21,14 @@ export default function ProfilePicture({ userId, alt = ' ', size, className }: P
                 const data = await res.json();
                 if(data.error) throw data.error;
                 setSrc(`${data.gravatar}?s=${size}`);
-            } catch (error) {
-                console.error('Failed to fetch image URL:', error);
+            } catch (error: unknown) {
+                PrintError(error);
+                console.error('Failed to fetch image URL');
             }
         };
 
         fetchImageUrl();
-    }, [userId]);
+    }, [userId, size]);
 
     return (
         <Image

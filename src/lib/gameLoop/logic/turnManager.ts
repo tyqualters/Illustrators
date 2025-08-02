@@ -12,7 +12,7 @@
  * All logic here interacts with Redis-backed game state.
  */
 import GameState from '../state/gameState';
-import wordPool from '../state/wordPool';
+import getRandomWords from '../state/wordPool';
 import { cleanGuess, getPointsForCorrectGuess, wordDistance } from '../utils/scoring';
 import type { GameStateData } from '../state/gameState';
 
@@ -47,7 +47,7 @@ export const TurnManager = {
         const difficulty = state.settings?.difficulty ?? 'medium';
         const wordCount = Math.max(3, Math.min(state.settings?.wordCount ?? 3, 6));
         const usedWords = state.usedWords ?? [];
-        const wordOptions = wordPool.getRandomWords(wordCount, difficulty, usedWords);
+        const wordOptions = getRandomWords(wordCount, difficulty, usedWords);
 
         // Update game state for new turn
         await GameState.update(lobbyId, {
@@ -143,7 +143,7 @@ export const TurnManager = {
             const updatedScores = { ...(state.scores ?? {}) };
             const updatedRoundScores = { ...(state.roundScores ?? {}) };
 
-            const guessesSoFar = state.guessedUsers?.length ?? 0;
+            // const guessesSoFar = state.guessedUsers?.length ?? 0;
             if (!state.guessedUsers) state.guessedUsers = [];
             if (!state.correctGuessers) state.correctGuessers = [];
 

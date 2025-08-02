@@ -17,9 +17,10 @@ import { Server as IOServer } from 'socket.io';                                 
 import type { NextApiRequest, NextApiResponse } from 'next';                    // types that describe what kind of req and res being dealt
 import { shouldEndGame } from '@/lib/gameLoop/logic/gameManager';               // helper function to find out if game should end
 import { clearTurnData } from '@/lib/gameLoop/logic/turnCleanup';               // resets temp data like canvas and timers at end of round
-import type { Server as IOServerType, Socket as SocketType } from 'socket.io';  // helps type-check variables
+import type { Server as IOServerType } from 'socket.io';  // helps type-check variables
 import { endGameAndCleanup } from '@/lib/gameLoop/logic/gameManager';           // ends game and removes game state from Redis+MongoDB
 import { checkWordSelectionTimeout } from '@/lib/gameLoop/logic/turnManager';   // auto-picks a word if the drawer takes too long
+import type { Socket as NetSocket } from 'net';
 
 // Core Modules
 import TurnManager from '@/lib/gameLoop/logic/turnManager';                     // handles whose turn it is, scoring, etc
@@ -81,10 +82,18 @@ export const config = {             // tells next.js how to handle this API rout
     api: { bodyParser: false },     // prevents next.js from interfering with websocket data
 };
 
+type NextApiResponseWithSocketIO = NextApiResponse & {
+  socket: NetSocket & {
+    server: HTTPServer & {
+      io?: IOServerType;
+    };
+  };
+};
+
 // ----- Socket.IO Endpoint Config -----
 // main function for socket API route
 export default function handler(req: NextApiRequest, res: NextApiResponse) { // req: incoming request from client, res: response object used at the end
-    const resAny = res as any; // not best practice (using any) but silences typescript for now
+    const resAny = res as NextApiResponseWithSocketIO; // not best practice (using any) but silences typescript for now
 
     // checks if socket server has already been created, if not, create one (avoids multiple socket servers)
     if (!resAny.socket?.server?.io) {
@@ -386,7 +395,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) { // 
 
             // --- Start the game ---
             // To Do: Accept host-related settings, socket payload (like from lobby settings screen)
-            socket.on('startGame', async ({ lobbyId, settings }) => {
+            socket.on('startGame', async ({ lobbyId/*, settings */ }) => {
 
                 const state = await GameState.get(lobbyId);
 

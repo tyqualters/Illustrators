@@ -11,7 +11,6 @@ import { canSeeMessage } from '@/lib/gameLoop/utils/chat';
 import { GameSettings } from '@/lib/gameLoop/state/gameState';
 import Link from 'next/link';
 import ProfilePicture from '@/app/components/ProfilePicture';
-import Profile from '@/app/profile/page';
 
 import './GameRoomPage.css'
 
@@ -22,6 +21,29 @@ interface Player {
   name: string;
 }
 
+interface TurnData {
+  round: number;
+  drawerId: string;
+  word?: string;
+  wordOptions?: string[];
+  timer?: number;
+  timerStart?: number;
+  canvas?: string;
+  scores?: Record<string, number>;
+  wordSelectionDuration?: number;
+}
+
+
+interface RoundEndedData {
+  roundScores: Record<string, number>;
+  round?: number;
+  totalScores: Record<string, number>;
+}
+
+
+
+
+
 // Local Game State
 export default function GameRoomPage() {
   const { id } = useParams() as { id: string };
@@ -30,16 +52,18 @@ export default function GameRoomPage() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [messages, setMessages] = useState<{ playerId: string; playerName: string; text: string; isPrivate: boolean }[]>([]);
   const [correctGuessers, setCorrectGuessers] = useState<string[]>([]);
-  const [currentTurn, setCurrentTurn] = useState<any>(null);
   const [wordConfirmed, setWordConfirmed] = useState(false);
-  const [roundEnded, setRoundEnded] = useState<any>(null);
+
+  const [currentTurn, setCurrentTurn] = useState<TurnData | null>(null);
+  const [roundEnded, setRoundEnded] = useState<RoundEndedData | null>(null);
+  const [initialCanvas, setInitialCanvas] = useState<string | null>(null); // or replace string with actual type if not just serialized
+
   const [gameEnded, setGameEnded] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [hostId, setHostId] = useState('');
   const socketRef = useRef<Socket | null>(null);
   const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
-  const [initialCanvas, setInitialCanvas] = useState<any>(null);
   const [redirectCountdown, setRedirectCountdown] = useState<number | null>(null);
   const [redirectReady, setRedirectReady] = useState(false);
   const [totalScores, setTotalScores] = useState<Record<string, number>>({});
@@ -94,7 +118,7 @@ export default function GameRoomPage() {
       }
     };
     fetchLobby();
-  }, [id, player]);
+  }, [id, player, gameEnded]);
 
   // Establishes socket connection and sets up all listeners
   useEffect(() => {
@@ -293,7 +317,7 @@ export default function GameRoomPage() {
     return () => {
       socketRef.current?.disconnect();
     };
-  }, [player, loading, id]);
+  }, [player, loading, id, currentTurn, lastScoredRound, wordConfirmed]);
 
 
   // Triggers redirect back to lobby after game ends
@@ -301,7 +325,7 @@ export default function GameRoomPage() {
     if (redirectReady) {
       router.push('/lobby');
     }
-  }, [redirectReady]);
+  }, [redirectReady, router]);
 
   /**
    * Synced countdown timer based on Redis "timerStart".
@@ -552,7 +576,7 @@ export default function GameRoomPage() {
               </div>
 
           {player.id === hostId && (
-            <div className="text-left border p-4 formProperties bg-black w-9/10 md:w-1/2 mx-auto mt-8 p-6 rounded-2xl space-y-6">
+            <div className="text-left border formProperties bg-black w-9/10 md:w-1/2 mx-auto mt-8 p-6 rounded-2xl space-y-6">
               <h3 className="font-bold text-lg mb-2 text-white">Game Settings</h3>
                
 
@@ -611,7 +635,7 @@ export default function GameRoomPage() {
       <div className=" justify-center mt-4">
               <button
                 onClick={saveSettings}
-                className="bg-blue-600 text-white w-full px-6 py-2  rounded-xl bg-indigo-600 hover:bg-indigo-700   mr-2 m-2"
+                className="text-white w-full px-6 py-2  rounded-xl bg-indigo-600 hover:bg-indigo-700   mr-2 m-2"
               >
                 Save Settings
               </button>
@@ -686,16 +710,16 @@ export default function GameRoomPage() {
               </p>
             )}
 
-            {isDrawer && !wordConfirmed && currentTurn?.wordOptions?.length > 0 && (
+            {isDrawer && !wordConfirmed && (currentTurn?.wordOptions?.length ?? 0) > 0 && (
               <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                 <div className="formProperties bg-black w-9/10 md:w-1/2 mx-auto mt-8 p-6 rounded-2xl space-y-6">
                   <h2 className="text-4xl font-bold mb-6 text-white text-center">Choose a word to draw</h2>
                   <div className="flex flex-col gap-2">
-                    {currentTurn.wordOptions.map((word: string) => (
+                    {currentTurn!.wordOptions?.map((word: string) => (
                       <button
                         key={word}
                         onClick={() => handleWordSelect(word)}
-                        className="w-full bg-blue-600 text-white px-6 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 mt-2"
+                        className="w-full text-white px-6 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 mt-2"
                       >
                         {word}
                       </button>
@@ -735,9 +759,9 @@ export default function GameRoomPage() {
               <div className="w-full h-[400px] border mb-6 relative">
                 <GameCanvas
                   className="w-full h-full bg-white"
-                  socket={socketRef.current}
+                  socket={socketRef.current ?? undefined}
                   isDrawing={canDraw}
-                  loadCanvasData={initialCanvas}
+                  loadCanvasData={initialCanvas ?? undefined}
                   onCanvasReady={() => {
                     if (!canDraw && socketRef.current) {
                       console.log('[GUESSER] Canvas ready — emitting request-canvas');

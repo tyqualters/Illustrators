@@ -5,9 +5,10 @@
 import connectDB from '@/lib/mongo';
 import Lobby from '@/models/Lobby';
 import { NextRequest, NextResponse } from 'next/server';
+import PrintError from '@/lib/printErr';
 
 // Get lobby by ID
-export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   await connectDB();
 
   //const lobby = await Lobby.findById(params.id);  (this causes a params error)
@@ -22,7 +23,7 @@ export async function GET(_: NextRequest, { params }: { params: { id: string } }
 }
 
 // Update lobby (e.g. join a lobby)
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   await connectDB();
 
   // fixes params error:
@@ -38,13 +39,15 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     }
 
     return NextResponse.json(updated);
-  } catch (error) {
+  } catch (error: unknown) {
+    PrintError(error);
+    
     return NextResponse.json({ error: 'Failed to update lobby' }, { status: 400 });
   }
 }
 
 // Delete lobby by ID
-export async function DELETE(_: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   await connectDB();
 
   //const deleted = await Lobby.findByIdAndDelete(params.id);  (this causes params error)
