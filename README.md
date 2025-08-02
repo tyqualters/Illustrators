@@ -69,7 +69,7 @@ Then access the game at: `http://localhost:3000`
 - [x] Lobby creation
 - [x] Playable game state
 - [x] Game settings
-- [ ] Working profile pages
+- [x] Working profile pages
 - [ ] Player stats & leaderboards
 - [ ] AI players? 🤖
 

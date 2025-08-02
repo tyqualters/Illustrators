@@ -430,7 +430,7 @@ export default function GameRoomPage() {
    * confirms and notifies all players.
    */
   const handleWordSelect = (word: string) => {
-    if(socketRef.current) {
+    if (socketRef.current) {
       socketRef.current?.emit('drawer:wordSelected', { lobbyId: id, word });
     } else {
       console.error('Socket is not current');
@@ -486,355 +486,357 @@ export default function GameRoomPage() {
   const shouldShowCanvas = gameStarted && currentTurn && !roundEnded;
 
   return (
-    <> 
+    <>
 
-     
-  <main className="p-4 text-center">
-   
-     
 
-      {gameEnded ? (
-        <div className="   flex flex-row gap-4">
-          {/* Players column */}
-          <div className="formProperties w-1/5 text-left border p-2 bg-white rounded">
-            <h4 className=" mt-4 font-semibold">Players</h4>
-            <ul>
-              {[...players]
-                .sort((a, b) => (totalScores[b.id] ?? 0) - (totalScores[a.id] ?? 0))
-                .map((p, index) => {
-                  const isYou = p.id === player.id;
-                  return (
-                    <li
-                      key={p.id}
-                      className={isYou ? 'text-indigo-500' : 'text-gray-800'}
-                    >
-                      <Link href={`/profile/${p.id}`} target="_blank">
-                      #{index + 1} {p.name}{isYou ? ' (You)' : ''}: {totalScores[p.id] ?? 0
-                      } pts
+      <main className="p-4 text-center">
+
+
+
+        {gameEnded ? (
+          <div className="   flex flex-row gap-4">
+            {/* Players column */}
+            <div className="formProperties w-1/5 text-left border p-2 bg-white rounded">
+              <h4 className=" mt-4 font-semibold">Players</h4>
+              <ul>
+                {[...players]
+                  .sort((a, b) => (totalScores[b.id] ?? 0) - (totalScores[a.id] ?? 0))
+                  .map((p, index) => {
+                    const isYou = p.id === player.id;
+                    return (
+                      <li
+                        key={p.id}
+                        className={isYou ? 'text-indigo-500' : 'text-gray-800'}
+                      >
+                        <Link href={`/profile/${p.id}`} target="_blank"><ProfilePicture userId={p.id} size={32} className="inline-block mr-3" />
+                          #{index + 1} {p.name}{isYou ? ' (You)' : ''}: {totalScores[p.id] ?? 0
+                          } pts
+                        </Link>
+                      </li>
+                    );
+                  })}
+              </ul>
+            </div>
+
+            {/* Game Over panel */}
+            <div className="w-3/5">
+              <div className="formProperties p-4 bg-white border rounded shadow text-left mb-4">
+                <h2 className="text-xl font-bold text-red-500 mb-2">Game Over!</h2>
+                <ol className="list-decimal pl-4 text-gray-800">
+                  {[...players]
+                    .sort((a, b) => (currentTurn?.scores?.[b.id] ?? 0) - (currentTurn?.scores?.[a.id] ?? 0))
+                    .map((p) => (
+                      <li key={p.id}><Link href={`/profile/${p.id}`} target="_blank">
+                        <ProfilePicture userId={p.id} size={32} className="inline-block mr-3" />
+                        {p.name}: {totalScores[p.id] ?? 0} pts
                       </Link>
-                    </li>
-                  );
-                })}
-            </ul>
-          </div>
+                      </li>
+                    ))}
+                </ol>
 
-          {/* Game Over panel */}
-          <div className="w-3/5">
-            <div className="formProperties p-4 bg-white border rounded shadow text-left mb-4">
-              <h2 className="text-xl font-bold text-red-500 mb-2">Game Over!</h2>
-              <ol className="list-decimal pl-4 text-gray-800">
+                {redirectCountdown !== null && (
+                  <p className="text-sm italic text-gray-600 mt-2">
+                    Returning to lobby in {redirectCountdown} second{redirectCountdown !== 1 ? 's' : ''}
+                  </p>
+                )}
+
+                {player.id && (
+                  <button
+                    onClick={handleReturnToLobby}
+                    className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                  >
+                    Return to Lobby
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Empty column to keep layout */}
+            <div className="w-1/5" />
+          </div>
+        ) : !gameStarted ? (
+          <div>
+
+            <div className='loading'>
+              <p className="text-lg mb-2 text-white">Waiting for players</p>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+
+            <ul className="border rounded border-blue-300 mb-4">
+              {players.map((p, i) => (
+                <li key={i} className="  text-white">
+                  <ProfilePicture userId={p.id} size={32} className="inline-block mr-3" />
+                  {p.name === player.name ? (
+                    <strong>{p.name} (You)</strong>
+                  ) : (
+                    p.name
+                  )}
+
+                </li>
+              ))}
+            </ul>
+            <div className='LobbyCodeText flex items-center justify-center' >
+              <h1 className="text-base md:text-3xl m-5 w-1/2 font-bold text-indigo-600 mb-4 rounded border border-blue-300 placeholder-blue-400 focus:border-blue-400">Lobby (Copy to join): {id}</h1>
+            </div>
+
+            {player.id === hostId && (
+              <div className="text-left border formProperties bg-black w-9/10 md:w-1/2 mx-auto mt-8 p-6 rounded-2xl space-y-6">
+                <h3 className="font-bold text-lg mb-2 text-white">Game Settings</h3>
+
+
+                <label className="block mb-2 text-white">
+                  Rounds (min 3, max 6):
+                  <input
+                    type="number"
+                    min={3}
+                    max={6}
+                    step={1}
+                    value={settings.totalRounds}
+                    onChange={(e) =>
+                      setSettings({
+                        ...settings,
+                        totalRounds: Math.max(3, Math.min(6, Number(e.target.value))),
+                      })
+                    }
+                    className="w-full border px-2 py-1 rounded border-blue-300 placeholder-blue-400 focus:border-blue-400"
+                  />
+                </label>
+
+
+
+                <label className="block mb-2 text-white">
+                  Drawing Time (seconds, min 30, max 180):
+                  <input
+                    type="number"
+                    min={30}
+                    max={180}
+                    step={5}
+                    value={settings.drawingTime}
+                    onChange={(e) =>
+                      setSettings({
+                        ...settings,
+                        drawingTime: Math.max(30, Math.min(180, Number(e.target.value))),
+                      })
+                    }
+                    className="w-full border px-2 py-1 rounded border-blue-300 placeholder-blue-400 focus:border-blue-400"
+                  />
+                </label>
+
+                <label className="block mb-2 text-white">
+                  Difficulty:
+                  <select
+                    value={settings.difficulty}
+                    onChange={(e) => setSettings({ ...settings, difficulty: e.target.value as 'easy' | 'medium' | 'hard' })}
+                    className="w-full border px-2 py-1 rounded border-blue-300 placeholder-blue-400 focus:border-blue-400"
+                  >
+                    <option value="easy" className="text-black">Easy</option>
+                    <option value="medium" className="text-black">Medium</option>
+                    <option value="hard" className="text-black">Hard</option>
+                  </select>
+                </label>
+                <h3 className="font-bold text-sm mb-2 text-white">*Save Settings before starting game*</h3>
+
+                <div className=" justify-center mt-4">
+                  <button
+                    onClick={saveSettings}
+                    className="text-white w-full px-6 py-2  rounded-xl bg-indigo-600 hover:bg-indigo-700   mr-2 m-2"
+                  >
+                    Save Settings
+                  </button>
+
+                  <button
+                    onClick={handleStartGame}
+                    className="text-white px-6 py-3 w-full  rounded-xl bg-yellow-600 hover:bg-yellow-700 m-2"
+                  >
+                    Start Game
+                  </button>
+
+                  <button
+                    onClick={handleGoHome}
+                    className="w-full text-white px-6 py-2  rounded-xl bg-indigo-600 hover:bg-indigo-700 m-2"
+                  >
+                    Go Back
+                  </button>
+
+
+                </div>
+
+
+
+              </div>
+
+            )}
+
+
+
+          </div>
+        ) : (
+          <div className="flex flex-row gap-4">
+            {/* Players column */}
+
+
+            <div className=" formProperties w-1/5 text-left border p-2 bg-white rounded-2xl">
+
+              <h4 className="mt-4 font-semibold text-white">Players</h4>
+              <ul>
                 {[...players]
                   .sort((a, b) => (currentTurn?.scores?.[b.id] ?? 0) - (currentTurn?.scores?.[a.id] ?? 0))
-                  .map((p) => (
-                    <li key={p.id}>
-                      {p.name}: {totalScores[p.id] ?? 0} pts
-                    </li>
-                  ))}
-              </ol>
+                  .map((p, index) => {
+                    const isYou = p.id === player.id;
+                    return (
+                      <li
+                        key={p.id}
+                        className={isYou ? 'text-indigo-500' : 'text-orange-600'}
+                      ><ProfilePicture userId={p.id} size={32} className="inline-block mr-3" />
+                        #{index + 1} {p.name}{isYou ? ' (You)' : ''}: {totalScores[p.id] ?? 0} pts
+                      </li>
+                    );
+                  })}
+              </ul>
 
-              {redirectCountdown !== null && (
-                <p className="text-sm italic text-gray-600 mt-2">
-                  Returning to lobby in {redirectCountdown} second{redirectCountdown !== 1 ? 's' : ''}
+
+            </div>
+
+            {/* Main canvas and game view */}
+            <div className="w-3/5">
+              {currentTurn && (
+                <p className="mb-2 text-lg font-semibold text-white">
+                  Round {currentTurn.round} - Word: {_displayWord(currentTurn.word, isDrawer || hasGuessedCorrectly)
+                  }
                 </p>
               )}
 
-              {player.id && (
-                <button
-                  onClick={handleReturnToLobby}
-                  className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                >
-                  Return to Lobby
-                </button>
+              {/* Countdown */}
+              {!wordConfirmed && wordSelectStart && (
+                <p className="text-lg font-semibold text-blue-500 mb-2">
+                  Word selection ends in:{' '}
+                  {wordSelectDurationLeft}s
+                </p>
+              )}
+
+              {isDrawer && !wordConfirmed && (currentTurn?.wordOptions?.length ?? 0) > 0 && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                  <div className="formProperties bg-black w-9/10 md:w-1/2 mx-auto mt-8 p-6 rounded-2xl space-y-6">
+                    <h2 className="text-4xl font-bold mb-6 text-white text-center">Choose a word to draw</h2>
+                    <div className="flex flex-col gap-2">
+                      {currentTurn!.wordOptions?.map((word: string) => (
+                        <button
+                          key={word}
+                          onClick={() => handleWordSelect(word)}
+                          className="w-full text-white px-6 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 mt-2"
+                        >
+                          {word}
+                        </button>
+                      ))}
+                    </div>
+
+
+                  </div>
+                </div>
+              )}
+
+              {timeLeft !== null && !roundEnded && (
+                <p className={`text-lg  mb-1 ${timeLeft <= 10 ? 'text-red-700' : 'text-white'}`}>
+                  Time Left: {timeLeft}s
+                </p>
+              )}
+
+              {roundEnded && (
+                <div className="mb-4 p-4 bg-[#F0F4FF] border border-[#5C9EFF] rounded-xl shadow text-left">
+                  <h2 className="text-lg font-bold text-[#2B2B2B] mb-2">Round Over!</h2>
+                  <ul className="text-sm text-[#2B2B2B]">
+                    {Object.entries(roundEnded.roundScores).map(([playerId, score]) => {
+                      const name = getName(playerId);
+                      return (
+                        <li key={playerId}>
+                          {name}: +{Number(score)} points
+                        </li>
+                      );
+                    })}
+                  </ul>
+
+                  <p className="mt-2 text-sm italic text-[#4A4A4A]">Next round starting...</p>
+                </div>
+              )}
+
+              {shouldShowCanvas && (
+                <div className="w-full h-[400px] border mb-6 relative">
+                  <GameCanvas
+                    className="w-full h-full bg-white"
+                    socket={socketRef.current ?? undefined}
+                    isDrawing={canDraw}
+                    loadCanvasData={initialCanvas ?? undefined}
+                    onCanvasReady={() => {
+                      if (!canDraw && socketRef.current) {
+                        console.log('[GUESSER] Canvas ready — emitting request-canvas');
+                        socketRef.current.emit('request-canvas');
+                      }
+                    }}
+                  />
+                  {!wordConfirmed && (
+                    <div className="absolute inset-0 bg-white bg-opacity-50 flex items-center justify-center pointer-events-none">
+                      <p className="text-gray-700 font-semibold">Waiting for drawer to choose a word...</p>
+                    </div>
+                  )}
+
+                  <h1 className="text-3xl font-bold text-indigo-600 mb-4">Lobby: {id}</h1>
+                </div>
               )}
             </div>
-          </div>
 
-          {/* Empty column to keep layout */}
-          <div className="w-1/5" />
-        </div>
-      ) : !gameStarted ? (
-        <div>
-           
-          <div className='loading'>
-            <p className="text-lg mb-2 text-white">Waiting for players</p>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
+            {/* Guess/chat box */}
+            <div className="formProperties w-1/5 border p-2 flex flex-col bg-white rounded">
+              <h3 className="font-bold mb-2 text-white">Guesses</h3>
+              <div className="flex-grow overflow-y-auto text-left mb-2 border border-white p-1 h-[300px]">
+                <ul>
+                  {messages.map((msg, idx) => {
+                    const isSystemMessage = msg.playerId === '__SYSTEM__';
 
-          <ul className="border rounded border-blue-300 mb-4">
-            {players.map((p, i) => (
-              <li key={i} className="  text-white">
-            <ProfilePicture userId={player.id} size={32} className="inline-block mr-3" />
-                {p.name === player.name ? (
-                  <strong>{p.name} (You)</strong>
-                ) : (
-                  p.name
-                )}
-                
-              </li>
-            ))}
-          </ul>
-          <div className='LobbyCodeText flex items-center justify-center' >
-                <h1 className="text-base md:text-3xl m-5 w-1/2 font-bold text-indigo-600 mb-4 rounded border border-blue-300 placeholder-blue-400 focus:border-blue-400">Lobby (Copy to join): {id}</h1>
-              </div>
+                    if (!canSeeMessage({ msg, youId: player.id, isDrawer, correctGuessers })) return null;
 
-          {player.id === hostId && (
-            <div className="text-left border formProperties bg-black w-9/10 md:w-1/2 mx-auto mt-8 p-6 rounded-2xl space-y-6">
-              <h3 className="font-bold text-lg mb-2 text-white">Game Settings</h3>
-               
-
-              <label className="block mb-2 text-white">
-                Rounds (min 3, max 6):
-                <input
-                  type="number"
-                  min={3}
-                  max={6}
-                  step={1}
-                  value={settings.totalRounds}
-                  onChange={(e) =>
-                    setSettings({
-                      ...settings,
-                      totalRounds: Math.max(3, Math.min(6, Number(e.target.value))),
-                    })
-                  }
-                  className="w-full border px-2 py-1 rounded border-blue-300 placeholder-blue-400 focus:border-blue-400"
-                />
-              </label>
-
-              
-
-              <label className="block mb-2 text-white">
-                Drawing Time (seconds, min 30, max 180):
-                <input
-                  type="number"
-                  min={30}
-                  max={180}
-                  step={5}
-                  value={settings.drawingTime}
-                  onChange={(e) =>
-                    setSettings({
-                      ...settings,
-                      drawingTime: Math.max(30, Math.min(180, Number(e.target.value))),
-                    })
-                  }
-                  className="w-full border px-2 py-1 rounded border-blue-300 placeholder-blue-400 focus:border-blue-400"
-                />
-              </label>
-
-              <label className="block mb-2 text-white">
-                Difficulty:
-                <select
-                  value={settings.difficulty}
-                  onChange={(e) => setSettings({ ...settings, difficulty: e.target.value as 'easy' | 'medium' | 'hard' })}
-                  className="w-full border px-2 py-1 rounded border-blue-300 placeholder-blue-400 focus:border-blue-400"
-                >
-                  <option value="easy" className="text-black">Easy</option>
-                  <option value="medium" className="text-black">Medium</option>
-                  <option value="hard" className="text-black">Hard</option>    
-                </select>
-              </label>
-              <h3 className="font-bold text-sm mb-2 text-white">*Save Settings before starting game*</h3>
-
-      <div className=" justify-center mt-4">
-              <button
-                onClick={saveSettings}
-                className="text-white w-full px-6 py-2  rounded-xl bg-indigo-600 hover:bg-indigo-700   mr-2 m-2"
-              >
-                Save Settings
-              </button>
-
-              <button
-                onClick={handleStartGame}
-                className="text-white px-6 py-3 w-full  rounded-xl bg-yellow-600 hover:bg-yellow-700 m-2"
-              >
-                Start Game
-              </button>
-
-                <button
-              onClick={handleGoHome}
-                className="w-full text-white px-6 py-2  rounded-xl bg-indigo-600 hover:bg-indigo-700 m-2"
-                >
-                  Go Back
-                </button>
-
-              
-      </div>
-
-             
-
-            </div>
-            
-          )}
-               
-               
-
-        </div>
-      ) : (
-        <div className="flex flex-row gap-4">
-          {/* Players column */}
-
- 
-          <div className=" formProperties w-1/5 text-left border p-2 bg-white rounded-2xl">
-          
-            <h4 className="mt-4 font-semibold text-white">Players</h4>
-            <ul>
-              {[...players]
-                .sort((a, b) => (currentTurn?.scores?.[b.id] ?? 0) - (currentTurn?.scores?.[a.id] ?? 0))
-                .map((p, index) => {
-                  const isYou = p.id === player.id;
-                  return (
-                    <li
-                      key={p.id}
-                      className={isYou ? 'text-indigo-500' : 'text-orange-600'}
-                    >
-                      #{index + 1} {p.name}{isYou ? ' (You)' : ''}: {totalScores[p.id] ?? 0} pts
-                    </li>
-                  );
-                })}
-            </ul>
-
-            
-          </div>
-
-          {/* Main canvas and game view */}
-          <div className="w-3/5">
-            {currentTurn && (
-              <p className="mb-2 text-lg font-semibold text-white">
-                Round {currentTurn.round} - Word: {_displayWord(currentTurn.word, isDrawer || hasGuessedCorrectly)
-                }
-              </p>
-            )}
-
-            {/* Countdown */}
-            {!wordConfirmed && wordSelectStart && (
-              <p className="text-lg font-semibold text-blue-500 mb-2">
-                Word selection ends in:{' '}
-                {wordSelectDurationLeft}s
-              </p>
-            )}
-
-            {isDrawer && !wordConfirmed && (currentTurn?.wordOptions?.length ?? 0) > 0 && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div className="formProperties bg-black w-9/10 md:w-1/2 mx-auto mt-8 p-6 rounded-2xl space-y-6">
-                  <h2 className="text-4xl font-bold mb-6 text-white text-center">Choose a word to draw</h2>
-                  <div className="flex flex-col gap-2">
-                    {currentTurn!.wordOptions?.map((word: string) => (
-                      <button
-                        key={word}
-                        onClick={() => handleWordSelect(word)}
-                        className="w-full text-white px-6 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 mt-2"
-                      >
-                        {word}
-                      </button>
-                    ))}
-                  </div>
-
-                  
-                </div>
-              </div>
-            )}
-
-            {timeLeft !== null && !roundEnded && (
-              <p className={`text-lg  mb-1 ${timeLeft <= 10 ? 'text-red-700' : 'text-white'}`}>
-                Time Left: {timeLeft}s
-              </p>
-            )}
-
-            {roundEnded && (
-              <div className="mb-4 p-4 bg-[#F0F4FF] border border-[#5C9EFF] rounded-xl shadow text-left">
-                <h2 className="text-lg font-bold text-[#2B2B2B] mb-2">Round Over!</h2>
-                <ul className="text-sm text-[#2B2B2B]">
-                  {Object.entries(roundEnded.roundScores).map(([playerId, score]) => {
-                    const name = getName(playerId);
                     return (
-                      <li key={playerId}>
-                        {name}: +{Number(score)} points
+                      <li key={idx}>
+                        {isSystemMessage ? (
+                          <span
+                            className={
+                              msg.text.includes('guessed the word!')
+                                ? 'text-green-600 font-semibold'
+                                : msg.text.includes("You're close!")
+                                  ? 'text-yellow-600 font-semibold'
+                                  : 'text-gray-500 italic'
+                            }
+                          >
+                            {msg.text}
+                          </span>
+                        ) : (
+                          <span>
+                            <strong>{msg.playerName || getName(msg.playerId)}</strong>: {msg.text}
+                          </span>
+                        )}
                       </li>
                     );
                   })}
                 </ul>
-                
-                <p className="mt-2 text-sm italic text-[#4A4A4A]">Next round starting...</p>
               </div>
-            )}
 
-            {shouldShowCanvas && (
-              <div className="w-full h-[400px] border mb-6 relative">
-                <GameCanvas
-                  className="w-full h-full bg-white"
-                  socket={socketRef.current ?? undefined}
-                  isDrawing={canDraw}
-                  loadCanvasData={initialCanvas ?? undefined}
-                  onCanvasReady={() => {
-                    if (!canDraw && socketRef.current) {
-                      console.log('[GUESSER] Canvas ready — emitting request-canvas');
-                      socketRef.current.emit('request-canvas');
-                    }
-                  }}
-                />
-                {!wordConfirmed && (
-                  <div className="absolute inset-0 bg-white bg-opacity-50 flex items-center justify-center pointer-events-none">
-                    <p className="text-gray-700 font-semibold">Waiting for drawer to choose a word...</p>
-                  </div>
-                )}
-
-                <h1 className="text-3xl font-bold text-indigo-600 mb-4">Lobby: {id}</h1>
-              </div>
-            )}
-          </div>
-
-          {/* Guess/chat box */}
-          <div className="formProperties w-1/5 border p-2 flex flex-col bg-white rounded">
-            <h3 className="font-bold mb-2 text-white">Guesses</h3>
-            <div className="flex-grow overflow-y-auto text-left mb-2 border border-white p-1 h-[300px]">
-              <ul>
-                {messages.map((msg, idx) => {
-                  const isSystemMessage = msg.playerId === '__SYSTEM__';
-
-                  if (!canSeeMessage({ msg, youId: player.id, isDrawer, correctGuessers })) return null;
-
-                  return (
-                    <li key={idx}>
-                      {isSystemMessage ? (
-                        <span
-                          className={
-                            msg.text.includes('guessed the word!')
-                              ? 'text-green-600 font-semibold'
-                              : msg.text.includes("You're close!")
-                                ? 'text-yellow-600 font-semibold'
-                                : 'text-gray-500 italic'
-                          }
-                        >
-                          {msg.text}
-                        </span>
-                      ) : (
-                        <span>
-                          <strong>{msg.playerName || getName(msg.playerId)}</strong>: {msg.text}
-                        </span>
-                      )}
-                    </li>
-                  );
-                })}
-              </ul>
+              {!isDrawer && (
+                <form onSubmit={handleGuessSubmit} className="bg-white">
+                  <input
+                    type="text"
+                    name="guess"
+                    placeholder="Your guess"
+                    className="w-full border p-2 rounded"
+                    autoComplete="off"
+                  />
+                </form>
+              )}
             </div>
-
-            {!isDrawer && (
-              <form onSubmit={handleGuessSubmit} className="bg-white">
-                <input
-                  type="text"
-                  name="guess"
-                  placeholder="Your guess"
-                  className="w-full border p-2 rounded"
-                  autoComplete="off"
-                />
-              </form>
-            )}
           </div>
-        </div>
 
-      )}
-    </main>
+        )}
+      </main>
 
     </>
   );

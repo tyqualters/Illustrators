@@ -83,11 +83,11 @@ export const config = {             // tells next.js how to handle this API rout
 };
 
 type NextApiResponseWithSocketIO = NextApiResponse & {
-  socket: NetSocket & {
-    server: HTTPServer & {
-      io?: IOServerType;
+    socket: NetSocket & {
+        server: HTTPServer & {
+            io?: IOServerType;
+        };
     };
-  };
 };
 
 // ----- Socket.IO Endpoint Config -----
@@ -164,10 +164,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) { // 
                             // gets drawing timer from game state (defaults to 90 if missing)
                             const duration = after?.timer ?? 90;
 
-                            const startTime = new Date();
+                            // delete if exists
+                            if (roundTimeouts[lobbyId]) {
+                                clearTimeout(roundTimeouts[lobbyId]);
+                                delete roundTimeouts[lobbyId];
+                            }
 
                             // starts a one-time timer that runs after however long the duration is in seconds
-                            setTimeout(async () => {
+                            roundTimeouts[lobbyId] = setTimeout(async () => {
                                 const latest = await GameState.get(lobbyId);
 
                                 // checks if the round already ended
@@ -180,19 +184,21 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) { // 
 
                                     // or if all guessers have guessed correctly, its over
                                     (latest.guessedUsers?.length ?? 0) >=
-                                    (latest.playerOrder?.length ?? 0) - 1 ||
-                                    
-                                    // double check time
-                                    Math.floor(((new Date).getTime() - startTime.getTime()) / 1000) >= duration;
+                                    (latest.playerOrder?.length ?? 0) - 1;
 
                                 // force the round to end if the drawer ran out of time
                                 if (!alreadyEnded) {
                                     console.log(`[SERVER] Timeout reached — ending round for ${lobbyId}`);
                                     await handleEndOfRound(lobbyId); // to wrap up the turn, show scores, and prepare for next turn
                                 }
+
+                                delete roundTimeouts[lobbyId];
+
                             }, duration * 1000);
                         }
 
+                        clearTimeout(roundTimeouts[lobbyId]);
+                        delete roundTimeouts[lobbyId];
                         clearInterval(turnTimeouts[lobbyId]);   // stops the 1s interval from running forever
                         delete turnTimeouts[lobbyId];           // removes it from memory for this lobby
                     }
@@ -280,6 +286,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) { // 
 
 
         const turnTimeouts: Record<string, NodeJS.Timeout> = {};
+        const roundTimeouts: Record<string, NodeJS.Timeout> = {};
         const disconnectTimeouts: Record<string, NodeJS.Timeout> = {};
 
         // ----- Core Socket.IO Handlers -----
@@ -376,6 +383,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) { // 
                 // wait 10 seconds to allow reconnection before checking player count
                 if (disconnectTimeouts[lobbyId]) {
                     clearTimeout(disconnectTimeouts[lobbyId]);
+                    delete disconnectTimeouts[lobbyId];
                 }
                 disconnectTimeouts[lobbyId] = setTimeout(async () => {
                     const latest = await GameState.get(lobbyId);
@@ -391,7 +399,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) { // 
                             ioServer.to(lobbyId).emit('game:ended', { finalScores });
                         }
 
-                        clearTimeout(disconnectTimeouts[lobbyId]);
                         delete disconnectTimeouts[lobbyId];
                     }
                 }, 10000); // 10 seconds
@@ -504,12 +511,17 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) { // 
                 */
                 await emitWordConfirmed(ioServer, lobbyId, socket.data.playerId);
 
+
+                if (roundTimeouts[lobbyId]) {
+                    clearTimeout(roundTimeouts[lobbyId]);
+                    delete roundTimeouts[lobbyId];
+                }
                 /*
                 Turn Timeout Logic: Sets a one-time timer to end the round if it runs out. 
                 Runs after 'duration' seconds (default 90s). It checks if the round already ended and if not it ends it.
                 Ensures that the round is only ended once (even if there are player reconnects and word is re-confirmed)
                 */
-                setTimeout(async () => {
+                roundTimeouts[lobbyId] = setTimeout(async () => {
 
                     /*
                     If we already have 'roundScores', or all guessers have guessed, we don't do anything;
@@ -529,6 +541,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) { // 
                         console.log(`[SERVER] Timeout reached - ending round for ${lobbyId}`);
                         await handleEndOfRound(lobbyId);
                     }
+
+                    delete roundTimeouts[lobbyId];
                 }, duration * 1000);
             });
 

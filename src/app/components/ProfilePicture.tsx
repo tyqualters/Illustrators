@@ -17,6 +17,7 @@ export default function ProfilePicture({ userId, alt = ' ', size, className }: P
     useEffect(() => {
         const fetchImageUrl = async () => {
             try {
+                if(userId.startsWith('guest-')) return;
                 const res = await fetch(`/api/user/${userId}`);
                 const data = await res.json();
                 if(data.error) throw data.error;
