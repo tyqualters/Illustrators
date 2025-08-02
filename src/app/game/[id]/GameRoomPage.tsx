@@ -118,7 +118,7 @@ export default function GameRoomPage() {
       }
     };
     fetchLobby();
-  }, [id, player, gameEnded]);
+  }, [id, player]);
 
   // Establishes socket connection and sets up all listeners
   useEffect(() => {
@@ -317,7 +317,7 @@ export default function GameRoomPage() {
     return () => {
       socketRef.current?.disconnect();
     };
-  }, [player, loading, id, currentTurn, lastScoredRound, wordConfirmed]);
+  }, [player, loading, id]);
 
 
   // Triggers redirect back to lobby after game ends

@@ -342,7 +342,7 @@ export default function GameCanvas({
     };
 
 
-  }, [socket, isDrawing, onCanvasReady]); // ensures that when the drawer starts drawing, the canvas will initialize with both isDrawing: true
+  }, [socket, isDrawing]); // ensures that when the drawer starts drawing, the canvas will initialize with both isDrawing: true
 
   // Listen for canvas updates from drawer
   // edit: removed || isDrawing since we don't need to check, we should always receive updstes

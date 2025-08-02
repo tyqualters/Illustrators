@@ -164,6 +164,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) { // 
                             // gets drawing timer from game state (defaults to 90 if missing)
                             const duration = after?.timer ?? 90;
 
+                            const startTime = new Date();
+
                             // starts a one-time timer that runs after however long the duration is in seconds
                             setTimeout(async () => {
                                 const latest = await GameState.get(lobbyId);
@@ -178,7 +180,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) { // 
 
                                     // or if all guessers have guessed correctly, its over
                                     (latest.guessedUsers?.length ?? 0) >=
-                                    (latest.playerOrder?.length ?? 0) - 1;
+                                    (latest.playerOrder?.length ?? 0) - 1 ||
+                                    
+                                    // double check time
+                                    Math.floor(((new Date).getTime() - startTime.getTime()) / 1000) >= duration;
 
                                 // force the round to end if the drawer ran out of time
                                 if (!alreadyEnded) {
