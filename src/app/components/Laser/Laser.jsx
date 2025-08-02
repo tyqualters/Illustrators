@@ -7,7 +7,7 @@ function Laser() {
   const laserAudio = useRef(null);
 
   useEffect(() => {
-    laserAudio.current = new Audio('/sounds/laserSound.mp3'); // make sure path is correct
+    laserAudio.current = new Audio('/Sounds/laserSound.mp3'); // make sure path is correct (CASE-SENSITIVE IN PROD)
   }, []);
 
   const handleClick = (e) => {

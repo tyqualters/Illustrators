@@ -527,6 +527,7 @@ export default function GameRoomPage() {
                   .sort((a, b) => (currentTurn?.scores?.[b.id] ?? 0) - (currentTurn?.scores?.[a.id] ?? 0))
                   .map((p) => (
                     <li key={p.id}>
+                      <ProfilePicture userId={p.id} size={32} className="inline-block mr-3" />
                       {p.name}: {totalScores[p.id] ?? 0} pts
                     </li>
                   ))}
@@ -565,7 +566,7 @@ export default function GameRoomPage() {
           <ul className="border rounded border-blue-300 mb-4">
             {players.map((p, i) => (
               <li key={i} className="  text-white">
-            <ProfilePicture userId={player.id} size={32} className="inline-block mr-3" />
+            <ProfilePicture userId={p.id} size={32} className="inline-block mr-3" />
                 {p.name === player.name ? (
                   <strong>{p.name} (You)</strong>
                 ) : (
@@ -687,7 +688,7 @@ export default function GameRoomPage() {
                     <li
                       key={p.id}
                       className={isYou ? 'text-indigo-500' : 'text-orange-600'}
-                    >
+                    ><ProfilePicture userId={p.id} size={32} className="inline-block mr-3" />
                       #{index + 1} {p.name}{isYou ? ' (You)' : ''}: {totalScores[p.id] ?? 0} pts
                     </li>
                   );
