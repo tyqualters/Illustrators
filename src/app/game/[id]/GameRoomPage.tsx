@@ -566,7 +566,7 @@ export default function GameRoomPage() {
 
             <ul className="border rounded border-blue-300 mb-4">
               {players.map((p, i) => (
-                <li key={i} className="  text-white">
+                <li key={i} className="text-white">
                   <ProfilePicture userId={p.id} size={32} className="inline-block mr-3" />
                   {p.name === player.name ? (
                     <strong>{p.name} (You)</strong>

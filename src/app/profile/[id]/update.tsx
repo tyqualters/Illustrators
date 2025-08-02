@@ -10,20 +10,29 @@ type UpdateProfileFormProps = {
     userId: string;
 }
 
+type ActionResult = {
+    message?: string;
+    errors?: {
+        [key: string]: string[];
+    };
+};
+
 export default function UpdateProfileForm({ username, email, userId }: UpdateProfileFormProps) {
     const [currentUsername, setCurrentUsername] = useState(username);
 
     const [passstate, passaction, passpending] = useActionState(updatePassword, undefined);
 
-    const [userstate, useraction, userpending] = useActionState(
-        async (prevState: any, formData: FormData) => {
-            const result = await updateUsername(prevState, formData);
+    const [userstate, useraction, userpending] = useActionState<ActionResult | undefined, FormData>(
+        async (_prevState, formData) => {
+            const result = await updateUsername(undefined, formData);
             if (result?.message === "Username updated successfully.") {
                 setCurrentUsername(formData.get("name") as string);
             }
             return result;
         },
-        undefined);
+        undefined
+    );
+
 
 
     return (
