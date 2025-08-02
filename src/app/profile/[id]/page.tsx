@@ -7,6 +7,7 @@ import Laser from '@/app/components/Laser/Laser';
 import { headers } from 'next/headers';
 import UpdateProfileForm from './update';
 import { getUserId, getUser } from '@/lib/dal';
+import ProfilePicture from '@/app/components/ProfilePicture';
 
 
 async function IsUserProfile(userId: string) {
@@ -61,7 +62,12 @@ export default async function Profile({ params }: ProfileProps) {
 
             <div className=" w-11/12 md:w-full  items-center justify-center">
 
-                {isUserProfile && <UpdateProfileForm username={username} email={email} userId={id} />}
+                {isUserProfile ? <UpdateProfileForm username={username} email={email} userId={id} /> : (
+                    <div className="flex flex-col items-center justify-center m-2">
+                        <ProfilePicture userId={id} size={128} />
+                        <h1 className="text-white text-4xl">{username}</h1>
+                    </div>
+                )}
 
             </div>
 
