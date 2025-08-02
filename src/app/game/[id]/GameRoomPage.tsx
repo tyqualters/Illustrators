@@ -430,7 +430,11 @@ export default function GameRoomPage() {
    * confirms and notifies all players.
    */
   const handleWordSelect = (word: string) => {
-    socketRef.current?.emit('drawer:wordSelected', { lobbyId: id, word });
+    if(socketRef.current) {
+      socketRef.current?.emit('drawer:wordSelected', { lobbyId: id, word });
+    } else {
+      console.error('Socket is not current');
+    }
   };
 
   const handleGoHome = () => {
