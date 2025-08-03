@@ -11,6 +11,8 @@ import { canSeeMessage } from '@/lib/gameLoop/utils/chat';
 import { GameSettings } from '@/lib/gameLoop/state/gameState';
 import Link from 'next/link';
 import ProfilePicture from '@/app/components/ProfilePicture';
+import RotateScreen from '@/app/components/RotateScreen/RotateScreen';
+
 
 import './GameRoomPage.css'
 
@@ -488,6 +490,7 @@ export default function GameRoomPage() {
   return (
     <>
 
+      <RotateScreen/>
 
       <main className="p-4 text-center">
 
@@ -789,7 +792,7 @@ export default function GameRoomPage() {
             {/* Guess/chat box */}
             <div className="formProperties w-1/5 border p-2 flex flex-col bg-white rounded">
               <h3 className="font-bold mb-2 text-white">Guesses</h3>
-              <div className="flex-grow overflow-y-auto text-left mb-2 border border-white p-1 h-[300px]">
+              <div className="flex-grow overflow-y-auto text-left mb-2 border text-white border-white p-1 h-[300px]">
                 <ul>
                   {messages.map((msg, idx) => {
                     const isSystemMessage = msg.playerId === '__SYSTEM__';
