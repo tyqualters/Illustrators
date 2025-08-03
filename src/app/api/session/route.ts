@@ -14,6 +14,11 @@ import type { NextRequest } from 'next/server'; // import Next.js request type f
 
 
 // GET handler is triggered when the client fetches session info from this route
+/**
+ * Validate session
+ * @param req Generic HTTP Request
+ * @returns Session valid
+ */
 export async function GET(req: NextRequest) {
   // get the session token from cookies
   const sessionToken = req.cookies.get('session')?.value;

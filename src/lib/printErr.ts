@@ -1,3 +1,7 @@
+/**
+ * Print errors to console.error (used for TypeScript type safety)
+ * @param error 
+ */
 export default function PrintError(error: unknown) {
     const message =
         typeof error === 'object' &&

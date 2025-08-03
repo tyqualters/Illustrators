@@ -24,6 +24,12 @@ import GameState from '@/lib/gameLoop/state/gameState';
 import redis from '@/lib/redis';
 import PrintError from '@/lib/printErr';
 
+/**
+ * Get current state of the game
+ * @param req HTTP Request
+ * @param param1 LobbyID
+ * @returns Game data
+ */
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }) {

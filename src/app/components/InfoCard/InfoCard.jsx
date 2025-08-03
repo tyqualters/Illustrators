@@ -1,6 +1,11 @@
 import React from 'react';
 import './InfoCard.css';
 
+/**
+ * InfoCard component
+ * @param {} props 
+ * @returns <InfoCard />
+ */
 export default function InfoCard(props) {
 
     const infoCardText = [

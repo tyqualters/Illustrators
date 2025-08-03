@@ -7,7 +7,12 @@ import Lobby from '@/models/Lobby';
 import { NextRequest, NextResponse } from 'next/server';
 import PrintError from '@/lib/printErr';
 
-// Get lobby by ID
+/**
+ * Get the lobby by ID
+ * @param _ Generic HTTP Request
+ * @param param1 Lobby ID
+ * @returns Lobby
+ */
 export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   await connectDB();
 
@@ -23,6 +28,12 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 }
 
 // Update lobby (e.g. join a lobby)
+/**
+ * Update the lobby
+ * @param req Generic HTTP Request
+ * @param param1 Lobby ID
+ * @returns Result message
+ */
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   await connectDB();
 
@@ -47,6 +58,12 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 }
 
 // Delete lobby by ID
+/**
+ * Delete a lobby
+ * @param _ Generic HTTP Request
+ * @param param1 Lobby ID
+ * @returns Result message
+ */
 export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   await connectDB();
 

@@ -5,6 +5,9 @@ import { verifySession } from '@/lib/dal'
 // import Header from '@/app/components/Header/Header.jsx'
 import { redirect } from 'next/navigation';
 
+/**
+ * Profile redirect page
+ */
 export default async function Profile() {
     const session = await verifySession();
 

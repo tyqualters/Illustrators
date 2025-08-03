@@ -1,3 +1,7 @@
+/**
+ * Loading screen page
+ * @returns 
+ */
 export default function Loading() {
   return (
     <>

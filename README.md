@@ -58,6 +58,31 @@ npm start
 
 Then access the game at: `http://localhost:3000`
 
+### Build documentation
+
+Using TypeDoc run:
+
+```bash
+npx typedoc --entryPointStrategy Expand src
+```
+
+## 📁 Folder Structure
+
+```
+/public: Static Assets
+/docs: Documentation
+/tests: Tests
+/src: Source Files
+/src/actions: Server Actions
+/src/app: App Router
+/src/app/api: App Router REST Endpoints
+/src/app/components: Components
+/src/lib: Utility files
+/src/models: Database models
+/src/pages: Pages Router
+/src/pages/api: Pages Router REST Endpoints
+```
+
 ## 📦 Tech Stack
 
 - **Next.js** + **TypeScript**

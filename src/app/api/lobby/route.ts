@@ -3,6 +3,10 @@ import Lobby from '@/models/Lobby';
 import { NextRequest, NextResponse } from 'next/server';
 
 // List all lobbies
+/**
+ * List all lobbies
+ * @returns List of all lobbies
+ */
 export async function GET() {
   await connectDB();
   const lobbies = await Lobby.find();
@@ -10,6 +14,11 @@ export async function GET() {
 }
 
 // Create new lobby
+/**
+ * Create a new lobby
+ * @param req Generic HTTP Request
+ * @returns Result message
+ */
 export async function POST(req: NextRequest) {
   await connectDB();
 

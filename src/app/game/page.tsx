@@ -5,6 +5,10 @@ import Header from "../components/Header/Header.jsx";
 
 import Image from "next/image";
  
+/**
+ * Generic game test page
+ * @returns 
+ */
 export default function Game() {
   return (
     <div className="bg-container">

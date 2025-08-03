@@ -11,6 +11,11 @@ import { cookies } from 'next/headers'
 const secretKey = process.env.SESSION_SECRET
 const encodedKey = new TextEncoder().encode(secretKey)
 
+/**
+ * Create the JWT
+ * @param payload 
+ * @returns 
+ */
 export async function encrypt(payload: SessionPayload) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
@@ -19,6 +24,11 @@ export async function encrypt(payload: SessionPayload) {
     .sign(encodedKey)
 }
 
+/**
+ * Read the JWT
+ * @param session 
+ * @returns 
+ */
 export async function decrypt(session: string | undefined = '') {
   try {
     const { payload } = await jwtVerify(session, encodedKey, {
@@ -37,6 +47,11 @@ export async function decrypt(session: string | undefined = '') {
   }
 }
 
+/**
+ * Create the JWT
+ * @param userId 
+ * @param name 
+ */
 export async function createSession(userId: string, name: string) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
   const session = await encrypt({ userId, name, expiresAt })
@@ -51,6 +66,10 @@ export async function createSession(userId: string, name: string) {
   })
 }
 
+/**
+ * Update JWT to avoid reverifying
+ * @returns 
+ */
 export async function updateSession() {
   const session = (await cookies()).get('session')?.value
   const payload = await decrypt(session)
@@ -71,6 +90,9 @@ export async function updateSession() {
   })
 }
 
+/**
+ * Delete session (logout backend)
+ */
 export async function deleteSession() {
   const cookieStore = await cookies()
   cookieStore.delete('session')

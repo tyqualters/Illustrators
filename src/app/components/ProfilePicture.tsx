@@ -11,6 +11,11 @@ type ProfilePictureProps = {
     className?: string;
 };
 
+/**
+ * ProfilePicture component
+ * @param param0 userId, alt text, size of image, classes
+ * @returns <ProfilePicture />
+ */
 export default function ProfilePicture({ userId, alt = ' ', size, className }: ProfilePictureProps) {
     const [src, setSrc] = useState<string | null>(null);
 

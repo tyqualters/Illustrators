@@ -2,6 +2,10 @@ import { cookies } from 'next/headers';
 import { decrypt } from '@/lib/session';
 import { SessionPayload } from '@/lib/definitions';
 
+/**
+ * Get the current server player
+ * @returns username, userId
+ */
 export async function getServerPlayer() {
   const cookieStore = await cookies();
   const session = cookieStore.get('session')?.value;

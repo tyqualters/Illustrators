@@ -2,6 +2,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Laser.css';
 
+/**
+ * Laser component and sound effect
+ * @returns <Laser />
+ */
 function Laser() {
   const [lasers, setLasers] = useState([]);
   const laserAudio = useRef(null);

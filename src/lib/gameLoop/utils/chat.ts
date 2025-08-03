@@ -1,4 +1,9 @@
 // Determines if a player should see a chat message
+/**
+ * Determines if a player should see a chat message
+ * @param param0 
+ * @returns Result
+ */
 export function canSeeMessage({
     msg,
     youId,

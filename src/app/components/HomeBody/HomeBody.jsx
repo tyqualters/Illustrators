@@ -5,7 +5,10 @@ import './HomeBody.css';
 import InfoCard from "../InfoCard/InfoCard.jsx";
 
 
-
+/**
+ * HomeBody component
+ * @returns <HomeBody />
+ */
 function HomeBody() {
  
 

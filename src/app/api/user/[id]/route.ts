@@ -4,6 +4,11 @@ import User from '@/models/User';
 import type { NextRequest } from 'next/server'; // type import for typed request objects
 import crypto from 'crypto';
 
+/**
+ * Convert string to SHA-256
+ * @param input string
+ * @returns SHA-256
+ */
 async function sha256(input: string): Promise<string> {
   const encoder = new TextEncoder();
   const data = encoder.encode(input);
@@ -13,6 +18,12 @@ async function sha256(input: string): Promise<string> {
   return hashHex;
 }
 
+/**
+ * Get user info
+ * @param req Generic HTTP Request
+ * @param context User ID
+ * @returns User info
+ */
 export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   await connectDB();
   const { params } = await context;  // Await context to get params

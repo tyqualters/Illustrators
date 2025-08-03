@@ -5,7 +5,10 @@ import { signup } from '@/actions/auth';
 import { useActionState } from 'react';
 import { useRouter } from 'next/navigation';
 
-
+/**
+ * SignupForm component
+ * @returns <SignupForm />
+ */
 export default function SignupForm() {
     
     const [state, action, pending] = useActionState(signup, undefined)

@@ -31,6 +31,10 @@ if (!cached) {
   };
 }
 
+/**
+ * Establish database connection
+ * @returns 
+ */
 async function connectDB() {
   if (cached.conn) {
     return cached.conn;

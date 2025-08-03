@@ -4,6 +4,10 @@ import { redirect } from "next/navigation";
 import Header from "../components/Header/Header";
 import Laser from "../components/Laser/Laser";
 
+/**
+ * Login Page
+ * @returns 
+ */
 export default async function SignUpPage() {
   const session = await getSession();
 

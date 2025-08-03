@@ -4,7 +4,10 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './WipeTransition.css';
 
-
+/**
+ * WipeOverlay component
+ * @returns <WipeOverlay />
+ */
 function WipeOverlay() {
   const [show, setShow] = useState(true);
 
@@ -28,7 +31,11 @@ function WipeOverlay() {
   );
 }
 
-
+/**
+ * WipeTransition component
+ * @param param0 
+ * @returns <WipeTransition />
+ */
 export default function WipeTransition({ children }: { children: React.ReactNode }) {
   return (
     <>

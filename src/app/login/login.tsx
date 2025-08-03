@@ -5,7 +5,10 @@ import { useActionState } from 'react';
 import { useRouter } from 'next/navigation';
 import type { FormState } from '@/lib/definitions';
 
-
+/**
+ * LoginForm component
+ * @returns <LoginForm />
+ */
 export default function LoginForm() {
   const router = useRouter();
 

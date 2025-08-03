@@ -5,7 +5,10 @@ import { useState } from 'react';
 import { usePlayer } from '@/lib/hooks/usePlayer';
  
 
-
+/**
+ * Lobby client component
+ * @returns <LobbyClient />
+ */
 export default function LobbyClient() {
   const [code, setCode] = useState('');
   const router = useRouter();
@@ -33,7 +36,6 @@ export default function LobbyClient() {
 
     router.push(`/game/${code}`);
   };
-
 
   const handleGoHome = () => {
     router.push('/');

@@ -33,6 +33,10 @@ interface Player {
   name: string;
 }
 
+/**
+ * Use player for lobby/game
+ * @returns 
+ */
 export function usePlayer() {
   const [player, setPlayer] = useState<Player | null>(null);
   const [loading, setLoading] = useState(true);

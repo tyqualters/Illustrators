@@ -17,6 +17,12 @@ type LocalGameCanvasProps = {
 
 };
 
+/**
+ * LocalGameCanvas component
+ * @deprecated Use GameCanvas instead
+ * @param param0 
+ * @returns <LocalGameCanvas />
+ */
 export function LocalGameCanvas({ className }: LocalGameCanvasProps) {
 
   const parentRef = useRef<HTMLDivElement>(null);
@@ -179,6 +185,11 @@ type GameCanvasToolMenuProps = {
   isDrawing: boolean
 };
 
+/**
+ * GameCanvas Tool Menu component
+ * @param param0 
+ * @returns <GameCanvasToolMenu />
+ */
 export function GameCanvasToolMenu({ canvas, isDrawing }: GameCanvasToolMenuProps) {
   const [brushColor, setBrushColor] = useState('#000000');
   const [brushWidth, setBrushWidth] = useState(1);
@@ -243,6 +254,11 @@ type GameCanvasProps = {
   onCanvasReady?: () => void;
 };
 
+/**
+ * GameCanvas component
+ * @param param0 
+ * @returns <GameCanvas />
+ */
 export default function GameCanvas({
   className,
   socket,

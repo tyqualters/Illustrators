@@ -6,7 +6,10 @@ import './Header.css';
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { _verifySession as getSession } from '@/lib/dal';
 
-
+/**
+ * Header component
+ * @returns <Header />
+ */
 async function Header() {
 const session = await getSession();
 

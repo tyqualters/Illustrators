@@ -6,6 +6,10 @@ import GameRoomPage from './GameRoomPage';
 
  
 // Local Game State
+/**
+ * Game page
+ * @returns
+ */
 export default function Game() {
 
   return(

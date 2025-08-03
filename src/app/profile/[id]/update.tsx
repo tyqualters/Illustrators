@@ -17,6 +17,11 @@ type ActionResult = {
     };
 };
 
+/**
+ * User settings (UpdateProfileForm component)
+ * @param param0 
+ * @returns <UpdateProfileForm />
+ */
 export default function UpdateProfileForm({ username, email, userId }: UpdateProfileFormProps) {
     const [currentUsername, setCurrentUsername] = useState(username);
 

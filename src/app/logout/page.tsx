@@ -2,6 +2,10 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
+/**
+ * Logout page
+ * @returns 
+ */
 export default function Logout() {
   const router = useRouter();
 

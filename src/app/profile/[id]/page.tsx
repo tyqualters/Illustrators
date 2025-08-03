@@ -9,7 +9,11 @@ import UpdateProfileForm from './update';
 import { getUserId, getUser } from '@/lib/dal';
 import ProfilePicture from '@/app/components/ProfilePicture';
 
-
+/**
+ * Check if the userId is the same as the logged in user
+ * @param userId 
+ * @returns Is same user
+ */
 async function IsUserProfile(userId: string) {
     return (await getUserId() ?? '') == userId;
 }
@@ -20,6 +24,11 @@ interface ProfileProps {
     }>;
 }
 
+/**
+ * Profile page
+ * @param param0 userId
+ * @returns 
+ */
 export default async function Profile({ params }: ProfileProps) {
     const { id } = await params;
 
