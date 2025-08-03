@@ -9,6 +9,8 @@ import Laser from '@/app/components/Laser/Laser';
 import { headers } from 'next/headers';
 import UpdateProfileForm from './update';
 import { getUserId, getUser } from '@/lib/dal';
+import WipeTransition from '@/app/components/WipeTransition/WipeTransition';
+
 async function IsUserProfile(userId: string) {
     return (await getUserId() ?? '') == userId;
 }
@@ -53,7 +55,7 @@ export default async function Profile({ params }: ProfileProps) {
 
     return (
         <>
-
+        <WipeTransition> </WipeTransition>
       <Laser/>
       <Header/>
       <IllustratorsLogo/>

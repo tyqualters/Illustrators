@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Header from "../components/Header/Header";
 import IllustratorsLogo from "../components/IllustratorsLogo/IllustratorsLogo";
 import Laser from "../components/Laser/Laser";
+import WipeTransition from '../components/WipeTransition/WipeTransition';
 
 export default async function SignUpPage() {
   const session = await getSession();
@@ -14,6 +15,7 @@ export default async function SignUpPage() {
 
   return (
     <>
+    <WipeTransition> </WipeTransition>
     <Laser/>
       <Header />
       <IllustratorsLogo/> 

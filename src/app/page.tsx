@@ -2,7 +2,7 @@
 import Header from "./components/Header/Header.jsx"; //Importing the header component
 import HomeBody from "./components/HomeBody/HomeBody.jsx";
 import Laser from './components/Laser/Laser.jsx';
-
+import WipeTransition from './components/WipeTransition/WipeTransition';
 
 
 
@@ -10,6 +10,7 @@ export default function Home() {
 
   return (
     <>
+      <WipeTransition> </WipeTransition>
       <Laser/>
       <Header />
       <HomeBody />
