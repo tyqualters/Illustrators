@@ -10,6 +10,12 @@ import * as bcrypt from 'bcrypt';
 import { createSession, deleteSession } from '@/lib/session';
 import { redirect } from 'next/navigation';
 
+/**
+ * Handles the sign up form submission
+ * @param state current state of form submission
+ * @param formData the submitted form data
+ * @returns a success message or errors
+ */
 export async function signup(state: FormState, formData: FormData) {
   const validatedFields = SignupFormSchema.safeParse({
     name: formData.get('name'),
@@ -25,7 +31,6 @@ export async function signup(state: FormState, formData: FormData) {
 
   try {
     await connectDB();
-    console.log('fml i hate coding sm');
 
     const { name, email, password } = validatedFields.data;
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -37,7 +42,7 @@ export async function signup(state: FormState, formData: FormData) {
 
     // supports guest login
     await createSession(newUser._id.toString(), newUser.name);
-    redirect('/profile');
+
   } catch (err: unknown) {
     console.error('User creation failed:', err);
 
@@ -55,8 +60,16 @@ export async function signup(state: FormState, formData: FormData) {
     };
   }
 
+   redirect('/profile');
+
 }
 
+/**
+ * Find a user matching a provided email and password
+ * @param email 
+ * @param password 
+ * @returns MongoDB User
+ */
 export async function authenticateUser(email: string, password: string) {
   const user = await User.findOne({ email });
   if (!user) {
@@ -71,6 +84,12 @@ export async function authenticateUser(email: string, password: string) {
   return user; // Authentication successful
 }
 
+/**
+ * Handles the login form submission
+ * @param state current state of form submission
+ * @param formData the submitted form data
+ * @returns a success message or errors
+ */
 export async function login(state: FormState, formData: FormData): Promise<FormState> {
   const validatedFields = LoginFormSchema.safeParse({
     email: formData.get('email'),
@@ -85,7 +104,7 @@ export async function login(state: FormState, formData: FormData): Promise<FormS
 
   try {
     await connectDB();
-    console.log('fml i hate coding sm');
+ 
 
     const { email, password } = validatedFields.data;
     const user = await authenticateUser(email, password);
@@ -120,7 +139,9 @@ export async function login(state: FormState, formData: FormData): Promise<FormS
   }
 }
 
-
+/**
+ * logs a user out
+ */
 export async function logout() {
   await deleteSession();
   redirect('/login');

@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from 'react';
 
 import * as fabric from 'fabric';
 
+import { Socket } from "socket.io-client";
+
 
 // OLD (Ty's)
 
@@ -15,6 +17,12 @@ type LocalGameCanvasProps = {
 
 };
 
+/**
+ * LocalGameCanvas component
+ * @deprecated Use GameCanvas instead
+ * @param param0 
+ * @returns <LocalGameCanvas />
+ */
 export function LocalGameCanvas({ className }: LocalGameCanvasProps) {
 
   const parentRef = useRef<HTMLDivElement>(null);
@@ -177,6 +185,11 @@ type GameCanvasToolMenuProps = {
   isDrawing: boolean
 };
 
+/**
+ * GameCanvas Tool Menu component
+ * @param param0 
+ * @returns <GameCanvasToolMenu />
+ */
 export function GameCanvasToolMenu({ canvas, isDrawing }: GameCanvasToolMenuProps) {
   const [brushColor, setBrushColor] = useState('#000000');
   const [brushWidth, setBrushWidth] = useState(1);
@@ -184,13 +197,17 @@ export function GameCanvasToolMenu({ canvas, isDrawing }: GameCanvasToolMenuProp
   const updateWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value, 10);
     setBrushWidth(value);
-    canvas?.freeDrawingBrush && (canvas.freeDrawingBrush.width = value);
+    if (canvas?.freeDrawingBrush) {
+      canvas.freeDrawingBrush.width = value;
+    }
   };
 
   const updateColor = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setBrushColor(value);
-    canvas?.freeDrawingBrush && (canvas.freeDrawingBrush.color = value);
+    if (canvas?.freeDrawingBrush) {
+      canvas.freeDrawingBrush.color = value;
+    }
   };
 
   useEffect(() => {
@@ -206,13 +223,13 @@ export function GameCanvasToolMenu({ canvas, isDrawing }: GameCanvasToolMenuProp
         <label htmlFor='drawing-line-width'>
           <p>Line width:<span className="info">{brushWidth}</span></p>
           <input
-          type="range"
-          min="1"
-          max="150"
-          id="drawing-line-width"
-          value={brushWidth}
-          onChange={updateWidth}
-        />
+            type="range"
+            min="1"
+            max="150"
+            id="drawing-line-width"
+            value={brushWidth}
+            onChange={updateWidth}
+          />
         </label>
         <label htmlFor='drawing-color'>
           <p>Line color:</p>
@@ -231,12 +248,17 @@ export function GameCanvasToolMenu({ canvas, isDrawing }: GameCanvasToolMenuProp
 
 type GameCanvasProps = {
   className?: string;
-  socket?: any;
+  socket?: Socket;
   isDrawing?: boolean;
-  loadCanvasData?: any;
+  loadCanvasData?: object | string;
   onCanvasReady?: () => void;
 };
 
+/**
+ * GameCanvas component
+ * @param param0 
+ * @returns <GameCanvas />
+ */
 export default function GameCanvas({
   className,
   socket,
@@ -343,7 +365,7 @@ export default function GameCanvas({
   useEffect(() => {
     if (!socket) return;
 
-    const handleCanvasUpdate = (data: any) => {
+    const handleCanvasUpdate = (data: object) => {
       const canvas = fabricCanvasRef.current;
       if (!canvas) return;
       console.log('[GUESSER] received canvas-update');
@@ -385,8 +407,8 @@ export default function GameCanvas({
   useEffect(() => {
     if (fabricCanvasRef.current) {
       fabricCanvasRef.current.isDrawingMode = isDrawing;
-      if(isDrawing) {
-        if(toolRef.current)
+      if (isDrawing) {
+        if (toolRef.current)
           toolRef.current!.style.visibility = isDrawing ? 'visible' : 'hidden';
       }
     }

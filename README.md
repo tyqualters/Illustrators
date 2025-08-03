@@ -11,12 +11,14 @@
 
 ## 🚀 Overview
 
-**Illustrators** is an innovative, modern day Pictionary game written in Next.js.
+**Illustrators** is an innovative, modern day Pictionary game made using Next.js.
 
 This is perfect for:
 - 🎭 Competing with family and friends
 - 🖌️ Practicing your creativity
-- 📊 Tracking performance and stats (coming soon!)
+- ~~📊 Tracking performance and stats (coming soon!)~~
+
+![Demo](/public/demo.gif)
 
 ## ⚙️ Installation
 
@@ -56,6 +58,31 @@ npm start
 
 Then access the game at: `http://localhost:3000`
 
+### Build documentation
+
+Using TypeDoc run:
+
+```bash
+npx typedoc --entryPointStrategy Expand src
+```
+
+## 📁 Folder Structure
+
+```
+/public: Static Assets
+/docs: Documentation
+/tests: Tests
+/src: Source Files
+/src/actions: Server Actions
+/src/app: App Router
+/src/app/api: App Router REST Endpoints
+/src/app/components: Components
+/src/lib: Utility files
+/src/models: Database models
+/src/pages: Pages Router
+/src/pages/api: Pages Router REST Endpoints
+```
+
 ## 📦 Tech Stack
 
 - **Next.js** + **TypeScript**
@@ -69,7 +96,7 @@ Then access the game at: `http://localhost:3000`
 - [x] Lobby creation
 - [x] Playable game state
 - [x] Game settings
-- [ ] Working profile pages
+- [x] Working profile pages
 - [ ] Player stats & leaderboards
 - [ ] AI players? 🤖
 

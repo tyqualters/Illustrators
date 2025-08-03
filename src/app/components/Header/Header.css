@@ -1,117 +1,68 @@
-.headerStyles {
-    background-color: black;
-    border:3px solid blue;
-    outline:thin ridge red;
-    height:5em;
-    display:flex;
-    align-items:center;
+* {box-sizing: border-box;}
 
-    
+body { 
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-.headerStyles .headerImage {
-    height:67.5px;
-    width:auto;
-    margin:8px;
-
-    border:4px solid blue;
-    border-radius:2px;    
-}
-
-/*On hover border size increases and changes to green*/
-.headerStyles .headerImage:hover {border:6px solid green;}
-
-
-
-
-.headerStyles .headerLinks {
-    display:flex;
-    flex-direction:row;
-    color:blue;
-    list-style:none;
-    margin:0;
-    padding:0;
-    gap:20px;
-    font-size:40px;
-}
-
-/*For screen sizes smaller than 600px 
-keep the font-size to 30px*/
-@media screen and (max-width:600px ) {
-    .headerStyles .headerLinks li{
-        font-size:30px;
-    }
-}
-
-.dropbtn
+.outerHeader
 {
-  text-decoration:none;
-  transition:text-decoration 0.19s ease-in-out; 
+  border:4px solid blue;
+  border-radius:2px;   
 }
 
-.dropbtn:hover
-{
-  text-decoration: underline;
-  text-decoration-color:white;
-}
-
-
-
-.dropdown-content {
-  display: none;
-  position: absolute;
+.header {
+  overflow: hidden;
   background-color: black;
-  min-width:13%;
-  max-width:13%;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-  font-weight:bold;
+  padding: 20px 10px;
 }
 
-.dropdown-content a {
-  color: blue;
-  padding: 12px 16px;
+.header a {
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 12px;
   text-decoration: none;
-  display: block;
-  text-align: left;
+  font-size: 18px; 
+  line-height: 25px;
+  border-radius: 4px;
+  border: 2px solid transparent;
+}
 
+.header a.logo {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.header-right a:hover {
+  background-color: #ddd;
+  color: black;
   border:2px solid blue;
-  border-radius: 5px;
-    
+  border-radius:5px; 
 }
 
-.dropdown-content a:hover {background-color: rgb(41, 41, 41);}
-
-.dropdown:hover .dropdown-content {
-  display: block;
+.header a.active {
+  background-color: dodgerblue;
+  color: white;
 }
 
-/*
-.headerStyles .headerLinks li {
-    margin-left: 2cm;
+.header a.active:hover {
+  border:2px solid blue;
+  border-radius:5px;  
 }
 
-.headerStyles .headerLinks li a {
-    text-align: center;
-    padding: 10px;
-    text-decoration: none;
-    font-size: 1.2em;
-    line-height: 1em;
-    margin-right: 20px;
+.header-right {
+  float: right;
 }
 
-
-.headerStyles .headerLinks li a:hover {
-    color: aliceblue;
-    text-decoration: underline;
-   
+@media screen and (max-width: 1038px) {
+  .header a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+  
+  .header-right {
+    float: none;
+  }
 }
-
-
-.github-icon
-{
-  font-size: 1.2em;
-  color:rgb(64, 61, 253);
-}
-
-*/

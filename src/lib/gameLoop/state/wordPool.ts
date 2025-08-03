@@ -42,7 +42,7 @@ const wordList = {
  * @param usedWords - Words already used in the game (to avoid repeating them)
  * @returns An array of random word options
  */
-export function getRandomWords(
+export default function getRandomWords(
     count: number = 3,
     difficulty: 'easy' | 'medium' | 'hard' = 'medium',
     usedWords: string[] = []
@@ -60,7 +60,3 @@ export function getRandomWords(
     const shuffled = [...finalPool].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, safeCount);
 }
-
-export default {
-    getRandomWords,
-};

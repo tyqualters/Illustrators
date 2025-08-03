@@ -2,12 +2,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Laser.css';
 
+/**
+ * Laser component and sound effect
+ * @returns <Laser />
+ */
 function Laser() {
   const [lasers, setLasers] = useState([]);
   const laserAudio = useRef(null);
 
   useEffect(() => {
-    laserAudio.current = new Audio('/sounds/laserSound.mp3'); // make sure path is correct
+    laserAudio.current = new Audio('/Sounds/laserSound.mp3'); // make sure path is correct (CASE-SENSITIVE IN PROD)
   }, []);
 
   const handleClick = (e) => {

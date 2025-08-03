@@ -22,6 +22,9 @@ redis.on('error', (err) => {
 
 let isConnected = false;
 
+/**
+ * Connect to Redis
+ */
 export async function connectRedis() {
   if (!isConnected) {
     await redis.connect();

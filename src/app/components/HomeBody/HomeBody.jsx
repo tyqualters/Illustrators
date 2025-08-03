@@ -3,27 +3,23 @@ import Link from 'next/link';
 import Image from 'next/image'
 import './HomeBody.css';
 import InfoCard from "../InfoCard/InfoCard.jsx";
-import IllustratorsLogo from '../IllustratorsLogo/IllustratorsLogo';
 
 
+/**
+ * HomeBody component
+ * @returns <HomeBody />
+ */
 function HomeBody() {
  
-
 
     return(
     <> 
 
-
-
         <div className="flex flex-col items-center justify-center">
-        
-        <IllustratorsLogo/>
     
-
         <Link href="/lobby" className="play-btn pulse-hover"><Image src="/playButton.png" width={450} height={0} alt="Play Button"/></Link>
     
        </div>
-
 
        <div className="InfoCardStyle"> 
 

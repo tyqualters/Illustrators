@@ -25,6 +25,7 @@
 
 import { useEffect, useState } from 'react';
 import GetRandomUUID from './getRandomUUID';
+import PrintError from '../printErr';
 
 // Shared player shape for both guests and logged in users
 interface Player {
@@ -32,6 +33,10 @@ interface Player {
   name: string;
 }
 
+/**
+ * Use player for lobby/game
+ * @returns 
+ */
 export function usePlayer() {
   const [player, setPlayer] = useState<Player | null>(null);
   const [loading, setLoading] = useState(true);
@@ -49,7 +54,8 @@ export function usePlayer() {
           // fallback to guest if session is missing 
           await fallbackToGuest();
         }
-      } catch (err) {
+      } catch (err: unknown) {
+        PrintError(err);
         // error means session likely invalid, fallback to guest
         await fallbackToGuest();
       } finally {

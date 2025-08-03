@@ -1,5 +1,9 @@
 'use client';
 
+/**
+ * Get the player in localStorage (persistence for guest)
+ * @returns username, userID
+ */
 export function getPlayer() {
   let name = localStorage.getItem('guestName');
   let id = localStorage.getItem('guestId');

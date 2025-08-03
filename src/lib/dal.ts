@@ -9,6 +9,9 @@ import { cache } from 'react';
 import { decrypt } from '@/lib/session';
 import User from '@/models/User';
 
+/**
+ * Verify user authentication is valid
+ */
 export const verifySession = cache(async () => {
   const cookie = (await cookies()).get('session')?.value
   const session = await decrypt(cookie)
@@ -20,6 +23,9 @@ export const verifySession = cache(async () => {
 })
 
 // This just doesn't redirect
+/**
+ * Same as verifySession but doesn't redirect
+ */
 export const _verifySession = cache(async () => {
   const cookie = (await cookies()).get('session')?.value
   const session = await decrypt(cookie)
@@ -31,6 +37,10 @@ export const _verifySession = cache(async () => {
   return true;
 })
 
+/**
+ * Get the current user ID if session is valid
+ * @returns userId
+ */
 export const getUserId = (async () => {
   const cookie = (await cookies()).get('session')?.value;
   const session = await decrypt(cookie);
@@ -42,6 +52,9 @@ export const getUserId = (async () => {
   }
 });
 
+/**
+ * Get the current MongoDB User if session is valid
+ */
 export const getUser = cache(async () => {
   const session = await verifySession()
   if (!session) return null

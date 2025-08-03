@@ -24,6 +24,12 @@ export type UpdatePasswordState = {
   errors?: Record<string, string[]>
 }
 
+/**
+ * Handles the update password form submission
+ * @param state current state of form submission
+ * @param formData the submitted form data
+ * @returns a success message or errors
+ */
 export async function updatePassword(
   state: FormState,
   formData: FormData
@@ -95,6 +101,12 @@ export type UpdateUsernameState = {
   errors?: Record<string, string[]>
 }
 
+/**
+ * Handles the update username form submission
+ * @param state current state of form submission
+ * @param formData the submitted form data
+ * @returns a success message or errors
+ */
 export async function updateUsername(
   state: FormState,
   formData: FormData

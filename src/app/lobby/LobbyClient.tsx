@@ -1,12 +1,14 @@
 'use client';
 
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { usePlayer } from '@/lib/hooks/usePlayer';
-import IllustratorsLogo from '../components/IllustratorsLogo/IllustratorsLogo'
  
 
-
+/**
+ * Lobby client component
+ * @returns <LobbyClient />
+ */
 export default function LobbyClient() {
   const [code, setCode] = useState('');
   const router = useRouter();
@@ -35,9 +37,8 @@ export default function LobbyClient() {
     router.push(`/game/${code}`);
   };
 
-
   const handleGoHome = () => {
-    redirect('/');
+    router.push('/');
   }
 
   const handleCreate = async () => {
@@ -71,7 +72,7 @@ export default function LobbyClient() {
 
   return (
     <> 
-    <IllustratorsLogo/>
+  
     <main className="bg-container flex items-center justify-center min-h-[75vh]">
 
      
@@ -95,7 +96,7 @@ export default function LobbyClient() {
           />
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white px-6 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 cursor-pointer mt-2"
+            className="w-full text-white px-6 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 mt-2"
           >
             Join Lobby
           </button>
@@ -103,14 +104,14 @@ export default function LobbyClient() {
 
         <button
           onClick={handleCreate}
-          className="w-full text-white px-6 py-3 rounded-xl bg-yellow-600 hover:bg-yellow-700 cursor-pointer"
+          className="w-full text-white px-6 py-3 font-semibold  rounded-xl bg-yellow-600 hover:bg-yellow-700 "
         >
           Create New Lobby
         </button>
 
         <button
           onClick={handleGoHome}
-          className="w-full bg-blue-600 text-white px-6 py-2 rounded-xl  bg-indigo-600 hover:bg-indigo-700 cursor-pointer mt-1"
+          className="w-full text-white px-6 py-2 font-semibold rounded-xl  bg-indigo-600 hover:bg-indigo-700 mt-1"
           >
             Return Home
           </button>
