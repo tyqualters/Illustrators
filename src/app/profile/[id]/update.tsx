@@ -66,6 +66,13 @@ export default function UpdateProfileForm({ username, email, userId }: UpdatePro
                         <i className="bi bi-pencil-square"></i>
                     </p>
                 </div>
+                
+                <button
+                    type="submit"
+                    className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 cursor-pointer"
+                >
+                    Update Username
+                </button>
 
                 <h2 className="block text-sm text-white font-bold">Email</h2>
                 <div className="w-1/2 flex items-center justify-between rounded-xl border border-blue-300 placeholder-blue-400 text-white bg-transparent focus-within:border-blue-400 px-4 py-2">
@@ -83,12 +90,7 @@ export default function UpdateProfileForm({ username, email, userId }: UpdatePro
                     </p>
                 </div>
 
-                <button
-                    type="submit"
-                    className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 cursor-pointer"
-                >
-                    Update Username
-                </button>
+                 
                 {userstate?.errors?.name && (
                     <div className="text-sm text-red-500 mt-1">
                         <p>Username must:</p>

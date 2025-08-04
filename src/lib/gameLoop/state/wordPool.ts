@@ -26,9 +26,9 @@
 // Currently: internal word bank group by difficulty
 // Future: use external data
 const wordList = {
-    easy: ['apple', 'dog', 'car', 'book', 'star', 'sun', 'tree', 'hat', 'fish', 'cake'],
-    medium: ['guitar', 'rocket', 'pirate', 'castle', 'camera', 'dragon', 'jungle', 'candle', 'planet', 'bridge'],
-    hard: ['microscope', 'telescope', 'revolution', 'algorithm', 'architecture', 'constellation', 'philosophy', 'laboratory'],
+    easy: ['Shoe','Door','Trash Can','Christmas Tree','Television','Moon','Eyes','Spider','Snow','Drum','Shirt','Sad','Doll','Cup','Fish','Sandwich','Cookie','Socks','Book','Pants','Happy','Roof','Candy','Skateboard','Sun','Water','Bed','Hat','Rooster','Dress','Airplane','Bubbles','Ocean','Ball','Banana','Butterfly','Cupcake','Rainbow','Grapes','Pizza','House','Sleep','Egg','Bird','Octopus','Star','Coffee','Apple','Mailbox','Nose','Tree','Cat','Leg','Lips','Cloud','Orange'],
+    medium: ['List','Firefighter','Sunglasses','Pancakes','Wing','Gummy Bears','Storm','Garbage','Vacation','Pillowcase','Police','Sleeping Bag','Elbow','Desk','Winter','Rice','Laptop','Turkey','Flag','Bookshelf','Hair Tie','Farm','Sand','Watch','Toaster','Recess','Braces','Internet','Subway','Teacher','Jack-O-Lantern','Heaven','Tent','Clock','Student','Mermaid','Hamburger','City','Chef'],
+    hard: ['Detention','Comfy','Peace','Sleepover','Laugh','Boring','Morning','Calendar','Panda','Afraid','Far','Ice Skating','Homerun','Team Captain','Communication','Eraser','Imagination','	Panic','Gum Under The Desk','Sunscreen','Dictionary','Alarm','Parents','Closet','Falling','Street Sweeper','Dripping','Pain','Glue','Hibernation','Hot','Hair','Famished','Toilet Paper','Drinking Fountain','Magic','Shrimp','Group','Dark','Homeless','Exhausted','Bake Sale'],
 };
 
 

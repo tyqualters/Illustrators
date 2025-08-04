@@ -1,7 +1,7 @@
 import { LocalGameCanvas } from "./canvas";
 import "./game.css";
 import Header from "../components/Header/Header.jsx";
- 
+import WipeTransition from "../components/WipeTransition/WipeTransition";
 
 import Image from "next/image";
  
@@ -12,6 +12,7 @@ import Image from "next/image";
 export default function Game() {
   return (
     <div className="bg-container">
+      <WipeTransition> </WipeTransition>
        
       <Header />
 

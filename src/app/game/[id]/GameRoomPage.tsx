@@ -15,6 +15,8 @@ import RotateScreen from '@/app/components/RotateScreen/RotateScreen';
 
 
 import './GameRoomPage.css'
+import { b } from 'framer-motion/client';
+import WipeTransition from '@/app/components/WipeTransition/WipeTransition';
 
 
 
@@ -491,6 +493,7 @@ export default function GameRoomPage() {
     <>
 
       <RotateScreen/>
+      <WipeTransition> </WipeTransition>
 
       <main className="p-4 text-center">
 
@@ -500,7 +503,7 @@ export default function GameRoomPage() {
           <div className="   flex flex-row gap-4">
             {/* Players column */}
             <div className="formProperties w-1/5 text-left border p-2 bg-white rounded">
-              <h4 className=" mt-4 font-semibold">Players</h4>
+              <h4 className=" mt-4 text-white font-semibold">Players</h4>
               <ul>
                 {[...players]
                   .sort((a, b) => (totalScores[b.id] ?? 0) - (totalScores[a.id] ?? 0))
@@ -509,7 +512,7 @@ export default function GameRoomPage() {
                     return (
                       <li
                         key={p.id}
-                        className={isYou ? 'text-indigo-500' : 'text-gray-800'}
+                        className={isYou ? 'text-indigo-500' : 'text-red-500'}
                       >
                         <Link href={`/profile/${p.id}`} target="_blank"><ProfilePicture userId={p.id} size={32} className="inline-block mr-3" />
                           #{index + 1} {p.name}{isYou ? ' (You)' : ''}: {totalScores[p.id] ?? 0
@@ -524,12 +527,12 @@ export default function GameRoomPage() {
             {/* Game Over panel */}
             <div className="w-3/5">
               <div className="formProperties p-4 bg-white border rounded shadow text-left mb-4">
-                <h2 className="text-xl font-bold text-red-500 mb-2">Game Over!</h2>
-                <ol className="list-decimal pl-4 text-gray-800">
+                <h2 className="text-xl font-bold text-red-500 mb-2">Game Over. See you again soon!</h2>
+                <ol className="list-decimal pl-4 text-white">
                   {[...players]
                     .sort((a, b) => (currentTurn?.scores?.[b.id] ?? 0) - (currentTurn?.scores?.[a.id] ?? 0))
                     .map((p) => (
-                      <li key={p.id}><Link href={`/profile/${p.id}`} target="_blank">
+                      <li key={p.id} className='text-white'><Link href={`/profile/${p.id}`} target="_blank">
                         <ProfilePicture userId={p.id} size={32} className="inline-block mr-3" />
                         {p.name}: {totalScores[p.id] ?? 0} pts
                       </Link>
@@ -538,7 +541,7 @@ export default function GameRoomPage() {
                 </ol>
 
                 {redirectCountdown !== null && (
-                  <p className="text-sm italic text-gray-600 mt-2">
+                  <p className="text-sm italic text-white mt-2">
                     Returning to lobby in {redirectCountdown} second{redirectCountdown !== 1 ? 's' : ''}
                   </p>
                 )}
@@ -741,15 +744,22 @@ export default function GameRoomPage() {
               )}
 
               {timeLeft !== null && !roundEnded && (
-                <p className={`text-lg  mb-1 ${timeLeft <= 10 ? 'text-red-700' : 'text-white'}`}>
+                <p className={`text-lg font-bold mb-1 ${timeLeft <= 10 ? 'text-red-700' : 'text-white'}`}>
                   Time Left: {timeLeft}s
                 </p>
+
               )}
 
               {roundEnded && (
-                <div className="mb-4 p-4 bg-[#F0F4FF] border border-[#5C9EFF] rounded-xl shadow text-left">
-                  <h2 className="text-lg font-bold text-[#2B2B2B] mb-2">Round Over!</h2>
-                  <ul className="text-sm text-[#2B2B2B]">
+                <div className="formProperties mb-4 p-4 bg-[#F0F4FF] border border-[#5C9EFF] rounded-xl shadow text-left">
+                  <h2 className="  text-lg font-bold text-white mb-2">Round Over!</h2>
+                  {currentTurn && (
+                <p className="mb-2 text-lg font-semibold text-white">
+                The Word Was: <b><u> {_displayWord(currentTurn.word, isDrawer || hasGuessedCorrectly)}</u></b> 
+                   
+                </p>
+              )}
+                  <ul className="text-sm text-white">
                     {Object.entries(roundEnded.roundScores).map(([playerId, score]) => {
                       const name = getName(playerId);
                       return (
@@ -760,7 +770,7 @@ export default function GameRoomPage() {
                     })}
                   </ul>
 
-                  <p className="mt-2 text-sm italic text-[#4A4A4A]">Next round starting...</p>
+                  <p className="mt-2 text-sm italic text-white">Next round starting...</p>
                 </div>
               )}
 
@@ -780,7 +790,7 @@ export default function GameRoomPage() {
                   />
                   {!wordConfirmed && (
                     <div className="absolute inset-0 bg-white bg-opacity-50 flex items-center justify-center pointer-events-none">
-                      <p className="text-gray-700 font-semibold">Waiting for drawer to choose a word...</p>
+                      <p className="text-2xl text-white font-semibold">Waiting for drawer to choose a word...</p>
                     </div>
                   )}
 
