@@ -15,7 +15,6 @@ import RotateScreen from '@/app/components/RotateScreen/RotateScreen';
 
 
 import './GameRoomPage.css'
-import { b } from 'framer-motion/client';
 import WipeTransition from '@/app/components/WipeTransition/WipeTransition';
 
 
